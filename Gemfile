@@ -46,6 +46,7 @@ gem 'slim-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'guard-rspec', '4.6.0'
   gem 'rspec-rails', require: false
   gem 'spork-rails'
   gem 'spork', github: 'sporkrb/spork'
@@ -55,6 +56,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'selenium-webdriver'
+  gem 'capybara'
 end
 
 group :development do
