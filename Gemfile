@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use postgresql as the database for Active Record
@@ -40,13 +39,14 @@ gem 'rubygems-bundler'
 gem 'bootstrap-sass', '~> 3.3.0'
 gem 'bootswatch-rails'
 
-#slim
+# slim
 gem 'slim'
 gem 'slim-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'guard-rspec', '4.6.0'
   gem 'rspec-rails', require: false
   gem 'spork-rails'
   gem 'spork', github: 'sporkrb/spork'
@@ -56,6 +56,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'selenium-webdriver'
+  gem 'capybara'
 end
 
 group :development do
@@ -65,4 +66,3 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-

@@ -1,0 +1,18 @@
+scss:
+  config_file: .scss-lint.yml
+  enabled: true
+  #https://github.com/brigade/scss-lint/blob/master/config/default.yml
+
+ruby:
+  config_file: .rubocop.yml
+  #https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+
+jshint:
+  ignore_file: .jshintignore
+  enabled: false
+  #https://github.com/jshint/jshint/blob/master/examples/.jshintignore
+
+coffeescript:
+  config_file: coffeelint.json
+  enabled: false
+  #https://github.com/polarmobile/coffeescript-style-guide/blob/master/coffeelint.json
