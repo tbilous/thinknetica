@@ -15,6 +15,7 @@ AllCops:
     - 'config/environments/**'
     - 'config/application.rb'
     - 'bin/**/*'
+    - 'db/schema.rb'
 
 Documentation:
   Enabled: false
