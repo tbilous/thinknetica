@@ -15,10 +15,11 @@ AllCops:
     - 'config/environments/**'
     - 'config/application.rb'
     - 'bin/**/*'
+    - 'db/schema.rb'
 
 Documentation:
   Enabled: false
 Metrics/LineLength:
   Max: 120
-FrozenStringLiteral:
+Style/FrozenStringLiteralComment:
   Enabled: false

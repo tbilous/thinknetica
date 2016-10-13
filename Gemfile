@@ -47,7 +47,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'guard-rspec', '4.6.0'
-  gem 'rspec-rails', require: false
+  gem 'rspec-rails'
   gem 'spork-rails'
   gem 'spork', github: 'sporkrb/spork'
   gem 'guard-spork'
@@ -57,6 +57,11 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'selenium-webdriver'
   gem 'capybara'
+end
+
+group :test do
+  gem 'shoulda-matchers'
+  gem 'database_cleaner'
 end
 
 group :development do

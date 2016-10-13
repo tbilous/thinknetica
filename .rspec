@@ -1,3 +1,4 @@
 --colour
 --drb
 --require spec_helper
+--format doc

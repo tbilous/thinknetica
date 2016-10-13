@@ -18,3 +18,5 @@
 /.idea
 /backup/*
 /.rvmrc
+/test/
+/db/schema.rb
