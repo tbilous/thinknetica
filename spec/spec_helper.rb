@@ -12,17 +12,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 Spork.prefork do
   RSpec.configure do |config|
-    config.before(:suite) do
-      DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.clean_with(:truncation)
-    end
-
-    config.around(:each) do |example|
-      DatabaseCleaner.cleaning do
-        example.run
-      end
-    end
-
     config.include AbstractController::Translation
 
     config.include Rails.application.routes.url_helpers
