@@ -32,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
     it 'delete from DB' do
       expect { delete :destroy, id: answer.id }.to change { Answer.count }.by(-1)
     end
-    it 'redirect to index' do
+    it 'redirect to questions/show' do
       delete :destroy, id: answer.id
       expect(response).to render_template 'questions/show'
     end
