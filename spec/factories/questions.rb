@@ -5,4 +5,8 @@ FactoryGirl.define do
     title answer_title
     body  answer_body
   end
+  factory :wrong_question, class: 'Question' do
+    title nil
+    body  nil
+  end
 end
