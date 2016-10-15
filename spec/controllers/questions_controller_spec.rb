@@ -45,7 +45,6 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-
     context 'attr is valid' do
       question_params = FactoryGirl.attributes_for(:question)
       it 'add tot database' do
@@ -70,7 +69,6 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH update' do
-
     context 'attr is valid' do
       let(:attr) do
         { title: 'b' * 6, body: 'b' * 61 }
