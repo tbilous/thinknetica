@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
 
@@ -77,10 +78,12 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, id: question.id, question: attr
         question.reload
       end
+
       it 'change attributes' do
         expect(question.title).to eql attr[:title]
         expect(question.body).to eql attr[:body]
       end
+
       it 'render show template' do
         expect(response).to redirect_to question
       end
@@ -94,10 +97,12 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, id: question.id, question: attr
         question.reload
       end
+
       it 'does not change attributes' do
         expect(question.title).to_not eql attr[:title]
         expect(question.body).to_not eql attr[:body]
       end
+
       it 'render edit template' do
         expect(response).to render_template :edit
       end
@@ -106,9 +111,11 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     let!(:question) { create(:question) }
+
     it 'delete in DB' do
       expect { delete :destroy, id: question.id }.to change { Question.count }.by(-1)
     end
+
     it 'redirect to index' do
       delete :destroy, id: question.id
       expect(response).to redirect_to questions_path
