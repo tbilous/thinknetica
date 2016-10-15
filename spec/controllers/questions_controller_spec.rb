@@ -6,9 +6,11 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
     before { get :index }
+
     it 'list all' do
       expect(assigns(:questions)).to match_array(questions)
     end
+
     it 'renders the index template' do
       expect(response).to render_template :index
     end
@@ -59,9 +61,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'attr is not valid' do
       invalid_params = FactoryGirl.attributes_for(:wrong_question)
+
       it 'does not add to database' do
         expect { post :create, question: invalid_params }.to_not change(Question, :count)
       end
+
       it 'render new' do
         post :create, question: invalid_params
         { title: 'b' * 6, body: 'b' * 61 }
