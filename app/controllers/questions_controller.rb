@@ -19,19 +19,17 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.create(strong_params)
     if @question.save
-      flash[:success] = 'NICE!'
-      redirect_to question_path(@question)
+      redirect_to @question, success: 'Nice'
     else
-      render 'new'
+      render :edit
     end
   end
 
   def update
-    if @question.update_attributes(strong_params)
-      flash[:success] = 'NICE!'
-      redirect_to @question
+    if @question.update(strong_params)
+      redirect_to @question, success: 'Nice'
     else
-      render 'edit'
+      render :edit
     end
   end
 

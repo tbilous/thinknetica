@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   before_action :load_answer, only: [:destroy, :edit]
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(strong_params)
@@ -9,8 +10,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    flash[:success] = 'NICE!'
-    render 'questions/show'
+    render 'questions/show', success: 'Nice'
   end
 
   def edit

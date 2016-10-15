@@ -1,6 +1,7 @@
 require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
     before { get :index }
@@ -11,6 +12,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :index
     end
   end
+
   describe 'GET #show' do
     before { get :show, id: question.id }
     it 'assign question' do
@@ -20,6 +22,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :show
     end
   end
+
   describe 'GET #new' do
     let(:question) { create(:question) }
     before { get :new }
@@ -30,6 +33,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :new
     end
   end
+
   describe 'GET #edit' do
     before { get :edit, id: question.id }
     it 'assign Edit Question' do
@@ -39,7 +43,9 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :edit
     end
   end
+
   describe 'POST #create' do
+
     context 'attr is valid' do
       question_params = FactoryGirl.attributes_for(:question)
       it 'add tot database' do
@@ -50,6 +56,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end
+
     context 'attr is not valid' do
       invalid_params = FactoryGirl.attributes_for(:wrong_question)
       it 'does not add to database' do
@@ -62,6 +69,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
   describe 'PATCH update' do
+
     context 'attr is valid' do
       let(:attr) do
         { title: 'b' * 6, body: 'b' * 61 }
@@ -78,6 +86,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to question
       end
     end
+
     context 'attr is not valid' do
       let(:attr) do
         { title: 'b', body: 'b' }
@@ -95,6 +104,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
   describe 'DELETE #destroy' do
     let!(:question) { create(:question) }
     it 'delete in DB' do
