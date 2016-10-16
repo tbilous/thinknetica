@@ -23,3 +23,10 @@ Metrics/LineLength:
   Max: 120
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/BarePercentLiterals:
+  Enabled: false
+Style/PercentLiteralDelimiters:
+  Enabled: false
+Style/UnneededPercentQ:
+  Enabled: false
