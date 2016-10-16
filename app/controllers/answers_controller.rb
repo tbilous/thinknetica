@@ -1,6 +1,5 @@
 class AnswersController < ApplicationController
   before_action :load_answer, only: [:destroy, :edit]
-  # before_action :before_q, only: :destroy
 
   def create
     @question = Question.find(params[:question_id])
@@ -30,8 +29,5 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = Answer.find(params[:id])
-  end
-  def before_q
-    @old_question =  Question.find(params[:question_id])
   end
 end

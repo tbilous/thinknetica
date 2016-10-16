@@ -25,7 +25,7 @@ feature 'user can to create question', %q{
     expect(page).to have_title 'Home page'
   end
   scenario 'user has created the question' do
-    question = Question.create!(title: question_params[:title], body: question_params[:body] )
+    question = Question.create!(title: question_params[:title], body: question_params[:body])
     visit root_path
     expect(page).to have_content question_params[:title]
     click_on question_params[:title]
@@ -49,7 +49,7 @@ feature 'user can to create answer', %q{
 } do
   let(:question_params) { FactoryGirl.attributes_for(:question) }
   scenario do
-    Question.create!(title: question_params[:title], body: question_params[:body] )
+    Question.create!(title: question_params[:title], body: question_params[:body])
     visit root_path
     click_on question_params[:title]
     expect(page).to have_content 'Write answer'
