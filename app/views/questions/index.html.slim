@@ -6,9 +6,13 @@
         p List of questions is empty
       - else
         h2 List of questions
-        - @questions.each do |question|
-          = link_to question_path(question)
-            span = question.title
+        ul.list-unstyled
+          - @questions.each do |question|
+            li
+              = link_to question_path(question)
+                span = question.created_at.strftime('%Y-%m-%d')
+                appan  |
+                span = question.title
     .col-md-8.col-sm-7
       h2 Add Question
       .question-form-wrapper

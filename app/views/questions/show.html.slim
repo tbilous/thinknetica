@@ -1,4 +1,23 @@
 - provide(:title, @question.title)
-= link_to 'Delete question', @question, class:'btn btn-danger', method: :delete
 .container
-  p = @question.body
+  ul.list-inline
+    li
+      = link_to 'Delete question', @question, class:'btn btn-danger', method: :delete
+    li
+      = link_to 'Edit question', edit_question_path(@question), class: 'btn btn-warning'
+  br
+  br
+  br
+.container
+  .well = @question.body
+  .well
+    - if @answers.blank?
+      p Now have no answers
+    - else
+      h2 List of answers
+      ul.list-unstyled
+        - @answers.each do |answer|
+          li
+            = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
+  .well
+    = render '/answers/form_new'

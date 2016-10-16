@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(strong_params)
     flash[:success] = 'NICE!' if @answer.save
-    render 'questions/show'
+    redirect_to question_path(@question)
   end
 
   def destroy
