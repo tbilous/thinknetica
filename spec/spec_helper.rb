@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'spork'
 require 'database_cleaner'
+require 'capybara/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)

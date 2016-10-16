@@ -56,12 +56,12 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'selenium-webdriver'
-  gem 'capybara'
 end
 
 group :test do
   gem 'shoulda-matchers'
   gem 'database_cleaner'
+  gem 'capybara'
 end
 
 group :development do
