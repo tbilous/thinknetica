@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+    @question = Question.new
   end
 
   def show
@@ -19,9 +20,10 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.create(strong_params)
     if @question.save
-      redirect_to @question, success: 'Nice'
+      flash[:success] = 'NICE'
+      redirect_to @question
     else
-      render :edit
+      render :index
     end
   end
 

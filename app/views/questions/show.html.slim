@@ -1,3 +1,4 @@
+- provide(:title, @question.title)
+= link_to 'Delete question', @question, class:'btn btn-danger', method: :delete
 .container
-  h1 Questions#show
-  p Find me in app/views/questions/show.html.slim
+  p = @question.body

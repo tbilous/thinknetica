@@ -1,4 +1,13 @@
 module ApplicationHelper
+  def full_title(page_title)
+    base_title = 'Thinknetica'
+    if page_title.empty?
+      base_title
+    else
+      "#{base_title} #{page_title}"
+    end
+  end
+
   def bootstrap_class_for(flash_type)
     hash = HashWithIndifferentAccess.new(success: ' alert-success',
                                          error: ' alert-warning',
