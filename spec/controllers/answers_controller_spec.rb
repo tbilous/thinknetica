@@ -13,7 +13,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect_to question' do
         post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to render_template 'questions/show'
+        expect(response).to redirect_to question_path(question)
       end
     end
 
@@ -31,13 +31,16 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer, question: question) }
+    before(:each) do
+      request.env['HTTP_REFERER'] = 'where_i_came_from'
+    end
     it 'delete from DB' do
       expect { delete :destroy, id: answer.id }.to change { Answer.count }.by(-1)
     end
 
     it 'redirect to questions/show' do
       delete :destroy, id: answer.id
-      expect(response).to render_template 'questions/show'
+      expect(response).to redirect_to 'where_i_came_from'
     end
   end
 end

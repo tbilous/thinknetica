@@ -19,5 +19,7 @@
         - @answers.each do |answer|
           li
             = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
+          li
+            = link_to 'Delete answer', answer, method: :delete
   .well
     = render '/answers/form_new'

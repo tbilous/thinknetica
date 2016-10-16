@@ -5,9 +5,7 @@ feature 'user can to create question', %q{
   User can to create question
   User can see list of the questions with title and date
   User can to visit to page of question after click on the title in the list
-  Question page have 'Question' in title
-  User can to see on the page of question a title and a body
-  User can delete the question on question's page
+  User can edit the question
   User can to delete the question on question's page and will be redirected to root after that
   When question was created, updated, deletes user see 'flash' message about this action
 } do
@@ -16,13 +14,15 @@ feature 'user can to create question', %q{
     visit root_path
     expect(page).to have_title 'Home page'
   end
-  scenario 'user see form on root page and can will create a question' do
+  scenario 'user see form on root page and can will create and destroy a question' do
     visit root_path
     expect(page).to have_title 'Home page'
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
     click_on 'Add question'
     expect(page).to have_css('.alert-success')
+    click_link 'Delete question'
+    expect(page).to have_title 'Home page'
   end
   scenario 'user has created the question' do
     question = Question.create!(title: question_params[:title], body: question_params[:body] )
@@ -32,9 +32,11 @@ feature 'user can to create question', %q{
     expect(page).to have_title question_params[:title]
     expect(page).to have_content question_params[:title]
     expect(page).to have_content question_params[:body]
-    click_link 'Delete question'
-    expect(page).to have_title 'Home page'
-    # click_link('', href: edit_question_path(question))
+    click_link('', href: edit_question_path(question))
+    fill_in 'question_title', with: question_params[:title] + 'a'
+    fill_in 'question_body', with: question_params[:body] + 'a'
+    click_on 'Save'
+    expect(page).to have_content question_params[:title] + 'a'
   end
 end
 
@@ -53,6 +55,8 @@ feature 'user can to create answer', %q{
     expect(page).to have_content 'Write answer'
     fill_in 'answer_body', with: question_params[:body]
     click_button 'Add answer'
+    expect(page).to have_css('.alert-success')
+    click_on 'Delete answer'
     expect(page).to have_css('.alert-success')
   end
 end
