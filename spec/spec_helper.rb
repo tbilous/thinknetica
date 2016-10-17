@@ -6,8 +6,10 @@ require 'capybara/rspec'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require 'devise'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 # uncomment the following line to use spork with the debugger
 # require 'spork/ext/ruby-debug'
 

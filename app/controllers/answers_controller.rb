@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :load_answer, only: [:destroy, :edit]
+  before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :load_answer, only: :destroy
 
   def create
     @question = Question.find(params[:question_id])
@@ -16,9 +17,6 @@ class AnswersController < ApplicationController
     @answer.destroy
     flash[:success] = 'NICE'
     redirect_to :back
-  end
-
-  def edit
   end
 
   private
