@@ -1,10 +1,11 @@
 - provide(:title, @question.title)
 .container
-  ul.list-inline
-    li
-      = link_to 'Delete question', @question, class:'btn btn-danger', method: :delete
-    li
-      = link_to 'Edit question', edit_question_path(@question), class: 'btn btn-warning'
+  - if is_owner?(@question)
+    ul.list-inline
+      li
+        = link_to 'Delete question', @question, class:'btn btn-danger', method: :delete
+      li
+        = link_to 'Edit question', edit_question_path(@question), class: 'btn btn-warning'
   br
   br
   br
@@ -19,7 +20,7 @@
         - @answers.each do |answer|
           li
             = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
-          - if user_signed_in?
+          - if is_owner?(answer)
             li
               = link_to 'Delete answer', answer, method: :delete
   - if user_signed_in?

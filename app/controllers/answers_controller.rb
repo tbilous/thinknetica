@@ -13,6 +13,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(strong_params)
+    add_author
     if @answer.save
       flash[:success] = 'NICE'
       redirect_to question_path(@question)
@@ -30,7 +31,7 @@ class AnswersController < ApplicationController
   private
 
   def strong_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, :user_id)
   end
 
   def load_answer
@@ -43,6 +44,10 @@ class AnswersController < ApplicationController
 
   def redirect_question
     redirect_to question_path(@question)
+  end
+
+  def add_author
+    @answer.user_id = current_user.id if current_user
   end
 
   def require_permission

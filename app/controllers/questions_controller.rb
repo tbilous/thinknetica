@@ -13,14 +13,14 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = Question.new
+    @question = current_user.questions.new
   end
 
   def edit
   end
 
   def create
-    @question = Question.create(strong_params)
+    @question = current_user.questions.new(strong_params)
     if @question.save
       flash[:success] = 'NICE'
       redirect_to @question
@@ -50,7 +50,7 @@ class QuestionsController < ApplicationController
   end
 
   def strong_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, :user_id)
   end
 
   def require_permission
