@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-
   let(:question) { create(:question) }
 
   context 'non authorized user' do
-
     describe 'GET #index' do
       let(:questions) { create_list(:question, 2) }
       before { get :index }
@@ -63,7 +61,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     describe 'PATCH update' do
       let(:attr) do
-        {title: 'b' * 6, body: 'b' * 61}
+        { title: 'b' * 6, body: 'b' * 61 }
       end
       before do
         patch :update, id: question.id, question: attr
@@ -92,7 +90,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to new_user_session_path
       end
     end
-
   end
   context 'authorized user' do
     login_user
@@ -161,7 +158,7 @@ RSpec.describe QuestionsController, type: :controller do
 
         it 'render new' do
           post :create, question: invalid_params
-          {title: 'b' * 6, body: 'b' * 61}
+          { title: 'b' * 6, body: 'b' * 61 }
         end
       end
     end
@@ -169,7 +166,7 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'PATCH update' do
       context 'attr is valid' do
         let(:attr) do
-          {title: 'b' * 6, body: 'b' * 61}
+          { title: 'b' * 6, body: 'b' * 61 }
         end
         before do
           patch :update, id: question.id, question: attr
@@ -188,7 +185,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'attr is not valid' do
         let(:attr) do
-          {title: 'b', body: 'b'}
+          { title: 'b', body: 'b' }
         end
         before do
           patch :update, id: question.id, question: attr

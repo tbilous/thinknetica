@@ -1,6 +1,6 @@
 RSpec.configure do |config|
   # Rspec
-  config.include Devise::Test::ControllerHelpers, :type => :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   # Capybara
   config.include Warden::Test::Helpers
