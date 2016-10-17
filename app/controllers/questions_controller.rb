@@ -52,4 +52,11 @@ class QuestionsController < ApplicationController
   def strong_params
     params.require(:question).permit(:title, :body)
   end
+
+  def require_permission
+    if current_user != Question.find(params[:id]).user
+      redirect_to root_path
+      flash[:alert] = 'NO RIGHTS!'
+    end
+  end
 end

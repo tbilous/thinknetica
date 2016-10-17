@@ -25,3 +25,10 @@ ru:
     registration: 'Регистрация'
     edit_profile: "Редактировать профайл"
     sign_in: "Войти в систему"
+  activerecord:
+    errors:
+      models:
+        answer:
+          attributes:
+            body:
+              too_short: "Текст слишком короткий"

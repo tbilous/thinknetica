@@ -1,9 +1,17 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :load_answer, only: :destroy
+  before_action :load_answer, only: [:destroy]
+  before_action :load_question, only: [:new, :index, :create]
+
+  def new
+    redirect_question
+  end
+
+  def index
+    redirect_question
+  end
 
   def create
-    @question = Question.find(params[:question_id])
     @answer = @question.answers.new(strong_params)
     if @answer.save
       flash[:success] = 'NICE'
@@ -28,4 +36,20 @@ class AnswersController < ApplicationController
   def load_answer
     @answer = Answer.find(params[:id])
   end
+
+  def load_question
+    @question = Question.find(params[:question_id])
+  end
+
+  def redirect_question
+    redirect_to question_path(@question)
+  end
+
+  def require_permission
+    if current_user != Answer.find(params[:id]).user
+      redirect_to root_path
+      flash[:alert] = 'NO RIGHTS!'
+    end
+  end
+
 end
