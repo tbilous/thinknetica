@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'user can login', %q{
   User can to register
   User can to Sign in
-}do
+} do
   let!(:user_params) { FactoryGirl.attributes_for(:user) }
   scenario 'Sign Up ' do
     visit root_path

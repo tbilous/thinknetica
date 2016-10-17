@@ -48,7 +48,7 @@ feature 'authorized have rights on create and edit question', %q{
   When answer was created, deletes user see 'flash' message about this action
 } do
   let!(:user) { FactoryGirl.create(:user) }
-  before { login_as(user, :scope => :user) }
+  before { login_as(user, scope: :user) }
   let(:question_params) { FactoryGirl.attributes_for(:question) }
   let(:answer_params) { FactoryGirl.attributes_for(:answer) }
 
@@ -86,7 +86,7 @@ feature 'authorized have rights on create and edit question', %q{
     click_button 'Add answer'
     expect(page).to have_css('.alert-success')
     # save_and_open_page
-    click_link('Delete answer', :match => :first)
+    click_link('Delete answer', match: :first)
     expect(page).to have_css('.alert-success')
   end
 end
