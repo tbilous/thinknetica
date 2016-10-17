@@ -1,6 +1,40 @@
 require 'rails_helper'
-feature 'user can to create question', %q{
+feature 'not authorized user cant to create question', %q{
   Root page have Home page in title
+  User dont see form for question on root page
+  User can see list of the questions with title and date
+  User can to visit to page of question after click on the title in the list
+  User cant see link for edit and delete the question
+} do
+  let(:question_params) { FactoryGirl.attributes_for(:question) }
+  scenario 'Root page have title' do
+    visit root_path
+    expect(page).to have_title 'Home page'
+  end
+  scenario 'user cant see question form' do
+    visit root_path
+    expect(page).to have_link 'Sign'
+    expect(page).to_not have_content 'Add question'
+  end
+end
+
+feature 'not authorized user cant to create answer', %q{
+  User see list of questions
+  User cant see answer form
+  user cant see answer delete link
+} do
+  let(:question_params) { FactoryGirl.attributes_for(:question) }
+  scenario do
+    question = Question.create!(title: question_params[:title], body: question_params[:body])
+    question.answers.create!(body: question_params[:body])
+    visit root_path
+    click_on question_params[:title]
+    expect(page).to_not have_content 'Write answer'
+    expect(page).to_not have_link 'Delete answer'
+  end
+end
+
+feature 'authorized have rights on create and edit question', %q{
   User see form for question on root page
   User can to create question
   User can see list of the questions with title and date
@@ -8,15 +42,19 @@ feature 'user can to create question', %q{
   User can edit the question
   User can to delete the question on question's page and will be redirected to root after that
   When question was created, updated, deletes user see 'flash' message about this action
+  User can to create an answer on question's page
+  User can to see a list of the answers on question's page
+  User can to delete the answer
+  When answer was created, deletes user see 'flash' message about this action
 } do
+  let!(:user) { FactoryGirl.create(:user) }
+  before { login_as(user, :scope => :user) }
   let(:question_params) { FactoryGirl.attributes_for(:question) }
-  scenario 'Root page have title' do
+  let(:answer_params) { FactoryGirl.attributes_for(:answer) }
+
+  scenario 'user see form on root page and can will create and destroy the question' do
     visit root_path
-    expect(page).to have_title 'Home page'
-  end
-  scenario 'user see form on root page and can will create and destroy a question' do
-    visit root_path
-    expect(page).to have_title 'Home page'
+    expect(page).to_not have_link 'Sign'
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
     click_on 'Add question'
@@ -24,7 +62,7 @@ feature 'user can to create question', %q{
     click_link 'Delete question'
     expect(page).to have_title 'Home page'
   end
-  scenario 'user has created the question' do
+  scenario 'user can edit a question' do
     question = Question.create!(title: question_params[:title], body: question_params[:body])
     visit root_path
     expect(page).to have_content question_params[:title]
@@ -38,37 +76,17 @@ feature 'user can to create question', %q{
     click_on 'Save'
     expect(page).to have_content question_params[:title] + 'a'
   end
-end
-
-feature 'user can to create answer', %q{
-  User can to write an answer on question's page
-  User can to see a list of the answers on question's page
-  User can to edit the answer
-  User can to delete the answer
-  When answer was created, updated, deletes user see 'flash' message about this action
-} do
-  let(:question_params) { FactoryGirl.attributes_for(:question) }
-  scenario do
-    Question.create!(title: question_params[:title], body: question_params[:body])
+  scenario 'User can to create an answer' do
+    question = Question.create!(title: question_params[:title], body: question_params[:body])
+    question.answers.create!(body: answer_params[:body])
     visit root_path
     click_on question_params[:title]
     expect(page).to have_content 'Write answer'
     fill_in 'answer_body', with: question_params[:body]
     click_button 'Add answer'
     expect(page).to have_css('.alert-success')
-    click_on 'Delete answer'
+    # save_and_open_page
+    click_link('Delete answer', :match => :first)
     expect(page).to have_css('.alert-success')
-  end
-end
-
-feature 'registration and authorization', %q{
-  User can to register in app and sign in
-  Authorized user have profile page
-  Only authorized user can see form of new question and create question
-  Only authorized user can to create answer
-  User can to delete and to edit only his questions
-  User can to delete and to edit only his answers
-} do
-  scenario do
   end
 end

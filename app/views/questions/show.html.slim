@@ -12,14 +12,16 @@
   .well = @question.body
   .well
     - if @answers.blank?
-      p Now have no answers
+      p Now have answers
     - else
       h2 List of answers
       ul.list-unstyled
         - @answers.each do |answer|
           li
             = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
-          li
-            = link_to 'Delete answer', answer, method: :delete
-  .well
-    = render '/answers/form_new'
+          - if user_signed_in?
+            li
+              = link_to 'Delete answer', answer, method: :delete
+  - if user_signed_in?
+    .well
+      = render '/answers/form_new'

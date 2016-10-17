@@ -48,10 +48,12 @@ gem 'slim-rails'
 gem 'devise'
 gem 'devise-i18n'
 
+# i18
+gem 'rails-i18n', '~> 4.0.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'guard-rspec', '4.6.0'
+  gem 'guard-rspec', require: false
   gem 'rspec-rails'
   gem 'spork-rails'
   gem 'spork', github: 'sporkrb/spork'
@@ -67,6 +69,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'launchy'
 end
 
 group :development do
