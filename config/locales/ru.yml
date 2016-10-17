@@ -19,9 +19,9 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
-en:
-  hello: "Hello world"
+ru:
   page:
-    home: "Home page"
-    registration: 'Registration'
-    sign_in: "Sign in"
+    home: "Домашняя страница"
+    registration: 'Регистрация'
+    edit_profile: "Редактировать профайл"
+    sign_in: "Войти в систему"

@@ -1,4 +1,4 @@
-- provide(:title, 'Home page')
+- provide(:title, t('page.home'))
 .container
   .row
     .col-md-4.col-sm-5
@@ -14,6 +14,7 @@
                 appan  |
                 span = question.title
     .col-md-8.col-sm-7
+      = link_to 'Reg', new_user_registration_path
       h2 Add Question
       .question-form-wrapper
         = render '/questions/form_new'

@@ -38,10 +38,15 @@ gem 'rubygems-bundler'
 # Frontend framework
 gem 'bootstrap-sass', '~> 3.3.0'
 gem 'bootswatch-rails'
+gem 'devise-bootstrap-views'
 
 # slim
 gem 'slim'
 gem 'slim-rails'
+
+# Authorization
+gem 'devise'
+gem 'devise-i18n'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
