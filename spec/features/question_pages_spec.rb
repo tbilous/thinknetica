@@ -48,11 +48,15 @@ feature 'authorized have rights on create and edit question', %q{
   When answer was created, deletes user see 'flash' message about this action
 } do
   let!(:user) { FactoryGirl.create(:user) }
+  let!(:other_user) { FactoryGirl.create(:user) }
   before { login_as(user, scope: :user) }
   let(:question_params) { FactoryGirl.attributes_for(:question) }
   let(:answer_params) { FactoryGirl.attributes_for(:answer) }
+  scenario 'is user is not owner' do
 
-  scenario 'user see form on root page and can will create and destroy the question' do
+  end
+
+  scenario 'user see form on root page and can to create and to destroy the question' do
     visit root_path
     expect(page).to_not have_link 'Sign'
     fill_in 'question_title', with: question_params[:title]
@@ -60,10 +64,12 @@ feature 'authorized have rights on create and edit question', %q{
     click_on 'Add question'
     expect(page).to have_css('.alert-success')
     click_link 'Delete question'
+    expect(page).to have_css('.alert-success')
     expect(page).to have_title 'Home page'
   end
-  scenario 'user can edit a question' do
-    question = Question.create!(title: question_params[:title], body: question_params[:body])
+  scenario 'user can edit his question' do
+    # binding.pry
+    question = user.questions.create(title: question_params[:title], body: question_params[:body])
     visit root_path
     expect(page).to have_content question_params[:title]
     click_on question_params[:title]
@@ -85,8 +91,17 @@ feature 'authorized have rights on create and edit question', %q{
     fill_in 'answer_body', with: question_params[:body]
     click_button 'Add answer'
     expect(page).to have_css('.alert-success')
-    # save_and_open_page
     click_link('Delete answer', match: :first)
     expect(page).to have_css('.alert-success')
+  end
+  scenario 'user dont have links to edit and delete other users records' do
+    question = user.questions.create(title: question_params[:title], body: question_params[:body])
+    question.answers.create(body: answer_params[:body])
+    login_as(other_user, scope: :user)
+    visit root_path
+    click_on question_params[:title]
+    expect(page).to_not have_content 'Delete question'
+    expect(page).to_not have_content 'Edit question'
+    expect(page).to_not have_content 'Delete answer'
   end
 end
