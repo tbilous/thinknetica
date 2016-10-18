@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
-
   validates :name, length: 5..128
-  validates :email, length: 5..128, format: { with: VALID_EMAIL_REGEX }
+  validates :email, length: 5..128, format: {with: VALID_EMAIL_REGEX}
 end

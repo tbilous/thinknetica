@@ -23,6 +23,7 @@
           - if owner?(answer)
             li
               = link_to 'Delete answer', answer, method: :delete
+              = link_to 'Edit answer', edit_answer_path(answer)
   - if user_signed_in?
     .well
       = render '/answers/form_new'

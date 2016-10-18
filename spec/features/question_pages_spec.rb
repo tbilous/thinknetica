@@ -68,6 +68,7 @@ feature 'authorized have rights on create and edit question', %q{
 
   scenario 'user can edit his question' do
     question = user.questions.create(title: question_params[:title], body: question_params[:body])
+    new_question_params = question_params[:title] + 'a'
     visit root_path
     expect(page).to have_content question_params[:title]
     click_on question_params[:title]
@@ -75,20 +76,28 @@ feature 'authorized have rights on create and edit question', %q{
     expect(page).to have_content question_params[:title]
     expect(page).to have_content question_params[:body]
     click_link('', href: edit_question_path(question))
-    fill_in 'question_title', with: question_params[:title] + 'a'
-    fill_in 'question_body', with: question_params[:body] + 'a'
+    fill_in 'question_title', with: new_question_params
+    fill_in 'question_body', with: new_question_params
     click_on 'Save'
-    expect(page).to have_content question_params[:title] + 'a'
+    expect(page).to have_content new_question_params
   end
 
-  scenario 'User can to create an answer' do
+  scenario 'User can to create, edit and delete an answer' do
     question = Question.create!(title: question_params[:title], body: question_params[:body])
-    question.answers.create!(body: answer_params[:body], user_id: answer_params[:user_id])
+    answer = question.answers.create!(body: answer_params[:body], user_id: answer_params[:user_id])
+    new_answer_params = answer_params[:body] + 'a'
     visit root_path
     click_on question_params[:title]
     expect(page).to have_content 'Write answer'
     fill_in 'answer_body', with: question_params[:body]
     click_button 'Add answer'
+    expect(page).to have_css('.alert-success')
+    expect(page).to have_content 'Edit answer'
+    click_link('Edit answer', href: edit_answer_path(answer))
+    expect(page).to have_content 'Edit Answer'
+    fill_in 'answer_body', with: new_answer_params
+    click_on 'Save'
+    expect(page).to have_content new_answer_params
     expect(page).to have_css('.alert-success')
     click_link('Delete answer', match: :first)
     expect(page).to have_css('.alert-success')
@@ -103,5 +112,6 @@ feature 'authorized have rights on create and edit question', %q{
     expect(page).to_not have_content 'Delete question'
     expect(page).to_not have_content 'Edit question'
     expect(page).to_not have_content 'Delete answer'
+    expect(page).to_not have_content 'Edit answer'
   end
 end
