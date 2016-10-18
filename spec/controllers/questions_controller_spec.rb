@@ -8,7 +8,6 @@ RSpec.describe QuestionsController, type: :controller do
     # sign_in @admin
   end
 
-
   context 'user is not authorized' do
     let(:question) { create(:question, user_id: @user) }
     describe 'GET #index' do
@@ -68,7 +67,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     describe 'PATCH update' do
       let(:attr) do
-        {title: 'b' * 6, body: 'b' * 61}
+        { title: 'b' * 6, body: 'b' * 61 }
       end
       before do
         patch :update, id: question.id, question: attr
@@ -102,7 +101,6 @@ RSpec.describe QuestionsController, type: :controller do
     let(:question) { create(:question, user: @user) }
 
     context 'user not is owner' do
-
       before { sign_in @other_user }
 
       describe 'GET #index' do
@@ -169,14 +167,14 @@ RSpec.describe QuestionsController, type: :controller do
 
           it 'render new' do
             post :create, question: invalid_params
-            {title: 'b' * 6, body: 'b' * 61}
+            { title: 'b' * 6, body: 'b' * 61 }
           end
         end
       end
 
       describe 'PATCH update' do
         let(:attr) do
-          {title: 'b' * 6, body: 'b' * 61}
+          { title: 'b' * 6, body: 'b' * 61 }
         end
         before do
           patch :update, id: question.id, question: attr
@@ -208,7 +206,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'user is owner' do
-
       before { sign_in @user }
 
       describe 'GET #index' do
@@ -275,7 +272,7 @@ RSpec.describe QuestionsController, type: :controller do
 
           it 'render new' do
             post :create, question: invalid_params
-            {title: 'b' * 6, body: 'b' * 61}
+            { title: 'b' * 6, body: 'b' * 61 }
           end
         end
       end
@@ -283,7 +280,7 @@ RSpec.describe QuestionsController, type: :controller do
       describe 'PATCH update' do
         context 'attr is valid' do
           let(:attr) do
-            {title: 'b' * 6, body: 'b' * 61}
+            { title: 'b' * 6, body: 'b' * 61 }
           end
           before do
             patch :update, id: question.id, question: attr
@@ -302,7 +299,7 @@ RSpec.describe QuestionsController, type: :controller do
 
         context 'attr is not valid' do
           let(:attr) do
-            {title: 'b', body: 'b'}
+            { title: 'b', body: 'b' }
           end
           before do
             patch :update, id: question.id, question: attr
