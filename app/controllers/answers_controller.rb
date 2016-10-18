@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except:  [:index]
   before_action :load_answer, only: [:destroy, :edit, :update]
-  before_action :load_question, only: [:new, :index, :create ]
+  before_action :load_question, only: [:new, :index, :create]
   before_action :require_permission, only: :destroy
 
   def new
@@ -11,9 +11,11 @@ class AnswersController < ApplicationController
   def index
     redirect_to_question
   end
+
   def edit
     @question = Answer.find(params[:id]).question
   end
+
   def update
     @question = Answer.find(params[:id]).question
     if @answer.update(strong_params)
