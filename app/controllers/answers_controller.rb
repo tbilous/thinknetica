@@ -2,18 +2,18 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :load_answer, only: [:destroy]
   before_action :load_question, only: [:new, :index, :create]
+  before_action :require_permission, only: :destroy
 
   def new
-    redirect_question
+    redirect_to_question
   end
 
   def index
-    redirect_question
+    redirect_to_question
   end
 
   def create
-    @answer = @question.answers.new(strong_params)
-    add_author
+    @answer = @question.answers.new(strong_params.merge(user_id: current_user))
     if @answer.save
       flash[:success] = 'NICE'
       redirect_to question_path(@question)
@@ -42,17 +42,13 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
   end
 
-  def redirect_question
+  def redirect_to_question
     redirect_to question_path(@question)
   end
 
-  def add_author
-    @answer.user_id = current_user.id if current_user
-  end
-
   def require_permission
-    return if current_user != Answer.find(params[:id]).user
-    redirect_to root_path
-    flash[:alert] = 'NO RIGHTS!'
+    if current_user.id != (Answer.find(params[:id]).user_id || Question.find(@answer.question.user))
+      redirect_to root_path, alert: 'NO RIGHTS!'
+    end
   end
 end

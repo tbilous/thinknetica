@@ -52,7 +52,7 @@ feature 'authorized have rights on create and edit question', %q{
   let!(:other_user) { FactoryGirl.create(:user) }
   before { login_as(user, scope: :user) }
   let(:question_params) { FactoryGirl.attributes_for(:question) }
-  let(:answer_params) { FactoryGirl.attributes_for(:answer) }
+  let(:answer_params) { FactoryGirl.attributes_for(:answer, user_id: user.id) }
 
   scenario 'user see form on root page and can to create and to destroy the question' do
     visit root_path
@@ -83,7 +83,7 @@ feature 'authorized have rights on create and edit question', %q{
 
   scenario 'User can to create an answer' do
     question = Question.create!(title: question_params[:title], body: question_params[:body])
-    question.answers.create!(body: answer_params[:body])
+    question.answers.create!(body: answer_params[:body], user_id: answer_params[:user_id])
     visit root_path
     click_on question_params[:title]
     expect(page).to have_content 'Write answer'
