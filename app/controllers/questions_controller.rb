@@ -1,15 +1,16 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :require_permission, only: [:edit, :update, :destroy]
 
   def index
     @questions = Question.all
-    @question = Question.new
+    @question = current_user && current_user.questions.new
   end
 
   def show
     @answers = @question.answers.all
-    @answer = @question.answers.build
+    @answer = current_user && @question.answers.build
   end
 
   def new
@@ -40,7 +41,7 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     flash[:success] = 'NICE!'
-    redirect_to questions_path
+    redirect_to root_path
   end
 
   private
@@ -54,8 +55,6 @@ class QuestionsController < ApplicationController
   end
 
   def require_permission
-    return if current_user != Question.find(params[:id]).user
-    redirect_to root_path
-    flash[:alert] = 'NO RIGHTS!'
+    redirect_to root_path, alert: 'NO RIGHTS!' if current_user != Question.find(params[:id]).user
   end
 end
