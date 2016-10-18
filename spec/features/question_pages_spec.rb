@@ -45,6 +45,7 @@ feature 'authorized have rights on create and edit question', %q{
   User can to create an answer on question's page
   User can to see a list of the answers on question's page
   User can to delete the answer
+  User dont have links to edit and delete other users records
   When answer was created, deletes user see 'flash' message about this action
 } do
   let!(:user) { FactoryGirl.create(:user) }
@@ -52,9 +53,6 @@ feature 'authorized have rights on create and edit question', %q{
   before { login_as(user, scope: :user) }
   let(:question_params) { FactoryGirl.attributes_for(:question) }
   let(:answer_params) { FactoryGirl.attributes_for(:answer) }
-  scenario 'is user is not owner' do
-
-  end
 
   scenario 'user see form on root page and can to create and to destroy the question' do
     visit root_path
@@ -67,8 +65,8 @@ feature 'authorized have rights on create and edit question', %q{
     expect(page).to have_css('.alert-success')
     expect(page).to have_title 'Home page'
   end
+
   scenario 'user can edit his question' do
-    # binding.pry
     question = user.questions.create(title: question_params[:title], body: question_params[:body])
     visit root_path
     expect(page).to have_content question_params[:title]
@@ -82,6 +80,7 @@ feature 'authorized have rights on create and edit question', %q{
     click_on 'Save'
     expect(page).to have_content question_params[:title] + 'a'
   end
+
   scenario 'User can to create an answer' do
     question = Question.create!(title: question_params[:title], body: question_params[:body])
     question.answers.create!(body: answer_params[:body])
@@ -94,6 +93,7 @@ feature 'authorized have rights on create and edit question', %q{
     click_link('Delete answer', match: :first)
     expect(page).to have_css('.alert-success')
   end
+
   scenario 'user dont have links to edit and delete other users records' do
     question = user.questions.create(title: question_params[:title], body: question_params[:body])
     question.answers.create(body: answer_params[:body])

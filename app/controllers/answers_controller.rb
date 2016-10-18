@@ -51,10 +51,8 @@ class AnswersController < ApplicationController
   end
 
   def require_permission
-    if current_user != Answer.find(params[:id]).user
-      redirect_to root_path
-      flash[:alert] = 'NO RIGHTS!'
-    end
+    return if current_user != Answer.find(params[:id]).user
+    redirect_to root_path
+    flash[:alert] = 'NO RIGHTS!'
   end
-
 end
