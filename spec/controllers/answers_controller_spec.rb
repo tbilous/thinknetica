@@ -56,11 +56,11 @@ RSpec.describe AnswersController, type: :controller do
 
         context 'with invalid attr' do
           it 'does not save in a DB' do
-            expect { post :create, question_id: question, answer: {body: nil} }.to_not change(Answer, :count)
+            expect { post :create, question_id: question, answer: { body: nil } }.to_not change(Answer, :count)
           end
 
           it 'redirect to questions/show' do
-            post :create, question_id: question, answer: {body: nil}
+            post :create, question_id: question, answer: { body: nil }
             expect(response).to render_template 'questions/show'
           end
         end
@@ -77,7 +77,6 @@ RSpec.describe AnswersController, type: :controller do
           expect(response).to redirect_to root_path
         end
       end
-
     end
     context 'user is owner' do
       before { sign_in @user }
@@ -98,11 +97,11 @@ RSpec.describe AnswersController, type: :controller do
 
         context 'with invalid attr' do
           it 'does not save in a DB' do
-            expect { post :create, question_id: question, answer: {body: nil} }.to_not change(Answer, :count)
+            expect { post :create, question_id: question, answer: { body: nil } }.to_not change(Answer, :count)
           end
 
           it 'redirect to questions/show' do
-            post :create, question_id: question, answer: {body: nil}
+            post :create, question_id: question, answer: { body: nil }
             expect(response).to render_template 'questions/show'
           end
         end
