@@ -8,7 +8,6 @@ RSpec.describe QuestionsController, type: :controller do
     # sign_in @admin
   end
 
-
   let(:question) { create(:question, user: @user) }
 
   describe 'GET #index' do
@@ -66,7 +65,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #edit' do
     context 'user is not authorized' do
-
       before { get :edit, id: question.id }
       it 'assign Edit Question' do
         expect(assigns(:question)).to_not eq question
@@ -75,11 +73,9 @@ RSpec.describe QuestionsController, type: :controller do
       it 'render the edit template' do
         expect(response).to redirect_to new_user_session_path
       end
-
     end
 
     context 'user is authorized' do
-
       context 'user not is not owner' do
         before do
           sign_in @other_user
@@ -143,18 +139,17 @@ RSpec.describe QuestionsController, type: :controller do
 
           it 'render new' do
             post :create, question: invalid_params
-            {title: 'b' * 6, body: 'b' * 61}
+            { title: 'b' * 6, body: 'b' * 61 }
           end
         end
       end
-
     end
   end
 
   describe 'PATCH update' do
     context 'user is not authorized' do
       let(:attr) do
-        {title: 'b' * 6, body: 'b' * 61}
+        { title: 'b' * 6, body: 'b' * 61 }
       end
 
       before do
@@ -177,7 +172,7 @@ RSpec.describe QuestionsController, type: :controller do
         before { sign_in @other_user }
 
         let(:attr) do
-          {title: 'b' * 6, body: 'b' * 61}
+          { title: 'b' * 6, body: 'b' * 61 }
         end
         before do
           patch :update, id: question.id, question: attr
@@ -199,7 +194,7 @@ RSpec.describe QuestionsController, type: :controller do
 
         context 'attr is valid' do
           let(:attr) do
-            {title: 'b' * 6, body: 'b' * 61}
+            { title: 'b' * 6, body: 'b' * 61 }
           end
           before do
             patch :update, id: question.id, question: attr
@@ -218,7 +213,7 @@ RSpec.describe QuestionsController, type: :controller do
 
         context 'attr is not valid' do
           let(:attr) do
-            {title: 'b', body: 'b'}
+            { title: 'b', body: 'b' }
           end
           before do
             patch :update, id: question.id, question: attr
@@ -283,5 +278,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-
 end

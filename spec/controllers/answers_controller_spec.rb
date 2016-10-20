@@ -9,7 +9,6 @@ RSpec.describe AnswersController, type: :controller do
     @user = create :user
   end
 
-
   describe 'POST create' do
     context 'not authorized user' do
       let(:attr) { attributes_for(:answer) }
@@ -45,16 +44,15 @@ RSpec.describe AnswersController, type: :controller do
           post :create, question_id: question, answer: attributes_for(:answer)
           expect(response).to redirect_to question_path(question)
         end
-
       end
 
       context 'with invalid attr' do
         it 'dont save in a DB' do
-          expect { post :create, question_id: question, answer: {body: nil} }.to_not change(Answer, :count)
+          expect { post :create, question_id: question, answer: { body: nil } }.to_not change(Answer, :count)
         end
 
         it 'redirect to questions/show' do
-          post :create, question_id: question, answer: {body: nil}
+          post :create, question_id: question, answer: { body: nil }
           expect(response).to render_template 'questions/show'
         end
       end
@@ -62,13 +60,11 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH update' do
-
     let!(:answer) { create(:answer, question: question, user_id: @user.id) }
     new_param = ('b' * 61)
-    let(:attr) { {body: 'b' * 61} }
+    let(:attr) { { body: 'b' * 61 } }
 
     context 'user is not authorized' do
-
       before do
         patch :update, id: answer.id, body: attr
         answer.reload
@@ -84,9 +80,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'user is authorized' do
-
       context 'user is not owner' do
-
         before do
           sign_in @other_user
           patch :update, id: answer.id, body: attr
@@ -100,11 +94,9 @@ RSpec.describe AnswersController, type: :controller do
         it 'render show template' do
           expect(response).to redirect_to root_path
         end
-
       end
 
       context 'user is owner' do
-
         before do
           sign_in @user
           patch :update, id: answer.id, answer: attr
@@ -118,16 +110,12 @@ RSpec.describe AnswersController, type: :controller do
         it 'render show template' do
           expect(response).to redirect_to question_path(question)
         end
-
       end
-
     end
   end
 
   describe 'DELETE #destroy' do
-
     context 'user is not authorized' do
-
       let!(:answer) { create(:answer, question: question, user_id: @user.id) }
 
       it 'does not delete from DB' do
@@ -141,11 +129,9 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'user is authorized' do
-
       let!(:answer) { create(:answer, question: question, user_id: @user.id) }
 
       context 'user is not owner' do
-
         before { sign_in @other_user }
 
         it 'delete from DB' do
@@ -159,7 +145,6 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       context 'user is owner' do
-
         before do
           sign_in @user
           request.env['HTTP_REFERER'] = 'where_i_came_from'
@@ -175,5 +160,4 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
-
 end
