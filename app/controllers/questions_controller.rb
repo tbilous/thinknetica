@@ -5,12 +5,12 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
-    @question = current_user && current_user.questions.new
+    @question = current_user.questions.new if current_user
   end
 
   def show
     @answers = @question.answers.all
-    @answer = current_user && @question.answers.build
+    @answer = @question.answers.build if current_user
   end
 
   def new
@@ -55,6 +55,6 @@ class QuestionsController < ApplicationController
   end
 
   def require_permission
-    redirect_to root_path, alert: 'NO RIGHTS!' if current_user != Question.find(params[:id]).user
+    redirect_to root_path, alert: 'NO RIGHTS!' if current_user.id != Question.find(params[:id]).user_id
   end
 end

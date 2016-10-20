@@ -1,16 +1,10 @@
 require 'rails_helper'
 feature 'not authorized user cant to create question', %q{
-  Root page have Home page in title
   User dont see form for question on root page
   User can see list of the questions with title and date
   User can to visit to page of question after click on the title in the list
   User cant see link for edit and delete the question
 } do
-  let(:question_params) { FactoryGirl.attributes_for(:question) }
-  scenario 'Root page have title' do
-    visit root_path
-    expect(page).to have_title 'Home page'
-  end
   scenario 'user cant see question form' do
     visit root_path
     expect(page).to have_link 'Sign'

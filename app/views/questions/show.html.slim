@@ -1,6 +1,6 @@
 - provide(:title, @question.title)
 .container
-  - if owner?(@question)
+  - if help_owner?(@question)
     ul.list-inline
       li
         = link_to 'Delete question', @question, class:'btn btn-danger', method: :delete
@@ -20,8 +20,8 @@
         - @answers.each do |answer|
           li
             = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
-          - if owner?(answer)
-            li
+          - if user_signed_in?
+            - if help_owner?(answer)
               = link_to 'Delete answer', answer, method: :delete
               = link_to 'Edit answer', edit_answer_path(answer)
   - if user_signed_in?
