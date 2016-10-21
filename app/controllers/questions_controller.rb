@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include OwnerHelper
+
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
   before_action :require_permission, only: [:edit, :update, :destroy]
@@ -10,7 +12,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = @question.answers.all
-    @answer = @question.answers.build if current_user
+    @answer = @question.answers.build
   end
 
   def new
@@ -51,10 +53,11 @@ class QuestionsController < ApplicationController
   end
 
   def strong_params
-    params.require(:question).permit(:title, :body, :user_id)
+    params.require(:question).permit(:title, :body)
   end
 
   def require_permission
-    redirect_to root_path, alert: 'NO RIGHTS!' if current_user.id != Question.find(params[:id]).user_id
+    # binding.pry
+    redirect_to root_path, alert: 'NO RIGHTS!' unless owner_of?(@question)
   end
 end

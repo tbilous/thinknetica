@@ -1,17 +1,21 @@
 require 'rails_helper'
 
-feature 'you can write your title here', %q{
+feature 'non autirized user see questions and answers ', %q{
   User see list of questions
   User cant see answer form
   user cant see answer delete link
 } do
   let(:question_params) { FactoryGirl.attributes_for(:question) }
 
-  scenario do
+  scenario 'not authorized user on  site' do
     question = Question.create!(title: question_params[:title], body: question_params[:body])
-    question.answers.create!(body: question_params[:body])
+    question2 = Question.create!(title: (question_params[:title] + 'b'), body: (question_params[:body] + 'b'))
+    answer = question.answers.create!(body: question_params[:body])
     visit root_path
-    click_on question_params[:title]
+    expect(page).to have_content question.title
+    expect(page).to have_content question2.title
+    click_on(question_params[:title], match: :first)
+    expect(page).to have_content answer.body
     expect(page).to_not have_content 'Write answer'
     expect(page).to_not have_link 'Delete answer'
   end

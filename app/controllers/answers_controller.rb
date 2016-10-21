@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include OwnerHelper
+
   before_action :authenticate_user!, except:  [:index]
   before_action :load_answer, only: [:destroy, :edit, :update]
   before_action :load_question, only: [:index, :edit, :update]
@@ -22,7 +24,8 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(strong_params.merge(user_id: current_user.id))
+    @answer = @question.answers.new(strong_params)
+    @answer.user = current_user
     if @answer.save
       flash[:success] = 'NICE'
       redirect_to @question
@@ -52,8 +55,6 @@ class AnswersController < ApplicationController
   end
 
   def require_permission
-    redirect_to root_path, alert: 'NO RIGHTS!' if current_user.id !=
-                                                  (Answer.find(params[:id]).user_id ||
-                                                      Question.find(@answer.question).user_id)
+    redirect_to root_path, alert: 'NO RIGHTS!' unless owner_of?(@answer)
   end
 end

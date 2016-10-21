@@ -26,18 +26,15 @@ RSpec.describe AnswersController, type: :controller do
     context 'authorized user' do
       before { sign_in @user }
 
-      describe 'user and answer relation' do
-        let!(:answer) { create(:answer, question: question, user_id: @other_user.id) }
-        it 'change attributes' do
-          expect(Answer.where(id: answer.id, user_id: @other_user.id)).to_not be_empty
-        end
-      end
-
       context 'with valid attributes' do
         let(:attr) { attributes_for(:answer) }
 
         it 'save the new answer in a DB' do
           expect { post :create, question_id: question.id, answer: attr }.to change(question.answers, :count).by(1)
+        end
+
+        it 'save the new answer in a DB with user relation' do
+          expect { post :create, question_id: question.id, answer: attr }.to change(@user.answers, :count).by(1)
         end
 
         it 'redirect_to question' do

@@ -1,19 +1,35 @@
 require 'rails_helper'
-feature 'you can write your title here', %q{
+feature 'User is not authorized', %q{
+  User can authorize
   User cant see form for question on root page
+  User see list of questions and answer
+  User see answer on question's page
+  User cant see links for delete and write answers
 } do
-  scenario 'user cant see question form' do
+  let(:question_params) { FactoryGirl.attributes_for(:question) }
+  
+  scenario 'not authorized user on  site' do
+    question = Question.create!(title: question_params[:title], body: question_params[:body])
+    question2 = Question.create!(title: (question_params[:title] + 'b'), body: (question_params[:body] + 'b'))
+    answer = question.answers.create!(body: question_params[:body])
     visit root_path
     expect(page).to have_link 'Sign'
     expect(page).to_not have_content 'Add question'
+    expect(page).to have_content question.title
+    expect(page).to have_content question2.title
+    click_on(question_params[:title], match: :first)
+    expect(page).to have_content answer.body
+    expect(page).to have_content question.body
+    expect(page).to_not have_content 'Write answer'
+    expect(page).to_not have_link 'Delete answer'
   end
 end
 
-feature 'authorized can to create question', %q{
-  User can to create question
-  User can to visit to page of question after click on the title in the list
+feature 'user is authorized', %q{
+  User can create question
+  User can visit to page of question after click on the title in the list
   User can edit the question
-  User can to delete the question on question's page and will be redirected to root after that
+  User can delete the question on question's page and will be redirected to root after that
   When question was created, updated, deletes user see 'flash' message about this action
 } do
   let!(:user) { FactoryGirl.create(:user) }

@@ -122,7 +122,7 @@ RSpec.describe QuestionsController, type: :controller do
         context 'attr is valid' do
           question_params = FactoryGirl.attributes_for(:question)
           it 'add tot database' do
-            expect { post :create, question: question_params }.to change(Question, :count).by(1)
+            expect { post :create, question: question_params }.to change(@other_user.questions, :count).by(1)
           end
           it 'redirect to show' do
             post :create, question: question_params

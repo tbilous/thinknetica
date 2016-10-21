@@ -5,11 +5,13 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :validatable
 
   has_many :questions, dependent: :destroy
+  has_many :answers
+
+
+  validates :name, length: 5..128
+  validates :email, length: 5..128
 
   def owner?(object)
     id == object.user_id
   end
-
-  validates :name, length: 5..128
-  validates :email, length: 5..128
 end
