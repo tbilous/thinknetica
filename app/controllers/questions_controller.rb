@@ -46,6 +46,13 @@ class QuestionsController < ApplicationController
     redirect_to root_path
   end
 
+  helper_method :owner_of?
+
+  def owner_of?(object)
+    return nil if current_user.nil? || !object.respond_to?(:user_id)
+    current_user.try(:id) == object.try(:user_id)
+  end
+
   private
 
   def load_question

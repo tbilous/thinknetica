@@ -71,7 +71,7 @@ feature 'user is authorized', %q{
     expect(page).to have_content new_question_params
   end
 
-  scenario 'user dont have links to edit and delete other users records' do
+  scenario 'non owner dont have links for edit and delete records' do
     question = user.questions.create(title: question_params[:title], body: question_params[:body])
     question.answers.create(body: answer_params[:body])
     login_as(other_user, scope: :user)

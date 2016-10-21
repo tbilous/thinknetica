@@ -35,12 +35,13 @@ feature 'authorized users can make an answer', %q{
   let(:answer_params) { FactoryGirl.attributes_for(:answer, user_id: user.id) }
 
   scenario 'User can to create an answer' do
-    Question.create!(title: question_params[:title], body: question_params[:body])
+    question = Question.create!(title: question_params[:title], body: question_params[:body])
     visit root_path
     click_on question_params[:title]
     expect(page).to have_content 'Write answer'
     fill_in 'answer_body', with: question_params[:body]
     click_button 'Add answer'
+    expect(page).to have_content question.title
     expect(page).to have_css('.alert-success')
   end
 
@@ -61,11 +62,13 @@ feature 'authorized users can make an answer', %q{
 
   scenario 'User can to delete an answer' do
     question = Question.create!(title: question_params[:title], body: question_params[:body])
-    question.answers.create!(body: answer_params[:body], user_id: answer_params[:user_id])
+    answer = question.answers.create!(body: (answer_params[:body] + 'b'), user_id: answer_params[:user_id])
     visit root_path
     click_on question_params[:title]
-    click_link('Delete answer', match: :first)
+    click_link('Delete answer')
     expect(page).to have_css('.alert-success')
+    expect(page).to_not have_content answer.body
+    expect(page).to_not have_link 'Delete answer'
   end
 
   scenario 'user dont have links to edit and delete other users records' do
