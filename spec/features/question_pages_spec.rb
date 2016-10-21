@@ -7,7 +7,7 @@ feature 'User is not authorized', %q{
   User cant see links for delete and write answers
 } do
   let(:question_params) { FactoryGirl.attributes_for(:question) }
-  
+
   scenario 'not authorized user on  site' do
     question = Question.create!(title: question_params[:title], body: question_params[:body])
     question2 = Question.create!(title: (question_params[:title] + 'b'), body: (question_params[:body] + 'b'))

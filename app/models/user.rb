@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :answers
 
-
   validates :name, length: 5..128
   validates :email, length: 5..128
 
