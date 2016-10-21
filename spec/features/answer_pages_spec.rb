@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'non autirized user see questions and answers ', %q{
+feature 'non autirized user see questions, answers ', %q{
   User see list of questions
   User cant see answer form
   user cant see answer delete link
