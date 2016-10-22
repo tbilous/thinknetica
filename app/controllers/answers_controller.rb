@@ -39,6 +39,7 @@ class AnswersController < ApplicationController
     flash[:success] = 'NICE'
     redirect_to :back
   end
+
   helper_method :owner_of?
 
   def owner_of?(object)

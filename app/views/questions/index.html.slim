@@ -6,7 +6,7 @@
         p List of questions is empty
       - else
         h2 List of questions
-        ul.list-unstyled
+        ul.list-unstyled.questions-list
           - @questions.each do |question|
             li
               = link_to question_path(question)

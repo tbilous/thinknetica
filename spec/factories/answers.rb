@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  answer_body = 'a' * 61
+  answer_body = 'b' * 61
   factory :answer do
     question
     body answer_body

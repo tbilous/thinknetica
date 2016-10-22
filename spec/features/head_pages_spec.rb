@@ -1,9 +1,16 @@
 require 'rails_helper'
 feature 'Attributes of pages', %q{
-  Root page have Home page in title
+  All pages have title
 } do
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
+
   scenario 'Root page have title' do
     visit root_path
     expect(page).to have_title 'Home page'
+  end
+  scenario 'Question page have title' do
+    visit question_path(question)
+    expect(page).to have_title question.title
   end
 end
