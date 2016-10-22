@@ -9,8 +9,7 @@ feature 'Author can edit question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
   let(:new_question_params) do
-    { body: question.title + 'a' }
-    { body: question.body + 'a' }
+    { title: 'b' * 6, body: 'b' * 61 }
   end
 
   scenario 'Author of question edits it' do
@@ -24,7 +23,7 @@ feature 'Author can edit question', %q{
 
     expect(page).to have_content new_question_params[:title]
     expect(page).to have_content new_question_params[:body]
-    expect(current_path).to match /^\/questions\/\d+$/
+    expect(current_path).to match %r{/questions/}
   end
 
   scenario 'User tries to edit question of another user' do
@@ -40,5 +39,4 @@ feature 'Author can edit question', %q{
 
     expect(page).to_not have_link 'Edit question'
   end
-
 end

@@ -22,15 +22,15 @@ feature 'Create question', %q{
     within '.alert-success' do
       expect(page).to have_content 'NICE'
     end
-    expect(current_path).to match /^\/questions\/\d+$/
+    expect(current_path).to match %r{/questions/}
   end
 
   scenario 'Authenticated user tries to create question with invalid data' do
     login_as(user)
     visit root_path
 
-    fill_in 'question_title', with: 'b'*2
-    fill_in 'question_body', with: 'b'*2
+    fill_in 'question_title', with: 'b' * 2
+    fill_in 'question_body', with: 'b' * 2
     click_on 'Add question'
 
     expect(page).to have_css('.alert-danger')

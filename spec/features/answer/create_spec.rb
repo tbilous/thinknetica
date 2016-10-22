@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 feature 'Create answer', %q{
   In order to help another user
   As an authenticated user
@@ -8,12 +7,10 @@ feature 'Create answer', %q{
 } do
 
   let!(:user) { create(:user) }
-  let(:question) {create(:question) }
+  let(:question) { create(:question) }
   let(:answer_params) { attributes_for(:answer, user_id: user.id) }
 
-
   before { login_as(user, scope: :user) }
-
 
   scenario 'Authenticated user creates answer with proper data' do
     visit question_path(question)
@@ -32,7 +29,7 @@ feature 'Create answer', %q{
   scenario 'Authenticated user tries to create answer with invalid data' do
     visit question_path(question)
 
-    fill_in 'answer_body', with: 'a'*2
+    fill_in 'answer_body', with: 'a' * 2
     click_button 'Add answer'
 
     expect(page).to have_css('.alert-danger')

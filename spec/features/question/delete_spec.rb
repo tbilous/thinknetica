@@ -32,5 +32,4 @@ feature 'Author can delete question', %q{
 
     expect(page).to_not have_link 'Delete question'
   end
-
 end

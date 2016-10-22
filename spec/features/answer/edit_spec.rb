@@ -7,7 +7,7 @@ feature 'Author can delete answers', %q{
 } do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
-  let(:question) {create(:question) }
+  let(:question) { create(:question) }
   let!(:answer) { create(:answer, question: question, user: user) }
   let(:new_answer_params) { answer.body + 'a' }
 
@@ -23,14 +23,13 @@ feature 'Author can delete answers', %q{
 
     expect(page).to have_content new_answer_params
     expect(page).to have_css('.alert-success')
-
   end
 
   scenario 'Author of answer tries to edit answer with invalid data' do
     login_as(user, scope: :user)
     visit edit_answer_path(answer)
 
-    fill_in 'answer_body', with: 'a'*2
+    fill_in 'answer_body', with: 'a' * 2
     click_button 'Save'
 
     expect(page).to have_css('.alert-danger')
@@ -50,5 +49,4 @@ feature 'Author can delete answers', %q{
 
     expect(page).to_not have_link 'Edit answer'
   end
-
 end
