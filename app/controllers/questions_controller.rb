@@ -1,6 +1,4 @@
 class QuestionsController < ApplicationController
-  include OwnerHelper
-
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
   before_action :require_permission, only: [:edit, :update, :destroy]
@@ -16,7 +14,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = current_user.questions.new
+    @question = Question.new
   end
 
   def edit
@@ -46,13 +44,6 @@ class QuestionsController < ApplicationController
     redirect_to root_path
   end
 
-  helper_method :owner_of?
-
-  def owner_of?(object)
-    return nil if current_user.nil? || !object.respond_to?(:user_id)
-    current_user.try(:id) == object.try(:user_id)
-  end
-
   private
 
   def load_question
@@ -64,7 +55,6 @@ class QuestionsController < ApplicationController
   end
 
   def require_permission
-    # binding.pry
-    redirect_to root_path, alert: 'NO RIGHTS!' unless owner_of?(@question)
+    redirect_to root_path, alert: 'NO RIGHTS!' unless  current_user && current_user.owner_of?(@question)
   end
 end

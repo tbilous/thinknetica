@@ -1,6 +1,4 @@
 class AnswersController < ApplicationController
-  include OwnerHelper
-
   before_action :authenticate_user!, except:  [:index]
   before_action :load_answer, only: [:destroy, :edit, :update]
   before_action :load_question, only: [:index, :edit, :update]
@@ -40,13 +38,6 @@ class AnswersController < ApplicationController
     redirect_to :back
   end
 
-  helper_method :owner_of?
-
-  def owner_of?(object)
-    return nil if current_user.nil? || !object.respond_to?(:user_id)
-    current_user.try(:id) == object.try(:user_id)
-  end
-
   private
 
   def strong_params
@@ -62,6 +53,6 @@ class AnswersController < ApplicationController
   end
 
   def require_permission
-    redirect_to root_path, alert: 'NO RIGHTS!' unless owner_of?(@answer)
+    redirect_to root_path, alert: 'NO RIGHTS!' unless  current_user && current_user.owner_of?(@answer)
   end
 end

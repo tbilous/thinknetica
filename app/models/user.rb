@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates :name, length: 5..128
   validates :email, length: 5..128
 
-  def owner?(object)
+  def owner_of?(object)
     id == object.user_id
   end
 end
