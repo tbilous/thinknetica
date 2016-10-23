@@ -12,7 +12,7 @@ feature 'Create answer', %q{
 
   before { login_as(user, scope: :user) }
 
-  scenario 'Authenticated user creates answer with proper data' do
+  scenario 'Authenticated user creates answer with proper data', js:true do
     visit question_path(question)
 
     fill_in 'answer_body', with: answer_params[:body]
@@ -23,10 +23,17 @@ feature 'Create answer', %q{
     within '.alert-success' do
       expect(page).to have_content 'NICE'
     end
-    expect(page).to have_content answer_params[:body]
+
+    wait_for_ajax # This is new!
+
+    within '.answers' do
+      expect(page).to have_content answer_params[:body]
+    end
+
+    expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Authenticated user tries to create answer with invalid data' do
+  scenario 'Authenticated user tries to create answer with invalid data', js:true do
     visit question_path(question)
 
     fill_in 'answer_body', with: 'a' * 2
@@ -34,7 +41,7 @@ feature 'Create answer', %q{
 
     expect(page).to have_css('.alert-danger')
 
-    expect(current_path).to eq question_answers_path(question)
+    expect(current_path).to eq question_path(question)
   end
 
   scenario 'Non-authenticated user tries to create answer' do

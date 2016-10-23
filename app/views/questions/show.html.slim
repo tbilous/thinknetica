@@ -15,14 +15,9 @@
     - if @answers.blank?
       p Now have answers
     - else
-      h2 List of answers
-      ul.list-unstyled
-        - @answers.each do |answer|
-          li
-            = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
-          - if user_signed_in? && current_user.owner_of?(answer)
-              = link_to 'Delete answer', answer, method: :delete
-              = link_to 'Edit answer', edit_answer_path(answer)
+      #answersList.answers
+        ul.list-unstyled
+          = render @question.answers
   - if user_signed_in?
     .well
       = render '/answers/form_new'

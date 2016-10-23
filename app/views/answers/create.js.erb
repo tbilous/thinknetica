@@ -1,0 +1,14 @@
+$('#answers_list').append('<%= j render @answer %>');
+
+var form = $('#new_answer'),
+    alert = form.find('.alert-danger');
+
+alert.remove();
+
+<% if @answer.errors.any? %>
+form.prepend('<%= j render 'layouts/shared/error_form', object: @answer %>');
+<% else %>
+$('#answersList').append('<%= j render @answer %>');
+form.find('.form-control').val('');
+$("#headerFlash").html("<%=j render 'layouts/shared/error_messages' %>");
+<% end %>
