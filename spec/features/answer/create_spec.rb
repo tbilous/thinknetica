@@ -18,15 +18,11 @@ feature 'Create answer', %q{
     fill_in 'answer_body', with: answer_params[:body]
     click_button 'Add answer'
 
-    expect(page).to have_css('.alert-success')
+    sleep(inspection_time=5)
 
-    within '.alert-success' do
-      expect(page).to have_content 'NICE'
-    end
+    expect(page).to have_css('.answers', wait: 3)
 
-    wait_for_ajax # This is new!
-
-    within '.answers' do
+    within '.answer-body' do
       expect(page).to have_content answer_params[:body]
     end
 

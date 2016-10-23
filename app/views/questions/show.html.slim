@@ -15,9 +15,8 @@
     - if @answers.blank?
       p Now have answers
     - else
-      #answersList.answers
-        ul.list-unstyled
-          = render @question.answers
+      ul#answersList.list-unstyled
+        = render @question.answers
   - if user_signed_in?
     .well
       = render '/answers/form_new'

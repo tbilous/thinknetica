@@ -1,7 +1,5 @@
-$('#answers_list').append('<%= j render @answer %>');
-
 var form = $('#new_answer'),
-    alert = form.find('.alert-danger');
+    alert = form.find('#error_validation');
 
 alert.remove();
 
