@@ -1,0 +1,7 @@
+h2 Write answer
+= form_for [@question, @answer] do |f|
+  = render 'layouts/shared/error_form', object: f.object
+  .form-group
+    = f.text_area :body, class: 'form-control', required: true, rows: 5, placeholder: 'Compose new answer...'
+  .form-group
+    = f.submit 'Add answer', class: 'btn btn-primary'

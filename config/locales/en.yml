@@ -21,3 +21,14 @@
 
 en:
   hello: "Hello world"
+  page:
+    home: "Home page"
+    registration: 'Registration'
+    sign_in: "Sign in"
+  activerecord:
+    errors:
+      models:
+        answer:
+          attributes:
+            body:
+              too_short: "Text is very short"

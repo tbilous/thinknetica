@@ -33,5 +33,9 @@ module Thinknetica
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       g.template_engine :slim
     end
+
+    # i18 config
+    config.i18n.available_locales = [:uk, :en, :ru]
+    config.i18n.default_locale = I18n.locale
   end
 end

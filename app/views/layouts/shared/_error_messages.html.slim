@@ -1,0 +1,7 @@
+- flash.each do |msg_type, value|
+  div class=("#{bootstrap_class_for(msg_type)} alert")
+    button.close[type="button"  data-dismiss="alert"]
+      | ×
+    ul.list-unstyled
+      li
+        = value

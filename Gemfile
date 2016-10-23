@@ -38,15 +38,23 @@ gem 'rubygems-bundler'
 # Frontend framework
 gem 'bootstrap-sass', '~> 3.3.0'
 gem 'bootswatch-rails'
+gem 'devise-bootstrap-views'
 
 # slim
 gem 'slim'
 gem 'slim-rails'
 
+# Authorization
+gem 'devise'
+gem 'devise-i18n'
+
+# i18n
+gem 'rails-i18n', '~> 4.0.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'guard-rspec', '4.6.0'
+  gem 'guard-rspec', require: false
   gem 'rspec-rails'
   gem 'spork-rails'
   gem 'spork', github: 'sporkrb/spork'
@@ -56,12 +64,13 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'selenium-webdriver'
-  gem 'capybara'
 end
 
 group :test do
   gem 'shoulda-matchers'
   gem 'database_cleaner'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :development do

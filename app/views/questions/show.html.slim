@@ -1,3 +1,28 @@
+- provide(:title, @question.title)
 .container
-  h1 Questions#show
-  p Find me in app/views/questions/show.html.slim
+  - if user_signed_in? && current_user.owner_of?(@question)
+    ul.list-inline
+      li
+        = link_to 'Delete question', @question, class:'btn btn-danger', method: :delete
+      li
+        = link_to 'Edit question', edit_question_path(@question), class: 'btn btn-warning'
+  br
+  br
+  br
+.container
+  .well = @question.body
+  .well
+    - if @answers.blank?
+      p Now have answers
+    - else
+      h2 List of answers
+      ul.list-unstyled
+        - @answers.each do |answer|
+          li
+            = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
+          - if user_signed_in? && current_user.owner_of?(answer)
+              = link_to 'Delete answer', answer, method: :delete
+              = link_to 'Edit answer', edit_answer_path(answer)
+  - if user_signed_in?
+    .well
+      = render '/answers/form_new'
