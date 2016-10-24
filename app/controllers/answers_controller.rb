@@ -22,7 +22,8 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(strong_params.merge(user: current_user))
+    @answer = @question.answers.new(strong_params)
+    @answer.user = current_user
 
     flash[:success] = 'NICE!' if @answer.save
   end
