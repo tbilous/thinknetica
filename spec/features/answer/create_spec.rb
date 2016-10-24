@@ -10,7 +10,7 @@ feature 'Create answer', %q{
   let!(:question) { create(:question, user: user) }
   let(:answer_params) { attributes_for(:answer) }
 
-  scenario 'Authenticated user creates answer with proper data', js:true do
+  scenario 'Authenticated user creates answer with proper data', js: true do
     login_as(user)
     visit question_path(question)
 
@@ -25,7 +25,7 @@ feature 'Create answer', %q{
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Authenticated user tries to create answer with invalid data', js:true do
+  scenario 'Authenticated user tries to create answer with invalid data', js: true do
     login_as(user, scope: :user)
     visit question_path(question)
 
@@ -36,7 +36,7 @@ feature 'Create answer', %q{
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Non-authenticated user tries to create answer', js:true do
+  scenario 'Non-authenticated user tries to create answer', js: true do
     visit question_path(question)
 
     expect(page).to_not have_content 'Add answer'

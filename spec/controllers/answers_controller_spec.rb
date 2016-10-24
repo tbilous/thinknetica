@@ -15,7 +15,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'dont save the new answer in a DB' do
         expect { post :create, question_id: question.id, answer: attr, format: :js }.to_not change(question.answers,
-                                                                                                :count)
+                                                                                                   :count)
       end
 
       it 'redirect_to question' do
@@ -31,11 +31,17 @@ RSpec.describe AnswersController, type: :controller do
         let(:attr) { attributes_for(:answer) }
 
         it 'save the new answer in a DB' do
-          expect { post :create, question_id: question.id, answer: attr, format: :js }.to change(question.answers, :count).by(1)
+          expect { post :create, question_id: question.id, answer: attr, format: :js }.to change(
+            question.answers,
+            :count
+          ).by(1)
         end
 
         it 'save the new answer in a DB with user relation' do
-          expect { post :create, question_id: question.id, answer: attr, format: :js }.to change(@user.answers, :count).by(1)
+          expect { post :create, question_id: question.id, answer: attr, format: :js }.to change(
+            @user.answers,
+            :count
+          ).by(1)
         end
 
         it 'redirect_to question' do
@@ -46,7 +52,9 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with invalid attr' do
         it 'dont save in a DB' do
-          expect { post :create, question_id: question, answer: { body: nil }, format: :js }.to_not change(Answer, :count)
+          expect { post :create, question_id: question, answer: { body: nil }, format: :js }.to_not change(
+            Answer, :count
+          )
         end
 
         it 'redirect to questions/show' do
