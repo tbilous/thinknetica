@@ -7,7 +7,7 @@ feature 'Create answer', %q{
 } do
 
   let!(:user) { create(:user) }
-  let(:question) { create(:question) }
+  let(:question) { create(:question, user: user) }
   let(:answer_params) { attributes_for(:answer, user_id: user.id) }
 
   before { login_as(user, scope: :user) }
@@ -16,12 +16,10 @@ feature 'Create answer', %q{
     visit question_path(question)
 
     fill_in 'answer_body', with: answer_params[:body]
-    click_button 'Add answer'
+    # sleep(inspection_time=5)
+    click_button('Add answer')
 
-    # sleep(inspection_time=60)
-    # save_and_open_page
-
-    expect(page).to have_css('.answers', wait: 15)
+    # sleep(inspection_time=5)
 
     within '.answer-body' do
       expect(page).to have_content answer_params[:body]

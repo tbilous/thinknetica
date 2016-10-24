@@ -11,10 +11,11 @@
   br
 .container
   .well = @question.body
-  .well
-    - if @answers.blank?
-      p Now have answers
-    - else
+  - if !@question.answers.present?
+    .well
+      p No answers
+  - else
+    .well
       ul#answersList.list-unstyled
         = render @question.answers
   - if user_signed_in?
