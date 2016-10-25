@@ -11,18 +11,13 @@
   br
 .container
   .well = @question.body
-  .well
-    - if @answers.blank?
-      p Now have answers
-    - else
-      h2 List of answers
-      ul.list-unstyled
-        - @answers.each do |answer|
-          li
-            = answer.created_at.strftime('%Y-%m-%d')  + ' | ' +  answer.body
-          - if user_signed_in? && current_user.owner_of?(answer)
-              = link_to 'Delete answer', answer, method: :delete
-              = link_to 'Edit answer', edit_answer_path(answer)
+  - if !@question.answers.present?
+    .well
+      p No answers
+  #answersList
+  - if @question.answers.present?
+    .well
+      = render @question.answers
   - if user_signed_in?
     .well
       = render '/answers/form_new'

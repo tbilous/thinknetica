@@ -49,6 +49,7 @@ gem 'devise'
 gem 'devise-i18n'
 
 # i18n
+# gem 'russian'
 gem 'rails-i18n', '~> 4.0.0'
 
 group :development, :test do
@@ -63,7 +64,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'selenium-webdriver'
 end
 
 group :test do
@@ -71,6 +71,8 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
+  gem 'selenium-webdriver', '~> 2.53.4'
+  # gem 'capybara-webkit'
 end
 
 group :development do

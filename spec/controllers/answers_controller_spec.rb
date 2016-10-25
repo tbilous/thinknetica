@@ -14,7 +14,8 @@ RSpec.describe AnswersController, type: :controller do
       let(:attr) { attributes_for(:answer) }
 
       it 'dont save the new answer in a DB' do
-        expect { post :create, question_id: question.id, answer: attr }.to_not change(question.answers, :count)
+        expect { post :create, question_id: question.id, answer: attr, format: :js }.to_not change(question.answers,
+                                                                                                   :count)
       end
 
       it 'redirect_to question' do
@@ -30,27 +31,35 @@ RSpec.describe AnswersController, type: :controller do
         let(:attr) { attributes_for(:answer) }
 
         it 'save the new answer in a DB' do
-          expect { post :create, question_id: question.id, answer: attr }.to change(question.answers, :count).by(1)
+          expect { post :create, question_id: question.id, answer: attr, format: :js }.to change(
+            question.answers,
+            :count
+          ).by(1)
         end
 
         it 'save the new answer in a DB with user relation' do
-          expect { post :create, question_id: question.id, answer: attr }.to change(@user.answers, :count).by(1)
+          expect { post :create, question_id: question.id, answer: attr, format: :js }.to change(
+            @user.answers,
+            :count
+          ).by(1)
         end
 
         it 'redirect_to question' do
-          post :create, question_id: question, answer: attributes_for(:answer)
-          expect(response).to redirect_to question_path(question)
+          post :create, question_id: question, answer: attributes_for(:answer), format: :js
+          expect(response).to render_template :create
         end
       end
 
       context 'with invalid attr' do
         it 'dont save in a DB' do
-          expect { post :create, question_id: question, answer: { body: nil } }.to_not change(Answer, :count)
+          expect { post :create, question_id: question, answer: { body: nil }, format: :js }.to_not change(
+            Answer, :count
+          )
         end
 
         it 'redirect to questions/show' do
-          post :create, question_id: question, answer: { body: nil }
-          expect(response).to render_template 'questions/show'
+          post :create, question_id: question, answer: { body: nil }, format: :js
+          expect(response).to render_template :create
         end
       end
     end

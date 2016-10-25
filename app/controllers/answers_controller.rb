@@ -1,20 +1,20 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except:  [:index]
+  before_action :authenticate_user!, except: [:index]
   before_action :load_answer, only: [:destroy, :edit, :update]
   before_action :load_question, only: [:index, :edit, :update]
   before_action :require_permission, only: [:destroy, :update]
 
-  def index
-    redirect_to @question
-  end
-
-  def edit
-  end
+  # def index
+  #   redirect_to @question
+  # end
+  #
+  # def edit
+  # end
 
   def update
     if @answer.update(strong_params)
       flash[:success] = 'NICE'
-      redirect_to @question
+      redirect_to question_path(@answer.question)
     else
       render :edit
     end
@@ -24,12 +24,8 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(strong_params)
     @answer.user = current_user
-    if @answer.save
-      flash[:success] = 'NICE'
-      redirect_to @question
-    else
-      render 'questions/show'
-    end
+
+    flash[:success] = 'NICE!' if @answer.save
   end
 
   def destroy
