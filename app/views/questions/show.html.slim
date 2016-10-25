@@ -14,10 +14,10 @@
   - if !@question.answers.present?
     .well
       p No answers
-  - else
+  #answersList
+  - if @question.answers.present?
     .well
-      ul#answersList.list-unstyled
-        = render @question.answers
+      = render @question.answers
   - if user_signed_in?
     .well
       = render '/answers/form_new'

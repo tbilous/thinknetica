@@ -1,11 +1,12 @@
-- if answer.persisted?
-  li
-    span = answer.created_at.try(:strftime,'%Y.%m.%d %H:%M')
-    span  |
-    span.answer-body = answer.body
-    - if user_signed_in? && current_user.owner_of?(answer)
-      ul.list-inline
-        li
-          = link_to 'Delete answer', answer, method: :delete
-        li
-          = link_to 'Edit answer', edit_answer_path(answer)
+ul.list-unstyled
+  - if answer.persisted?
+    li
+      span = answer.created_at.try(:strftime,'%Y.%m.%d %H:%M')
+      span  |
+      span.answer-body = answer.body
+      - if user_signed_in? && current_user.owner_of?(answer)
+        ul.list-inline
+          li
+            = link_to 'Delete answer', answer, method: :delete
+          li
+            = link_to 'Edit answer', edit_answer_path(answer)
