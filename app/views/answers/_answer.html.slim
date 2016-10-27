@@ -10,11 +10,4 @@
         li
           button.script-item-toggle.btn-link data-target="##{answer.id}"
             | Edit answer
-  = form_for answer, html: {class: 'hidden edit_answer_form', id: answer.id }, remote: true  do |f|
-    = render 'layouts/shared/error_form', object: f.object
-    .form-group
-      = f.text_area :body, class: 'form-control', required: true, rows: 5
-    .form-group
-      ul.list-inline
-        li
-          = f.submit 'Save', class: 'btn btn-primary'
+  = render partial: 'answers/form_edit', locals: { object: answer}

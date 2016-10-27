@@ -3,14 +3,14 @@
   .well
     span = @question.body
     - if user_signed_in? && current_user.owner_of?(@question)
-  ul.list-inline.question-control-block
-    li
-      = link_to 'Delete question', @question, class: 'btn btn-danger', method: :delete
-    li
-      = link_to 'Edit question', edit_question_path(@question), class: 'btn btn-warning'
-  - if !@question.answers.present?
-    .well
-      p No answers
+      ul.list-inline.question-control-block
+        li
+          = link_to 'Delete question', @question, class: 'btn btn-danger', method: :delete
+        li
+          = link_to 'Edit question', edit_question_path(@question), class: 'btn btn-warning'
+      - if !@question.answers.present?
+        .well
+          p No answers
   #answersList
   - if @question.answers.present?
     = render @question.answers
