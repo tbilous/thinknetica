@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :answer do
     question
     body answer_body
+    best false
   end
   factory :wrong_answer, class: 'Answer' do
     question

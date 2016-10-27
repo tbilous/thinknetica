@@ -5,31 +5,31 @@ RSpec.describe Answer, type: :model do
   it { should validate_length_of(:body).is_at_least(60) }
   it { should belong_to(:question) }
   it { should belong_to(:user) }
-  it { should validate_uniqueness_of(:best).scoped_to(:question_id) }
 
   describe 'set_best' do
-    let(:user)    { create(:user) }
+    let(:user)      { create(:user) }
     let(:question)  { create(:question, user: user) }
-    let!(:answer1)  { create(:answer, question: question) }
-    let!(:answer2)  { create(:answer, question: question) }
+    let!(:answer)  { create(:answer, question: question, user: user) }
+    let!(:other_answer)  { create(:answer, question: question, user: user) }
 
     context 'when the best answer is not defined' do
       before do
-        answer1.set_best
+        answer.set_best
       end
 
-      it { expect(answer1).to be_best }
+      it { expect(answer).to be_best }
     end
 
     context 'when the best answer is already defined' do
       before do
-        answer1.set_best
-        answer2.set_best
-        answer1.reload
+        answer.set_best
+        other_answer.set_best
+        answer.reload
       end
 
-      it { expect(answer2).to be_best }
-      it { expect(answer1).to_not be_best }
+      it { should validate_uniqueness_of(:best).scoped_to(:question_id) }
+      it { expect(other_answer).to be_best }
+      it { expect(answer).to_not be_best }
     end
   end
 end
