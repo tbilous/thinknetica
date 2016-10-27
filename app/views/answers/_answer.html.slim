@@ -8,6 +8,6 @@
         li
           = link_to 'Delete answer', answer, method: :delete
         li
-          button.script-item-toggle.btn-link data-target="##{answer.id}"
+          button.script-item-toggle.btn-link data-target="#answer_form#{answer.id}"
             | Edit answer
   = render partial: 'answers/form_edit', locals: { subject: answer}
