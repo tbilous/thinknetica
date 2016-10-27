@@ -21,7 +21,6 @@ feature 'Author can delete answers', %q{
 
     within '.edit_answer_form' do
       fill_in 'answer_body', with: new_answer_params
-      # sleep(inspection_time=40)
       click_on 'Save'
     end
 

@@ -10,6 +10,7 @@ html[lang=I18n.locale]
     = javascript_include_tag 'application', 'data-turbolinks-track' => false
     = csrf_meta_tags
   body
+    .header
     = render '/layouts/header'
     = render '/layouts/registration'
     = yield

@@ -197,7 +197,7 @@ RSpec.describe QuestionsController, type: :controller do
             { title: 'b' * 6, body: 'b' * 61 }
           end
           before do
-            patch :update, id: question.id, question: attr
+            patch :update, id: question.id, question: attr, format: :js
             question.reload
           end
 
@@ -207,7 +207,7 @@ RSpec.describe QuestionsController, type: :controller do
           end
 
           it 'render show template' do
-            expect(response).to redirect_to question
+            expect(response).to render_template :update
           end
         end
 
@@ -216,7 +216,7 @@ RSpec.describe QuestionsController, type: :controller do
             { title: 'b', body: 'b' }
           end
           before do
-            patch :update, id: question.id, question: attr
+            patch :update, id: question.id, question: attr, format: :js
             question.reload
           end
 
@@ -226,7 +226,7 @@ RSpec.describe QuestionsController, type: :controller do
           end
 
           it 'render edit template' do
-            expect(response).to render_template :edit
+            expect(response).to render_template :update
           end
         end
       end

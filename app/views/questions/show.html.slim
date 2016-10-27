@@ -1,15 +1,15 @@
-- provide(:title, @question.title)
+- provide(:title, 'Question page')
 .container
   .well
     .question-block id= "question_#{@question.id}"
-      span.question-rendered
+      .question-rendered
         = render 'questions/question_l_line'
   - if user_signed_in? && current_user.owner_of?(@question)
     ul.list-inline.question-control-block
       li
         = link_to 'Delete question', @question, class: 'btn btn-danger', method: :delete
       li
-        button.script-item-toggle.btn.btn-warning data-target="##{@question.id}"
+        button.script-item-toggle.btn.btn-warning data-target="#question_form#{@question.id}"
           | Edit question
 
   = render 'questions/form_edit'
