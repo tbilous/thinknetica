@@ -105,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
       context 'user is owner' do
         before do
           sign_in @user
-          patch :update, id: answer.id, answer: attr
+          patch :update, id: answer.id, answer: attr, format: :js
           answer.reload
         end
 
@@ -114,7 +114,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it 'render show template' do
-          expect(response).to redirect_to question_path(question)
+          expect(response).to render_template :update
         end
       end
     end

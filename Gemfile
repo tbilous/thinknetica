@@ -72,7 +72,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'selenium-webdriver', '~> 2.53.4'
-  # gem 'capybara-webkit'
+  gem 'capybara-webkit'
 end
 
 group :development do

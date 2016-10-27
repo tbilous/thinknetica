@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :load_answer, only: [:destroy, :edit, :update]
-  before_action :load_question, only: [:index, :edit, :update]
+  before_action :load_question, only: [:index, :edit ]
   before_action :require_permission, only: [:destroy, :update]
 
   # def index
@@ -12,12 +12,10 @@ class AnswersController < ApplicationController
   # end
 
   def update
-    if @answer.update(strong_params)
-      flash[:success] = 'NICE'
-      redirect_to question_path(@answer.question)
-    else
-      render :edit
-    end
+    @question = @answer.question
+    @answer.update(strong_params)
+
+    flash[:success] = 'NICE' if @answer.save
   end
 
   def create

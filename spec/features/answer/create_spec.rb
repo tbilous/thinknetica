@@ -18,7 +18,7 @@ feature 'Create answer', %q{
     # sleep(inspection_time=5)
     click_button('Add answer')
 
-    within '.answer-body' do
+    within '.answer-rendered' do
       expect(page).to have_content answer_params[:body]
     end
 
