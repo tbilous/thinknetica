@@ -125,12 +125,12 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question, user_id: @user.id) }
 
       it 'does not delete from DB' do
-        expect { delete :destroy, id: answer.id }.to_not change(question.answers, :count)
+        expect { delete :destroy, id: answer.id, format: :js  }.to_not change(question.answers, :count)
       end
 
-      it 'redirect to questions/show' do
-        delete :destroy, id: answer.id
-        expect(response).to redirect_to new_user_session_path
+      it 'to not rendered template' do
+        delete :destroy, id: answer.id, format: :js
+        expect(response).to_not render_template :destroy
       end
     end
 
@@ -141,11 +141,11 @@ RSpec.describe AnswersController, type: :controller do
         before { sign_in @other_user }
 
         it 'delete from DB' do
-          expect { delete :destroy, id: answer.id }.to_not change { Answer.count }
+          expect { delete :destroy, id: answer.id, format: :js  }.to_not change { Answer.count }
         end
 
         it 'redirect to questions/show' do
-          delete :destroy, id: answer.id
+          delete :destroy, id: answer.id, format: :js
           expect(response).to redirect_to root_path
         end
       end
@@ -153,15 +153,15 @@ RSpec.describe AnswersController, type: :controller do
       context 'user is owner' do
         before do
           sign_in @user
-          request.env['HTTP_REFERER'] = 'where_i_came_from'
         end
+
         it 'delete from DB' do
-          expect { delete :destroy, id: answer.id }.to change { Answer.count }.by(-1)
+          expect { delete :destroy, id: answer.id, format: :js  }.to change { Answer.count }.by(-1)
         end
 
         it 'redirect to questions/show' do
-          delete :destroy, id: answer.id
-          expect(response).to redirect_to 'where_i_came_from'
+          delete :destroy, id: answer.id, format: :js
+          expect(response).to render_template :destroy
         end
       end
     end

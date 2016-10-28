@@ -21,7 +21,6 @@ class AnswersController < ApplicationController
   def destroy
     @answer.destroy
     flash[:success] = 'NICE'
-    redirect_to :back
   end
 
   def assign_best

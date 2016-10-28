@@ -1,12 +1,12 @@
 - if answer.persisted?
-  .answer-block.well class=(answer.best ? 'well-lg' : 'well-sm') id= "answer-block#{answer.id}"
+  .answer-block.well class=(answer.best ? 'well-lg' : 'well-sm') id= "answer-block-#{answer.id}"
     .answer-body id = "answer-#{answer.id}"
       .answer-rendered
         = render partial: 'answers/answer_l_line', locals: { object: answer }
       ul.list-inline.answer-panel
         - if user_signed_in? && current_user.owner_of?(answer)
           li
-            = link_to 'Delete answer', answer, method: :delete, class: 'btn-link'
+            = link_to 'Delete answer', answer, method: :delete, remote: true, class: 'btn-link'
           li
             button.script-item-toggle.btn-link data-target="#answer-form#{answer.id}"
               | Edit answer
