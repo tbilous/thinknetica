@@ -32,7 +32,6 @@ class AnswersController < ApplicationController
     end
   end
 
-
   private
 
   def strong_params

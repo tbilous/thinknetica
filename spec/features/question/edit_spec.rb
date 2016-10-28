@@ -12,7 +12,7 @@ feature 'Author can edit question', %q{
     { title: 'b' * 6, body: 'b' * 61 }
   end
 
-  scenario 'Author of question edits it', js: true  do
+  scenario 'Author of question edits it', js: true do
     login_as(user)
     visit question_path(question)
     click_on 'Edit question'
@@ -27,7 +27,7 @@ feature 'Author can edit question', %q{
     expect(current_path).to match %r{/questions/}
   end
 
-  scenario 'User tries to edit question of another user', js: true  do
+  scenario 'User tries to edit question of another user', js: true do
     login_as(user)
     someones_question = create(:question)
     visit question_path(someones_question)
@@ -35,7 +35,7 @@ feature 'Author can edit question', %q{
     expect(page).to_not have_link 'Edit question'
   end
 
-  scenario 'Non-authenticated user tries to delete question', js: true  do
+  scenario 'Non-authenticated user tries to delete question', js: true do
     visit question_path(question)
 
     expect(page).to_not have_link 'Edit question'

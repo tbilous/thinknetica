@@ -29,7 +29,7 @@ feature 'Author can delete answers', %q{
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Author of answer tries to edit answer with invalid data', js: true  do
+  scenario 'Author of answer tries to edit answer with invalid data', js: true do
     login_as(user, scope: :user)
     visit question_path(question)
 

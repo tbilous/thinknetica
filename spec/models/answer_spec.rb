@@ -9,8 +9,8 @@ RSpec.describe Answer, type: :model do
   describe 'set_best' do
     let(:user)      { create(:user) }
     let(:question)  { create(:question, user: user) }
-    let!(:answer)  { create(:answer, question: question, user: user) }
-    let!(:other_answer)  { create(:answer, question: question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
+    let!(:other_answer) { create(:answer, question: question, user: user) }
 
     context 'when the best answer is not defined' do
       before do
