@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question, user: @user) }
+  let(:question) { @user.questions.create(title: 'a'*61, body: 'b'*120 ) }
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -162,6 +162,54 @@ RSpec.describe AnswersController, type: :controller do
         it 'redirect to questions/show' do
           delete :destroy, id: answer.id
           expect(response).to redirect_to 'where_i_came_from'
+        end
+      end
+    end
+  end
+
+  describe 'PATCH #make_best' do
+    let!(:answer)  { question.answers.create(body: 'b'*120, user: @user) }
+    let!(:best_answer)  { question.answers.create(body: 'z'*120 , user: @user, best: true) }
+
+    context 'when user is NOT authorized' do
+      before { patch :assign_best, id: answer.id, format: :js }
+
+      it 'assigns the requested answer on old data' do
+        expect(assigns(:answer)).to_not eq answer
+      end
+
+      it 'renders template' do
+        expect(response).to_not render_template :make_best
+      end
+    end
+
+    context 'when user is authorized' do
+      before { sign_in @user }
+
+      context 'and he is question`s owner' do
+        before { patch :assign_best, id: answer.id, format: :js }
+
+        it 'assigns the requested answer on old data' do
+          expect(assigns(:answer)).to eq answer
+        end
+
+        it 'he does change best to true' do
+          answer.reload
+          best_answer.reload
+          expect(answer).to be_best
+          expect(best_answer).to_not be_best
+        end
+
+        it 'renders template' do
+          expect(response).to render_template :assign_best
+        end
+      end
+
+      context 'and he is not question`s owner' do
+        let(:question) { @other_user.questions.create(title: 'a'*61, body: 'b'*120 ) }
+
+        it 'hes does not change best' do
+          expect { patch :assign_best, id: answer.id, format: :js }.to_not change(answer, :best)
         end
       end
     end

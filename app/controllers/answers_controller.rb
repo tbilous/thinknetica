@@ -1,15 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
-  before_action :load_answer, only: [:destroy, :edit, :update]
-  before_action :load_question, only: [:index, :edit ]
+  before_action :authenticate_user!
+  before_action :load_answer, except: [:create]
   before_action :require_permission, only: [:destroy, :update]
-
-  # def index
-  #   redirect_to @question
-  # end
-  #
-  # def edit
-  # end
 
   def update
     @question = @answer.question
@@ -32,10 +24,20 @@ class AnswersController < ApplicationController
     redirect_to :back
   end
 
+  def assign_best
+    if current_user.owner_of?(@answer.question)
+      @answer.set_best
+      flash[:success] = 'NICE'
+    else
+      flash[:alert] = 'NO RIGHTS!'
+    end
+  end
+
+
   private
 
   def strong_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, attachments_attributes: [:file])
   end
 
   def load_answer
