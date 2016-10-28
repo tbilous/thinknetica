@@ -1,9 +1,9 @@
-var form = $('#answer_form' + '<%= @answer.id %>');
+var form = $('#answer-form' + '<%= @answer.id %>');
 
 <% if @answer.errors.present? %>
   form.prepend('<%= j render 'layouts/shared/error_form', object: @answer %>');
 <% else %>
-$('#answer_' + <%= @answer.id %>).replaceWith(
+$('#answer-' + <%= @answer.id %>).replaceWith(
     "<div class='answer-rendered'><%= j render partial: 'answers/answer_l_line', locals: {object: @answer}%></div>");
   $("#headerFlash").html("<%= j render 'layouts/shared/error_messages' %>");
   $(form).toggleClass('hidden');

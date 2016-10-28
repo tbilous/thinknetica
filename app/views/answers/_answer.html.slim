@@ -1,13 +1,18 @@
 - if answer.persisted?
-  .answer-block.well.well-sm
-    .answer-body id = "answer_#{answer.id}"
+  .answer-block.well class=(answer.best ? 'well-lg' : 'well-sm') id= "answer-block#{answer.id}"
+    .answer-body id = "answer-#{answer.id}"
       .answer-rendered
         = render partial: 'answers/answer_l_line', locals: { object: answer }
-    - if user_signed_in? && current_user.owner_of?(answer)
       ul.list-inline.answer-panel
-        li
-          = link_to 'Delete answer', answer, method: :delete
-        li
-          button.script-item-toggle.btn-link data-target="#answer_form#{answer.id}"
-            | Edit answer
+        - if user_signed_in? && current_user.owner_of?(answer)
+          li
+            = link_to 'Delete answer', answer, method: :delete, class: 'btn-link'
+          li
+            button.script-item-toggle.btn-link data-target="#answer-form#{answer.id}"
+              | Edit answer
+        - if answer.best
+          li
+            b.text-success The best answer
+        - elsif current_user && current_user.owner_of?(answer.question)
+          = link_to 'Assign best', assign_best_answer_path(answer), method: :patch, remote: true, class: 'btn-link'
   = render partial: 'answers/form_edit', locals: { subject: answer}

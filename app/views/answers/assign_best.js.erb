@@ -1,1 +1,2 @@
-$('.answers').html('<%= j render @answer.question.answers %>');
+$('#answersList').html('<%= j render @answer.question.answers %>');
+$("#headerFlash").html("<%=j render 'layouts/shared/error_messages' %>");
