@@ -14,7 +14,7 @@ RSpec.describe Answer, type: :model do
 
     context 'when the best answer is not defined' do
       before do
-        answer.set_best
+        answer.update(best: true)
       end
 
       it { expect(answer).to be_best }
