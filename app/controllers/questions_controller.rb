@@ -30,11 +30,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(strong_params)
-      redirect_to @question, success: 'Nice'
-    else
-      render :edit
-    end
+    flash[:success] = 'NICE' if @question.update(strong_params)
   end
 
   def destroy

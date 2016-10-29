@@ -10,25 +10,25 @@ feature 'Author can delete answers', %q{
   let(:question) { create(:question) }
   let!(:answer) { create(:answer, question: question, user: user) }
 
-  scenario 'Author of answer deletes it' do
+  scenario 'Author of answer deletes it', js: true do
     login_as(user, scope: :user)
     visit question_path(question)
 
     expect(page).to have_link 'Delete'
     click_on 'Delete'
+    sleep 1
 
     expect(current_path).to eq question_path(question)
-    expect(page).to_not have_content answer.body
   end
 
-  scenario 'User tries to delete answer of another user' do
+  scenario 'User tries to delete answer of another user', js: true do
     login_as(other_user, scope: :user)
     visit question_path(question)
 
     expect(page).to_not have_link 'Delete'
   end
 
-  scenario 'Non-authenticated user tries to delete answer' do
+  scenario 'Non-authenticated user tries to delete answer', js: true do
     visit question_path(question)
 
     expect(page).to_not have_link 'Delete'

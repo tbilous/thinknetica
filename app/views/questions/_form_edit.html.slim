@@ -1,14 +1,13 @@
-= form_for @question do |f|
+= form_for @question, html: {class: 'hidden edit_question_form', id: "question_form#{@question.id}" },
+        remote: true do |f|
   = render 'layouts/shared/error_form', object: f.object
   .form-group
-    = f.label :title, 'Title:'
+    = f.label :title, 'Edit Title:'
     = f.text_field :title, class: 'form-control', required: true, placeholder: 'Write title'
   .form-group
-    = f.label :body, 'Write question:'
-    = f.text_area :body, class: 'form-control', required: true, rows: 5, placeholder: 'Compose new question...'
+    = f.label :body, 'Edit question:'
+    = f.text_area :body, class: 'form-control', required: true, rows: 5
   .form-group
     ul.list-inline
       li
         = f.submit 'Save', class: 'btn btn-primary'
-      li
-        = link_to 'Back to Question', question_path(@question), class: 'btn btn-success'

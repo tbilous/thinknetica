@@ -1,0 +1,19 @@
+var form = $('#question_form' + '<%= @question.id %>');
+
+<% if @question.errors.present? %>
+  $("form .alert").remove();
+  form.prepend('<%= j render 'layouts/shared/error_form', object: @question %>');
+<% else %>
+
+// refresh question
+$('#question_' + <%= @question.id %>).html(
+    "<div class='question-rendered'><%= j render 'question_l_line' %></div>");
+  $("#headerFlash").html("<%= j render 'layouts/shared/error_messages' %>");
+
+//hide form
+  $(form).toggleClass('hidden');
+
+//remove alert
+  $("form .alert").remove();
+<% end %>
+

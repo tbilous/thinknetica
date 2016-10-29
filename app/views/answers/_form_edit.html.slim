@@ -1,11 +1,8 @@
-= form_for @answer do |f|
+= form_for subject, html: {class: 'hidden edit_answer_form', id: "answer-form#{subject.id}" }, remote: true  do |f|
   = render 'layouts/shared/error_form', object: f.object
   .form-group
-    = f.label :body, 'Write question:'
-    = f.text_area :body, class: 'form-control', required: true, rows: 5, placeholder: 'Compose new question...'
+    = f.text_area :body, class: 'form-control', required: true, rows: 5
   .form-group
     ul.list-inline
       li
         = f.submit 'Save', class: 'btn btn-primary'
-      li
-        = link_to 'Back to Question', question_path(@question), class: 'btn btn-success'

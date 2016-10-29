@@ -79,5 +79,18 @@ textarea {
 .page-header {
   margin-bottom: 2em;
 }
+.registration {
+  &-block {
+    margin-bottom: 3em;
+  }
+}
+
+//change classic bootstrap
+.btn-link {
+  &:hover, &:focus {
+    outline: none;
+  }
+}
+
 // And finally bootswatch style itself
 @import "bootswatch/cerulean/bootswatch";

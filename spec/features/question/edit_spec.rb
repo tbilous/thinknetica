@@ -12,7 +12,7 @@ feature 'Author can edit question', %q{
     { title: 'b' * 6, body: 'b' * 61 }
   end
 
-  scenario 'Author of question edits it' do
+  scenario 'Author of question edits it', js: true do
     login_as(user)
     visit question_path(question)
     click_on 'Edit question'
@@ -20,13 +20,14 @@ feature 'Author can edit question', %q{
     fill_in 'question_title', with: new_question_params[:title]
     fill_in 'question_body', with: new_question_params[:body]
     click_on 'Save'
-
-    expect(page).to have_content new_question_params[:title]
-    expect(page).to have_content new_question_params[:body]
+    within '.question-block' do
+      expect(page).to have_content new_question_params[:title]
+      expect(page).to have_content new_question_params[:body]
+    end
     expect(current_path).to match %r{/questions/}
   end
 
-  scenario 'User tries to edit question of another user' do
+  scenario 'User tries to edit question of another user', js: true do
     login_as(user)
     someones_question = create(:question)
     visit question_path(someones_question)
@@ -34,7 +35,7 @@ feature 'Author can edit question', %q{
     expect(page).to_not have_link 'Edit question'
   end
 
-  scenario 'Non-authenticated user tries to delete question' do
+  scenario 'Non-authenticated user tries to delete question', js: true do
     visit question_path(question)
 
     expect(page).to_not have_link 'Edit question'

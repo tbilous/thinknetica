@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question, user: @user) }
+  let(:question) { @user.questions.create(title: 'a' * 61, body: 'b' * 120) }
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -105,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
       context 'user is owner' do
         before do
           sign_in @user
-          patch :update, id: answer.id, answer: attr
+          patch :update, id: answer.id, answer: attr, format: :js
           answer.reload
         end
 
@@ -114,7 +114,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it 'render show template' do
-          expect(response).to redirect_to question_path(question)
+          expect(response).to render_template :update
         end
       end
     end
@@ -125,12 +125,12 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question, user_id: @user.id) }
 
       it 'does not delete from DB' do
-        expect { delete :destroy, id: answer.id }.to_not change(question.answers, :count)
+        expect { delete :destroy, id: answer.id, format: :js }.to_not change(question.answers, :count)
       end
 
-      it 'redirect to questions/show' do
-        delete :destroy, id: answer.id
-        expect(response).to redirect_to new_user_session_path
+      it 'to not rendered template' do
+        delete :destroy, id: answer.id, format: :js
+        expect(response).to_not render_template :destroy
       end
     end
 
@@ -141,11 +141,11 @@ RSpec.describe AnswersController, type: :controller do
         before { sign_in @other_user }
 
         it 'delete from DB' do
-          expect { delete :destroy, id: answer.id }.to_not change { Answer.count }
+          expect { delete :destroy, id: answer.id, format: :js }.to_not change { Answer.count }
         end
 
         it 'redirect to questions/show' do
-          delete :destroy, id: answer.id
+          delete :destroy, id: answer.id, format: :js
           expect(response).to redirect_to root_path
         end
       end
@@ -153,15 +153,63 @@ RSpec.describe AnswersController, type: :controller do
       context 'user is owner' do
         before do
           sign_in @user
-          request.env['HTTP_REFERER'] = 'where_i_came_from'
         end
+
         it 'delete from DB' do
-          expect { delete :destroy, id: answer.id }.to change { Answer.count }.by(-1)
+          expect { delete :destroy, id: answer.id, format: :js }.to change { Answer.count }.by(-1)
         end
 
         it 'redirect to questions/show' do
-          delete :destroy, id: answer.id
-          expect(response).to redirect_to 'where_i_came_from'
+          delete :destroy, id: answer.id, format: :js
+          expect(response).to render_template :destroy
+        end
+      end
+    end
+  end
+
+  describe 'PATCH #make_best' do
+    let!(:answer) { question.answers.create(body: 'b' * 120, user: @user) }
+    let!(:best_answer) { question.answers.create(body: 'z' * 120, user: @user, best: true) }
+
+    context 'when user is NOT authorized' do
+      before { patch :assign_best, id: answer.id, format: :js }
+
+      it 'assigns the requested answer on old data' do
+        expect(assigns(:answer)).to_not eq answer
+      end
+
+      it 'renders template' do
+        expect(response).to_not render_template :make_best
+      end
+    end
+
+    context 'when user is authorized' do
+      before { sign_in @user }
+
+      context 'and he is question`s owner' do
+        before { patch :assign_best, id: answer.id, format: :js }
+
+        it 'assigns the requested answer on old data' do
+          expect(assigns(:answer)).to eq answer
+        end
+
+        it 'he does change best to true' do
+          answer.reload
+          best_answer.reload
+          expect(answer).to be_best
+          expect(best_answer).to_not be_best
+        end
+
+        it 'renders template' do
+          expect(response).to render_template :assign_best
+        end
+      end
+
+      context 'and he is not question`s owner' do
+        let(:question) { @other_user.questions.create(title: 'a' * 61, body: 'b' * 120) }
+
+        it 'hes does not change best' do
+          expect { patch :assign_best, id: answer.id, format: :js }.to_not change(answer, :best)
         end
       end
     end

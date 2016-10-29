@@ -64,6 +64,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'pry-rails'
   gem 'pry-byebug'
+  gem 'rails-controller-testing'
 end
 
 group :test do
@@ -72,7 +73,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'selenium-webdriver', '~> 2.53.4'
-  # gem 'capybara-webkit'
+  gem 'capybara-webkit'
 end
 
 group :development do
