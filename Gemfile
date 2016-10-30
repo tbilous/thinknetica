@@ -52,6 +52,9 @@ gem 'devise-i18n'
 # gem 'russian'
 gem 'rails-i18n', '~> 4.0.0'
 
+# attachment files
+gem 'carrierwave'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

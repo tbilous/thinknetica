@@ -6,5 +6,10 @@
   .form-group
     = f.label :body, 'Write question:'
     = f.text_area :body, class: 'form-control', required: true, rows: 5, placeholder: 'Compose new question...'
+  p Attachment:
+  .form-group
+    = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
   .form-group
     = f.submit 'Add question', class: 'btn btn-primary'
