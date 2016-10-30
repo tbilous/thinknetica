@@ -5,7 +5,10 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
-    @question = current_user.questions.new if current_user
+    if current_user
+      @question = current_user.questions.new
+      @question.attachments.build
+    end
   end
 
   def show
@@ -46,7 +49,7 @@ class QuestionsController < ApplicationController
   end
 
   def strong_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
 
   def require_permission
