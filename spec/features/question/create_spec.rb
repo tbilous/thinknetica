@@ -11,7 +11,7 @@ feature 'Create question', %q{
 
   scenario 'Authenticated user creates question with proper data' do
     login_as(user)
-    visit root_path
+    visit new_question_path
 
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
@@ -27,7 +27,7 @@ feature 'Create question', %q{
 
   scenario 'Authenticated user tries to create question with invalid data' do
     login_as(user)
-    visit root_path
+    visit new_question_path
 
     fill_in 'question_title', with: 'b' * 2
     fill_in 'question_body', with: 'b' * 2

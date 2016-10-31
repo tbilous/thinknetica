@@ -5,10 +5,10 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
-    if current_user
-      @question = current_user.questions.new
-      @question.attachments.build
-    end
+    # if current_user
+    #   # @question = current_user.questions.new
+    #   @question.attachments.build
+    # end
   end
 
   def show
@@ -17,6 +17,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
   def edit
@@ -28,7 +29,7 @@ class QuestionsController < ApplicationController
       flash[:success] = 'NICE'
       redirect_to @question
     else
-      render :index
+      render :new
     end
   end
 
