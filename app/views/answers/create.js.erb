@@ -4,9 +4,12 @@ var form = $('#new_answer'),
 alert.remove();
 
 <% if @answer.errors.any? %>
-form.prepend('<%= j render 'layouts/shared/error_form', object: @answer %>');
+  form.prepend('<%= j render 'layouts/shared/error_form', object: @answer %>');
 <% else %>
-$('#answersList').append('<%= j render @answer %>');
-form.find('.form-control').val('');
-$("#headerFlash").html("<%=j render 'layouts/shared/error_messages' %>");
+  $('#answersList').append('<%= j render @answer %>');
+  form.find('#answer_body').val('');
+  $("#headerFlash").html("<%=j render 'layouts/shared/error_messages' %>");
+
+  form.reset();
 <% end %>
+$('.attachment-nested .nested-fields').remove();

@@ -13,6 +13,8 @@ class QuestionsController < ApplicationController
 
   def show
     # binding.pry
+    @answer = @question.answers.build
+    @answer.attachments.build
   end
 
   def new

@@ -21,4 +21,5 @@
       = render @question.answers
   - if user_signed_in?
     .well
-      = render '/answers/form_new'
+      .answer-wrapper
+        = render '/answers/form_new'
