@@ -16,7 +16,6 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     flash[:success] = 'NICE!' if @answer.save
-
   end
 
   def destroy

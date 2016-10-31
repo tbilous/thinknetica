@@ -4,12 +4,10 @@ feature 'Delete file attached to the question', %q{
   In order to remove attachment
 } do
 
-
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let!(:question_attachment) { create(:question_attachment, attachable_id: question.id ) }
-
+  let!(:question_attachment) { create(:question_attachment, attachable_id: question.id) }
 
   scenario 'User deletes file attached of his question', js: true do
     login_as(user)

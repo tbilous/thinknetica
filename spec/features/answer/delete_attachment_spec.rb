@@ -10,7 +10,6 @@ feature 'Delete file attached to the answer', %q{
   let(:answer) { create(:answer, question: question, user: user) }
   let!(:answer_attachment) { create(:answer_attachment, attachable_id: answer.id) }
 
-
   scenario 'User deletes file attached to his answer', js: true do
     login_as(user)
     visit question_path(question)

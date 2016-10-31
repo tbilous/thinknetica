@@ -5,7 +5,6 @@ feature 'Add attachment', %q{
   let!(:question) { create(:question, user: user) }
   let(:answer_params) { attributes_for(:answer) }
 
-
   scenario 'user can add attachment when create answer', js: true do
     login_as(user)
     visit question_path(question)
