@@ -1,7 +1,5 @@
 feature 'Add attachment', %q{
-  In order to add attachments for question
-  With create question
-  With create answer
+  In order to add attachments for answer
 } do
   let!(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }

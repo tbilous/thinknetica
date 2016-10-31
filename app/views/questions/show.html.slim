@@ -4,7 +4,7 @@
     .question-block id= "question_#{@question.id}"
       .question-rendered
         = render 'questions/question_l_line'
-    = render 'attachments/attachments', target: @question
+      = render 'attachments/attachments', target: @question
   - if user_signed_in? && current_user.owner_of?(@question)
     ul.list-inline.question-control-block
       li

@@ -6,4 +6,4 @@
           = link_to a.file.identifier, a.file.url
           - if current_user && current_user.owner_of?(a.attachable)
             = link_to '[x]', attachment_path(a), method: :delete, remote: true,
-                    data: {confirm: 'Are you sure?'}, class: 'delete_attachment btn btn-link text-danger'
+                    class: 'delete_attachment btn btn-link text-danger'
