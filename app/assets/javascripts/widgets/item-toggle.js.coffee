@@ -9,7 +9,6 @@ class ItemToggle
 
   toggle: (evt) =>
     @item.toggleClass('hidden')
-    console.log(@item)
     @focus.focus()
 
 
@@ -19,6 +18,7 @@ hookInstances = ->
 
 
 
-$(document).ready(hookInstances) # "вешаем" функцию ready на событие document.ready
-$(document).on('page:load', hookInstances)  # "вешаем" функцию ready на событие page:load
+#$(document).ready(hookInstances) # "вешаем" функцию ready на событие document.ready
+#$(document).on('page:load', hookInstances)  # "вешаем" функцию ready на событие page:load
 #$(document).on('page:update', hookInstances) # "вешаем" функцию ready на событие page:update
+$(document).on("turbolinks:load", hookInstances)
