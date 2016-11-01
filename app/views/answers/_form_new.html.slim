@@ -3,5 +3,8 @@ h2 Write answer
   = render 'layouts/shared/error_form', object: f.object
   .form-group
     = f.text_area :body, class: 'form-control', required: true, rows: 5, placeholder: 'Compose new answer...'
+    p Attachment:
+  .attachment-nested
+    = render 'application/attachments_nested_forms', f: f
   .form-group
     = f.submit 'Add answer', class: 'btn btn-primary'

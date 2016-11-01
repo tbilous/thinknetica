@@ -1,0 +1,4 @@
+= f.fields_for :attachments do |a|
+  = render 'application/attachment_fields', f: a
+.btn-wrapper
+  = link_to_add_association 'add file', f, :attachments, class: 'btn btn-success btn-xs'

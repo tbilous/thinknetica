@@ -30,6 +30,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
+    it 'assign Attach' do
+      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
+    end
+
     it 'render the show template' do
       expect(response).to render_template :show
     end
@@ -51,10 +55,15 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'user is authorized' do
       login_user
+
       before { get :new }
 
       it 'assign New Question' do
         expect(assigns(:question)).to be_a_new(Question)
+      end
+
+      it 'assign Attach' do
+        expect(assigns(:question).attachments.first).to be_a_new(Attachment)
       end
 
       it 'render the new template' do

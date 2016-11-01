@@ -5,15 +5,21 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
-    @question = current_user.questions.new if current_user
+    # if current_user
+    #   # @question = current_user.questions.new
+    #   @question.attachments.build
+    # end
   end
 
   def show
     # binding.pry
+    @answer = @question.answers.build
+    @answer.attachments.build
   end
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
   def edit
@@ -25,7 +31,7 @@ class QuestionsController < ApplicationController
       flash[:success] = 'NICE'
       redirect_to @question
     else
-      render :index
+      render :new
     end
   end
 
@@ -46,7 +52,7 @@ class QuestionsController < ApplicationController
   end
 
   def strong_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
 
   def require_permission

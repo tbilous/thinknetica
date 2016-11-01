@@ -1,3 +1,5 @@
+- provide(:title, 'Ask question')
 .container
-  h1 Questions#show
-  p Find me in app/views/questions/show.html.slim
+  .col-sm-offset-2.col-sm-8
+    .question-form-wrapper
+      = render '/questions/form_new'

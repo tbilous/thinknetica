@@ -1,0 +1,9 @@
+li = $("#attachment-id-<%= @attachment.id %>");
+ul = li.closest('ul');
+container = li.closest('.attachments-block');
+
+li.remove();
+
+if (ul.has("li").length === 0) {
+  container.remove();
+}

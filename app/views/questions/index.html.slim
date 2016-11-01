@@ -15,6 +15,5 @@
                 span = question.title
     .col-md-8.col-sm-7
       - if user_signed_in?
-        h2 Add Question
-        .question-form-wrapper
-          = render '/questions/form_new'
+        h2 Ask Question
+        = link_to  'Add question', new_question_path

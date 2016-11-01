@@ -1,12 +1,24 @@
 var form = $('#new_answer'),
     alert = form.find('#error_validation');
 
-alert.remove();
+
+
+container = $('.attachment-nested .nested-fields');
 
 <% if @answer.errors.any? %>
-form.prepend('<%= j render 'layouts/shared/error_form', object: @answer %>');
+  alert.remove();
+  form.prepend('<%= j render 'layouts/shared/error_form', object: @answer %>');
+  console.log(container);
 <% else %>
-$('#answersList').append('<%= j render @answer %>');
-form.find('.form-control').val('');
-$("#headerFlash").html("<%=j render 'layouts/shared/error_messages' %>");
+  alert.remove();
+  $('#answersList').append('<%= j render @answer %>');
+
+  form.find('#answer_body').val('');
+
+  container.hide();
+
+  $("#headerFlash").html("<%=j render 'layouts/shared/error_messages' %>");
+
+  form.reset();
 <% end %>
+

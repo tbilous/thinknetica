@@ -22,3 +22,4 @@
 /db/schema.rb
 .rake_tasks~
 config/secrets.yml
+/public/uploads/
