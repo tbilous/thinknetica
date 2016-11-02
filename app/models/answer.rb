@@ -2,6 +2,7 @@ class Answer < ActiveRecord::Base
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable, dependent: :destroy
+  has_many :votes, as: :votesable, dependent: :destroy
 
   validates :body, length: { minimum: 60 }, presence: true
   validates :question_id, presence: true
