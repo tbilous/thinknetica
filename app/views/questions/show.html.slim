@@ -1,6 +1,10 @@
 - provide(:title, 'Question page')
 .container
   .well
+    .btn
+      = link_to 'vote up', vote_plus_question_path(@question), method: :PATCH, remote: true
+    .btn
+      = link_to 'vote down', vote_minus_question_path(@question), method: :PATCH, remote: true
     .question-block id= "question_#{@question.id}"
       .question-rendered
         = render 'questions/question_l_line'

@@ -1,12 +1,22 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :questions do
-    resources :answers, shallow: true do
+
+  # обьявляем консерн
+  concern :votesable do
+    member do
+      patch 'vote_plus'
+      patch 'vote_minus'
+    end
+  end
+  # добавляем консерн в роутьі
+  resources :questions, concerns: [:votesable] do
+    resources :answers, concerns: [:votesable], shallow: true do
       patch 'assign_best', on: :member
     end
   end
   root 'questions#index'
   resources :attachments, only: :destroy
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
