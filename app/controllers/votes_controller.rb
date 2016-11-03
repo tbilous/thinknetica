@@ -11,7 +11,7 @@ class VotesController < ApplicationController
   #   if @question.votes.where(user: current_user).present?
   #     @question.votes.update_all(challenge: 1)
   #   else
-  #     @question.votes.create(user: current_user, challenge: 1)
+  #     @question.votes.create(usern : current_user, challenge: 1)
   #   end
   # end
   #
