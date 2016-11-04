@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     member do
       patch 'vote_plus'
       patch 'vote_minus'
+      patch 'vote_cancel'
     end
   end
   # добавляем консерн в роутьі

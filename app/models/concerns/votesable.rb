@@ -6,32 +6,22 @@ module Votesable
   end
 
   def rate
-    votes.sum(:challenge)
+    votes.present? ? votes.sum(:challenge) : 0
   end
 
   def set_plus(user)
-    binding.pry
     vote(user, 1)
   end
 
   def set_minus(user)
-    # binding.pry
     vote(user, -1)
   end
 
-  # def cancel_vote_from(user)
-  #   votes.find_by(user: user).try(:destroy)
-  # end
+  def vote_cancel(user)
+    had_voted(user) ? destroy(user) : [true, '']
+  end
 
-  # def has_vote_up_from?(user)
-  #   votes.find_by(user: user, value: 1).present?
-  # end
-  #
-  # def has_vote_down_from?(user)
-  #   votes.find_by(user: user, value: -1).present?
-  # end
-
-  def had_voted
+  def had_voted(user)
     votes.find_by(user: user).present?
   end
 
@@ -40,12 +30,26 @@ module Votesable
   def vote(user, val)
     if !user.owner_of?(self)
       error = 'forbidden!'
-    elsif had_voted
-      votes.update_all(challenge: val)
+    elsif had_voted(user)
+      votes.update(votes, challenge: val)
     else
       votes.create(user: user, challenge: val)
     end
+    send_callback(error)
+  end
 
+  def destroy(user)
+    binding.pry
+    if user.owner_of?(self)
+      error = 'forbidden!'
+    else
+      votes.find_by(user: user).try(:destroy)
+    end
+    send_callback(error)
+  end
+
+  def send_callback(error)
     error ? [false, error] : [true, '']
   end
+
 end
