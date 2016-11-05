@@ -2,7 +2,7 @@ module Votesable
   extend ActiveSupport::Concern
 
   included do
-    has_many :votes, as: :votesable
+    has_many :votes, as: :votesable, dependent: :destroy
   end
 
   def rate
@@ -18,7 +18,7 @@ module Votesable
   end
 
   def vote_cancel(user)
-    had_voted(user) ? destroy(user) : [true, '']
+    had_voted(user) ? vote_destroy(user) : [true, '']
   end
 
   def had_voted(user)
@@ -28,18 +28,18 @@ module Votesable
   private
 
   def vote(user, val)
-    if !user.owner_of?(self)
+    if user.owner_of?(self)
       error = 'forbidden!'
     elsif had_voted(user)
-      votes.update(votes, challenge: val)
+      vote = Vote.find_by(user: user)
+      vote.update(challenge: val)
     else
       votes.create(user: user, challenge: val)
     end
     send_callback(error)
   end
 
-  def destroy(user)
-    binding.pry
+  def vote_destroy(user)
     if user.owner_of?(self)
       error = 'forbidden!'
     else

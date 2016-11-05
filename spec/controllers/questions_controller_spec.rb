@@ -1,6 +1,10 @@
 require 'rails_helper'
+require_relative 'concerns/do_vote_spec'
 
 RSpec.describe QuestionsController, type: :controller do
+
+  it_behaves_like 'do_vote'
+
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
     @other_user = create :user

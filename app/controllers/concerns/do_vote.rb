@@ -2,7 +2,7 @@ module DoVote
   extend ActiveSupport::Concern
 
   included do
-    before_action :authenticate_user!
+    before_action :authenticate_user!, only: [:vote_plus, :vote_minus, :vote_cancel]
     before_action :set_object, only: [:vote_plus, :vote_minus, :vote_cancel]
   end
 
@@ -20,15 +20,10 @@ module DoVote
   end
 
   def vote_cancel
-    # @votesable = model_klass.find(params[:id])
 
     success, error = @votesable.vote_cancel(current_user)
 
-    if success
-      render json: {rating: @votesable.rate}.to_json
-    else
-      render json: {error: error}.to_json, status: :unprocessable_entity
-    end
+    callback(success, error)
   end
 
 
