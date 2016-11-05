@@ -30,10 +30,8 @@ module Votesable
   def vote(user, val)
     if user.owner_of?(self)
       error = 'forbidden!'
-    elsif had_voted(user)
-      vote = Vote.find_by(user: user)
-      vote.update(challenge: val)
     else
+      vote_destroy(user) if had_voted(user)
       votes.create(user: user, challenge: val)
     end
     send_callback(error)

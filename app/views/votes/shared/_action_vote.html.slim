@@ -1,0 +1,12 @@
+= link_to 'vote up', vote_plus_answer_path(object),
+        method: :PATCH,
+        remote: true,
+        class: 'btn vote_link',
+        id: "vote-plus-#{object.id}",
+        data: {type: :json, target: "#rating-#{object.id}"}
+= link_to 'vote down', vote_minus_answer_path(object),
+        method: :PATCH,
+        remote: true,
+        class: 'btn vote_link',
+        id: "vote-minus-#{object.id}",
+        data: {type: :json, target: "#rating-#{object.id}"}

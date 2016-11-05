@@ -5,45 +5,54 @@ feature 'Vote answer', %q{
 } do
   
   let(:user)       { create(:user) }
-  let(:owner)      { create(:user) }
-  let(:question)   { create(:question, user: owner) }
-  let!(:answer)    { create(:answer, question: question, user: owner) }
+  let(:other_user)      { create(:user) }
+  let(:question)   { create(:question, user: user) }
+  let!(:answer)    { create(:answer, question: question, user: other_user) }
 
   scenario 'User votes for the answer', js: true do
-    sign_in(user)
+    login_as(user)
     visit question_path(question)
+    # sleep(inspection_time=25)
 
-    click_on("answer-vote-positive-#{answer.id}")
-    
-    within "#answer-vote-val-#{answer.id}" do
+    click_on 'vote up'
+
+    within "#answer-rating-#{answer.id}" do
       expect(page).to have_text('1')
     end
 
-    click_on("answer-vote-positive-#{answer.id}")
+    click_on 'vote up'
+    sleep(1)
 
-    within "#answer-vote-val-#{answer.id}" do
+    within "#answer-rating-#{answer.id}" do
       expect(page).to have_text('1')
     end
 
-    click_on("answer-vote-negative-#{answer.id}")
+    click_on 'vote down'
+    sleep(1)
 
-    within "#answer-vote-val-#{answer.id}" do
-      expect(page).to have_text('0')
+    within "#answer-rating-#{answer.id}" do
+      expect(page).to have_text('-1')
     end
 
-    click_on("answer-vote-negative-#{answer.id}")
+    click_on 'vote down'
+    sleep(1)
 
-    within "#answer-vote-val-#{answer.id}" do
-      expect(page).to have_text('0')
+    within "#answer-rating-#{answer.id}" do
+      expect(page).to have_text('-1')
     end
 
 
   end
 
   scenario 'Owner user tries to vote for answer', js: true do
-    sign_in(owner)
+    login_as(other_user)
     visit question_path(question)
 
+    within '.answer-block' do
+      expect(page).to_not have_text('vote up')
+      expect(page).to_not have_text('vote down')
+      expect(page).to_not have_text('vote cancel')
+    end
 
   end
 
@@ -51,6 +60,10 @@ feature 'Vote answer', %q{
   scenario 'Non-Authorized user tries to vote for answer', js: true do
     visit question_path(question)
 
-
+    within '.answer-block' do
+      expect(page).to_not have_text('vote up')
+      expect(page).to_not have_text('vote down')
+      expect(page).to_not have_text('vote cancel')
+    end
   end
 end

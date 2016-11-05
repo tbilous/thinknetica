@@ -1,16 +1,13 @@
 - if answer.persisted?
   .answer-block.well class=(answer.best ? 'well-lg' : 'well-sm') id= "answer-block-#{answer.id}"
     .answer-body id = "answer-#{answer.id}"
-      = answer.rate
-      .btn
-        = link_to 'vote up', vote_plus_answer_path(answer), method: :PATCH, remote: true
-      .btn
-        = link_to 'vote down', vote_minus_answer_path(answer), method: :PATCH, remote: true
-      .btn
-        = link_to 'vote cancel', vote_cancel_answer_path(answer), method: :PATCH, remote: true
-      .answer-rendered
-        = render partial: 'answers/answer_l_line', locals: { object: answer }
-        = render 'attachments/attachments', target: answer
+      .row
+        .col-xs-2.text-center
+          = render partial: 'answers/vote_container', locals: {object: answer}
+        .answer-rendered
+          .col-xs-10
+            = render partial: 'answers/answer_l_line', locals: { object: answer }
+            = render 'attachments/attachments', target: answer
       ul.list-inline.answer-panel
         - if user_signed_in? && current_user.owner_of?(answer)
           li

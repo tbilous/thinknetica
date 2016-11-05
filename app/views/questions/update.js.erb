@@ -6,7 +6,7 @@ var form = $('#question_form' + '<%= @question.id %>');
 <% else %>
 
 // refresh question
-$('#question_' + <%= @question.id %>).html(
+$('#question-' + <%= @question.id %>).html(
     "<div class='question-rendered'><%= j render 'question_l_line' %></div>");
   $("#headerFlash").html("<%= j render 'layouts/shared/error_messages' %>");
 

@@ -1,17 +1,14 @@
 - provide(:title, 'Question page')
 .container
   .well
-    = @question.rate
-    .btn
-      = link_to 'vote up', vote_plus_question_path(@question), method: :PATCH, remote: true
-    .btn
-      = link_to 'vote down', vote_minus_question_path(@question), method: :PATCH, remote: true
-    .btn
-      = link_to 'vote cancel', vote_cancel_question_path(@question), method: :PATCH, remote: true
-    .question-block id= "question_#{@question.id}"
-      .question-rendered
-        = render 'questions/question_l_line'
-      = render 'attachments/attachments', target: @question
+    .question-block id= "question-#{@question.id}"
+    .row
+      .col-xs-2.text-center
+        = render partial: 'questions/vote_container', locals: {object: @question}
+      .col-xs-10
+        .question-rendered
+          = render 'questions/question_l_line'
+          = render 'attachments/attachments', target: @question
   - if user_signed_in? && current_user.owner_of?(@question)
     ul.list-inline.question-control-block
       li
