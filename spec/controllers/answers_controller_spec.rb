@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative 'concerns/do_vote_spec'
+require_relative 'concerns/do_vote'
 
 RSpec.describe AnswersController, type: :controller do
 

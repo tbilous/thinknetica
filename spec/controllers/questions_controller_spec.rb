@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative 'concerns/do_vote_spec'
+require_relative 'concerns/do_vote'
 
 RSpec.describe QuestionsController, type: :controller do
 
@@ -9,7 +9,6 @@ RSpec.describe QuestionsController, type: :controller do
     @request.env['devise.mapping'] = Devise.mappings[:user]
     @other_user = create :user
     @user = create :user
-    # sign_in @admin
   end
 
   let(:question) { create(:question, user: @user) }

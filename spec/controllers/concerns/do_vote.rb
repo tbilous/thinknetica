@@ -16,7 +16,6 @@ shared_examples 'do_vote' do
       context 'and owner' do
         before { sign_in @user }
         it 'assings the requested post to @votable' do
-          binding.pry
           patch :vote_plus, id: model.id, format: :json
           expect(assigns(:votesable)).to eq model
         end
