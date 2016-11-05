@@ -9,11 +9,11 @@ module Votesable
     votes.present? ? votes.sum(:challenge) : 0
   end
 
-  def set_plus(user)
+  def add_plus(user)
     vote(user, 1)
   end
 
-  def set_minus(user)
+  def add_minus(user)
     vote(user, -1)
   end
 
@@ -49,5 +49,4 @@ module Votesable
   def send_callback(error)
     error ? [false, error] : [true, '']
   end
-
 end

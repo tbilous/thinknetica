@@ -8,7 +8,6 @@ feature 'Vote question', %q{
   let(:owner) { create(:user) }
   let(:question) { create(:question, user: owner) }
 
-
   scenario 'User votes for the question', js: true do
     login_as(user)
     visit question_path(question)
@@ -40,7 +39,6 @@ feature 'Vote question', %q{
     within "#rating-#{question.id}" do
       expect(page).to have_text('-1')
     end
-
   end
 
   scenario 'Owner user tries to vote for question', js: true do
@@ -51,7 +49,6 @@ feature 'Vote question', %q{
     expect(page).to_not have_text 'vote down'
     expect(page).to_not have_text 'vote cancel'
   end
-
 
   scenario 'Non-Authorized user tries to vote for question', js: true do
     visit question_path(question)

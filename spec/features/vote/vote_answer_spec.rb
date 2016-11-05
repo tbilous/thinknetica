@@ -3,9 +3,9 @@ feature 'Vote answer', %q{
   User can vote positive or negative only one time
   The Owner has not have rights for vote
 } do
-  
-  let(:user)       { create(:user) }
-  let(:other_user)      { create(:user) }
+
+  let(:user) { create(:user) }
+  let(:other_user) { create(:user) }
   let(:question)   { create(:question, user: user) }
   let!(:answer)    { create(:answer, question: question, user: other_user) }
 
@@ -40,8 +40,6 @@ feature 'Vote answer', %q{
     within "#answer-rating-#{answer.id}" do
       expect(page).to have_text('-1')
     end
-
-
   end
 
   scenario 'Owner user tries to vote for answer', js: true do
@@ -53,9 +51,7 @@ feature 'Vote answer', %q{
       expect(page).to_not have_text('vote down')
       expect(page).to_not have_text('vote cancel')
     end
-
   end
-
 
   scenario 'Non-Authorized user tries to vote for answer', js: true do
     visit question_path(question)

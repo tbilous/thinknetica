@@ -2,7 +2,6 @@ require 'rails_helper'
 require_relative 'concerns/do_vote'
 
 RSpec.describe AnswersController, type: :controller do
-
   it_behaves_like 'do_vote'
 
   let(:question) { @user.questions.create(title: 'a' * 61, body: 'b' * 120) }

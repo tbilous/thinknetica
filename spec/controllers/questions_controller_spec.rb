@@ -2,7 +2,6 @@ require 'rails_helper'
 require_relative 'concerns/do_vote'
 
 RSpec.describe QuestionsController, type: :controller do
-
   it_behaves_like 'do_vote'
 
   before :each do
