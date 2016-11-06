@@ -1,5 +1,5 @@
 class Answer < ActiveRecord::Base
-  include Votesable
+  include Votable
 
   belongs_to :question
   belongs_to :user
