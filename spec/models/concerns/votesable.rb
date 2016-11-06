@@ -43,7 +43,6 @@ shared_examples 'votesable' do
     context 'no previous vote' do
       it { expect { model.add_positive(other_user) }.to change { model.rate }.by(1) }
     end
-
   end
 
   describe '#add_negative' do
@@ -63,7 +62,6 @@ shared_examples 'votesable' do
     context 'no previous vote' do
       it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-1) }
     end
-
   end
 
   describe '#had_voted?' do
