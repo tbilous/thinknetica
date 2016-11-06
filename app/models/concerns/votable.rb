@@ -6,14 +6,14 @@ module Votable
   end
 
   def rate
-    votes.present? ? votes.sum(:challenge) : 0
+    votes.sum(:challenge)
   end
 
-  def add_plus(user)
+  def add_positive(user)
     vote(user, 1)
   end
 
-  def add_minus(user)
+  def add_negative(user)
     vote(user, -1)
   end
 
@@ -34,7 +34,7 @@ module Votable
       vote_destroy(user) if had_voted(user)
       votes.create(user: user, challenge: val)
     end
-    send_callback(error)
+    send_response(error)
   end
 
   def vote_destroy(user)
@@ -43,10 +43,10 @@ module Votable
     else
       votes.find_by(user: user).try(:destroy)
     end
-    send_callback(error)
+    send_response(error)
   end
 
-  def send_callback(error)
+  def send_response(error)
     error ? [false, error] : [true, '']
   end
 end

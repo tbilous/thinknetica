@@ -32,11 +32,11 @@ shared_examples 'votesable' do
       let!(:vote) { create(:vote, challenge: 1, votesable: model, user: other_user) }
 
       context '#add_plus' do
-        it { expect { model.add_plus(other_user) }.to_not change { model.rate } }
+        it { expect { model.add_positive(other_user) }.to_not change { model.rate } }
       end
 
       context '#add_minus' do
-        it { expect { model.add_minus(other_user) }.to change { model.rate }.by(-2) }
+        it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-2) }
       end
     end
 
@@ -44,21 +44,21 @@ shared_examples 'votesable' do
       let!(:vote) { create(:vote, challenge: -1, votesable: model, user: other_user) }
 
       context '#add_plus' do
-        it { expect { model.add_plus(other_user) }.to change { model.rate }.by(2) }
+        it { expect { model.add_positive(other_user) }.to change { model.rate }.by(2) }
       end
 
       context '#add_minus' do
-        it { expect { model.add_minus(other_user) }.to_not change { model.rate } }
+        it { expect { model.add_negative(other_user) }.to_not change { model.rate } }
       end
     end
 
     context 'no have votes' do
       context '#add_plus' do
-        it { expect { model.add_plus(other_user) }.to change { model.rate }.by(1) }
+        it { expect { model.add_positive(other_user) }.to change { model.rate }.by(1) }
       end
 
       context '#add_minus' do
-        it { expect { model.add_minus(other_user) }.to change { model.rate }.by(-1) }
+        it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-1) }
       end
     end
   end

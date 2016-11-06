@@ -8,24 +8,24 @@ module Voted
 
   # call to concern methods
   def vote_plus
-    success, error = @votesable.add_plus(current_user)
+    success, error = @votesable.add_positive(current_user)
 
-    callback(success, error)
+    send_response(success, error)
   end
 
   def vote_minus
-    success, error = @votesable.add_minus(current_user)
+    success, error = @votesable.add_negative(current_user)
 
-    callback(success, error)
+    send_response(success, error)
   end
 
   def vote_cancel
     success, error = @votesable.vote_cancel(current_user)
 
-    callback(success, error)
+    send_response(success, error)
   end
 
-  def callback(success, error)
+  def send_response(success, error)
     if success
       render json: { rating: @votesable.rate }.to_json
     else
