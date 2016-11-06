@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-shared_examples 'do_vote' do
+shared_examples 'voted' do
   let!(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: @user) }
 
   describe 'PATCH #vote_plus' do

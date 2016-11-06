@@ -1,8 +1,8 @@
 require 'rails_helper'
-require_relative 'concerns/do_vote'
+require_relative 'concerns/voted'
 
 RSpec.describe QuestionsController, type: :controller do
-  it_behaves_like 'do_vote'
+  it_behaves_like 'voted'
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]

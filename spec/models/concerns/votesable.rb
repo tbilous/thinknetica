@@ -25,42 +25,45 @@ shared_examples 'votesable' do
     end
   end
 
-  describe 'increment' do
+  describe '#add_positive' do
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
-
-    context 'have positive vote' do
-      let!(:vote) { create(:vote, challenge: 1, votesable: model, user: other_user) }
-
-      context '#add_plus' do
-        it { expect { model.add_positive(other_user) }.to_not change { model.rate } }
-      end
-
-      context '#add_minus' do
-        it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-2) }
-      end
-    end
 
     context 'have negative vote' do
       let!(:vote) { create(:vote, challenge: -1, votesable: model, user: other_user) }
 
-      context '#add_plus' do
-        it { expect { model.add_positive(other_user) }.to change { model.rate }.by(2) }
-      end
-
-      context '#add_minus' do
-        it { expect { model.add_negative(other_user) }.to_not change { model.rate } }
-      end
+      it { expect { model.add_positive(other_user) }.to change { model.rate }.by(2) }
     end
 
-    context 'no have votes' do
-      context '#add_plus' do
-        it { expect { model.add_positive(other_user) }.to change { model.rate }.by(1) }
-      end
+    context 'have positive vote' do
+      let!(:vote) { create(:vote, challenge: 1, votesable: model, user: other_user) }
 
-      context '#add_minus' do
-        it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-1) }
-      end
+      it { expect { model.add_positive(other_user) }.to_not change { model.rate } }
     end
+
+    context 'no previous vote' do
+      it { expect { model.add_positive(other_user) }.to change { model.rate }.by(1) }
+    end
+
+  end
+
+  describe '#add_negative' do
+    let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
+
+    context 'have negative vote' do
+      let!(:vote) { create(:vote, challenge: -1, votesable: model, user: other_user) }
+      it { expect { model.add_negative(other_user) }.to_not change { model.rate } }
+    end
+
+    context 'have positive vote' do
+      let!(:vote) { create(:vote, challenge: 1, votesable: model, user: other_user) }
+
+      it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-2) }
+    end
+
+    context 'no previous vote' do
+      it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-1) }
+    end
+
   end
 
   describe '#had_voted?' do
