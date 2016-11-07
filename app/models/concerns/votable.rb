@@ -18,10 +18,10 @@ module Votable
   end
 
   def vote_cancel(user)
-    had_voted(user) ? vote_destroy(user) : [true, '']
+    had_voted?(user) ? vote_destroy(user) : [true, '']
   end
 
-  def had_voted(user)
+  def had_voted?(user)
     votes.find_by(user: user).present?
   end
 
@@ -31,7 +31,7 @@ module Votable
     if user.owner_of?(self)
       error = 'forbidden!'
     else
-      vote_destroy(user) if had_voted(user)
+      vote_destroy(user) if had_voted?(user)
       votes.create(user: user, challenge: val)
     end
     send_response(error)

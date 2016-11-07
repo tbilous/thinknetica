@@ -67,7 +67,7 @@ shared_examples 'votesable' do
   describe '#had_voted?' do
     before { create(:vote, challenge: 1, votesable: model, user: user) }
 
-    it { expect(model.had_voted(user)).to be true }
+    it { expect(model.had_voted?(user)).to be true }
   end
 
   describe '#vote_cancel' do

@@ -1,6 +1,6 @@
 .vote-container
   - if user_signed_in? && !current_user.owner_of?(object)
-    div class=(object.had_voted(current_user) ? 'remove-btn' : 'hidden ')
+    div class=(object.had_voted?(current_user) ? 'remove-btn' : 'hidden ')
       = link_to 'vote cancel', vote_cancel_question_path(object),
               method: :PATCH,
               remote: true,
