@@ -1,0 +1,25 @@
+.vote-container
+  - if user_signed_in? && !current_user.owner_of?(object)
+    div class=(object.had_voted?(current_user) ? 'remove-btn' : 'hidden ')
+      = link_to 'vote cancel', vote_cancel_question_path(object),
+              method: :PATCH,
+              remote: true,
+              class: 'btn',
+              id: "vote-cancel-#{object.id}",
+              data: {type: :json, target: "rating-#{object.id}"}
+
+  .rating_val id="rating-#{object.id}" = object.rate
+
+  - if user_signed_in? && !current_user.owner_of?(object)
+    = link_to 'vote up', vote_plus_question_path(object),
+            method: :PATCH,
+            remote: true,
+            class: 'btn vote_link',
+            id: "vote-plus-#{object.id}",
+            data: {type: :json, target: "#rating-#{object.id}"}
+    = link_to 'vote down', vote_minus_question_path(object),
+            method: :PATCH,
+            remote: true,
+            class: 'btn vote_link',
+            id: "vote-minus-#{object.id}",
+            data: {type: :json, target: "#rating-#{object.id}"}

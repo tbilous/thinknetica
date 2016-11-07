@@ -1,18 +1,15 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
   before_action :require_permission, only: [:edit, :update, :destroy]
 
   def index
     @questions = Question.all
-    # if current_user
-    #   # @question = current_user.questions.new
-    #   @question.attachments.build
-    # end
   end
 
   def show
-    # binding.pry
     @answer = @question.answers.build
     @answer.attachments.build
   end

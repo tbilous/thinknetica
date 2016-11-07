@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
   before_action :require_permission, only: [:destroy, :update]
