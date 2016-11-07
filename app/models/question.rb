@@ -1,4 +1,4 @@
-class Question < ActiveRecord::Base
+class Question < ApplicationRecord
   include Votable
 
   has_many :answers, dependent: :destroy

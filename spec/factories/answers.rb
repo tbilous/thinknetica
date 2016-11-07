@@ -5,8 +5,7 @@ FactoryGirl.define do
     body answer_body
     best false
   end
-  factory :wrong_answer, class: 'Answer' do
-    question
+  factory :wrong_answer, class: Answer do
     body nil
   end
 end
