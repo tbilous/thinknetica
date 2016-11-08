@@ -1,4 +1,4 @@
-$ ->
+ready = ->
   questionForm = $("#question_form")
   addQuestionBtn = $("#add_question_btn")
   questionsList = $(".questions-list")
@@ -19,3 +19,4 @@ $ ->
 #  PrivatePub.subscribe "/questions", (data, channel) ->
 #    questionsList.empty() unless questionsList.find('.collection-item').length
 #    questionsList.append App.utils.render('question', data.question)
+$(document).on("turbolinks:load", ready)
