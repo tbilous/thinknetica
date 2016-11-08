@@ -14,7 +14,7 @@ feature 'List questions', %q{
 
     within '.questions-list' do
       questions.each do |q|
-        expect(page).to have_link q.created_at.strftime('%Y-%m-%d')
+        expect(page).to have_text q.created_at.strftime('%Y-%m-%d')
         expect(page).to have_link q.title
       end
     end

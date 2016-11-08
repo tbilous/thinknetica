@@ -32,3 +32,16 @@ ru:
           attributes:
             body:
               too_short: "Текст слишком короткий"
+        question:
+          attributes:
+            body:
+              too_short: "Текст слишком короткий"
+            title:
+              too_short: "Текст слишком короткий"
+    models:
+      answer: 'Ответ'
+      question: 'Вопрос'
+    attributes:
+      question:
+        title: 'Заголовок:'
+        body: 'Вопрос:'

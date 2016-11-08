@@ -12,6 +12,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rubygems-bundler'
+gem 'puma'
 
 # Frontend framework
 gem 'materialize-sass'
@@ -45,15 +46,22 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'rails-controller-testing'
+  gem 'timecop'
+  gem 'faker'
 end
 
 group :test do
+  gem 'rspec-rails'
+  gem 'poltergeist'
   gem 'shoulda-matchers'
-  gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
-  gem 'selenium-webdriver', '~> 2.53.4'
-  gem 'capybara-webkit'
+  gem 'database_cleaner'
+  gem 'email_spec'
+  gem 'json_spec'
+  gem 'fuubar'
+  gem 'rspec-page-regression', github: 'teachbase/rspec-page-regression', branch: 'use-imatcher'
+  gem 'rack_session_access'
 end
 
 group :development do

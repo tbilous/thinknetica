@@ -32,3 +32,7 @@ en:
           attributes:
             body:
               too_short: "Text is very short"
+        question:
+          attributes:
+            body:
+              too_short: "Text too short"

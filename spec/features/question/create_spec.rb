@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance_helper'
 
 feature 'Create question', %q{
   In order to solve my problem with help of community
@@ -11,29 +11,28 @@ feature 'Create question', %q{
 
   scenario 'Authenticated user creates question with proper data' do
     login_as(user)
-    visit new_question_path
+    visit questions_path
+
+    page.find("#add_question_btn").click
 
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
-    click_on 'Add question'
+    click_on 'Save'
 
     expect(page).to have_content question_params[:title]
     expect(page).to have_content question_params[:body]
-    within '.alert-success' do
-      expect(page).to have_content 'NICE'
-    end
-    expect(current_path).to match %r{/questions/}
   end
 
-  scenario 'Authenticated user tries to create question with invalid data' do
+  scenario 'Authenticated user tries to create question with invalid data', js: true do
     login_as(user)
-    visit new_question_path
+    visit questions_path
+
+    page.find("#add_question_btn").click
 
     fill_in 'question_title', with: 'b' * 2
     fill_in 'question_body', with: 'b' * 2
-    click_on 'Add question'
+    click_on 'Save'
 
-    expect(page).to have_css('.alert-danger')
     expect(current_path).to eq questions_path
   end
 
