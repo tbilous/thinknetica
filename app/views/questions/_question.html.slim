@@ -1,0 +1,6 @@
+.collection-item id=dom_id(question)
+  .row
+    .col.m2.s4
+      = question.created_at.strftime('%Y-%m-%d')
+    .col.m10.s8
+      = link_to question.title, question_path(question)

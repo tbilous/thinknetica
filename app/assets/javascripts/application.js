@@ -14,6 +14,14 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require turbolinks
-//= require bootstrap-sprockets
+//= require materialize-sprockets
 //= require cocoon
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+    $(".dropdown-button").dropdown();
+    $(".button-collapse").sideNav();
+    $('#textarea1').val('New Text');
+    $('#textarea1').trigger('autoresize');
+    Materialize.updateTextFields();
+});

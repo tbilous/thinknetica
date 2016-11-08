@@ -12,6 +12,6 @@ html[lang=I18n.locale]
   body
     .header
     = render '/layouts/header'
-    = render '/layouts/registration'
-    = yield
-    = render partial: 'layouts/footer'
+    main.main.container id=('main')
+      = yield
+    = render '/layouts/footer'

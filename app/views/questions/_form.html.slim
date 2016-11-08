@@ -1,0 +1,16 @@
+#question_form.hidden
+  hr
+  = form_for @question || :question, remote: true do |f|
+    .row
+      .input-field.col.s12
+        =f.text_field :title
+        =f.label :title, class: 'validate', required: true
+    .row
+      .input-field.col.s12
+        =f.text_area :body, class: 'materialize-textarea validate', required: true,
+                placeholder: 'Compose new question...'
+    .row
+      .col
+        =f.submit 'Save', class: 'waves-effect waves-light btn'
+      .col
+        .btn.cancel-btn.grey.waves-effect.waves-light.lighten-4.black-text Cancel

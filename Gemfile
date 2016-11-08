@@ -11,14 +11,11 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-
-
 gem 'rubygems-bundler'
 
 # Frontend framework
-gem 'bootstrap-sass', '~> 3.3.0'
-gem 'bootswatch-rails'
-gem 'devise-bootstrap-views'
+gem 'materialize-sass'
+gem 'material_icons'
 
 # slim
 gem 'slim'

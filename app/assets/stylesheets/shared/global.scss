@@ -1,0 +1,95 @@
+@import "materialize/components/color";
+
+$primary-color: color("light-blue", "lighten-2") !default;
+
+//Customize materialize
+$h1-fontsize: 3.8rem !default;
+$h2-fontsize: 3rem !default;
+$h3-fontsize: 2.6rem !default;
+$h4-fontsize: 2.28rem !default;
+$h5-fontsize: 1.64rem !default;
+$h6-fontsize: 1rem !default;
+
+.row {
+  margin-bottom: 0 !important;
+}
+
+@import "materialize";
+
+// Footer sticky
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+//=======================================
+
+// Utilites
+.hidden {
+  display: none;
+}
+.display {
+  &__flex {
+    display: flex;
+    @media all and (max-width: $small-screen-up) {
+      flex-direction: column;
+    }
+  }
+  &__block {
+    display: block;
+  }
+  &__inline-block {
+    display: inline-block;
+  }
+}
+
+// Global elements
+.danger-block {
+  position: relative;
+
+  .close {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+}
+
+.translation_missing {
+  font-weight: bold;
+  color: red;
+}
+
+// Customize
+.debug-block {
+  padding: .5rem;
+  background: color("light-blue", "lighten-4");
+  pre {
+    font-size: .8rem;
+  }
+}
+
+.form-footer {
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-bottom: 2em;
+  border-top: 1px solid lightgray;
+}
+
+textarea {
+  resize: none;
+}
+
+.page-header {
+  margin-bottom: 2em;
+}
+
+.registration {
+  &-block {
+    margin-bottom: 3em;
+  }
+}
