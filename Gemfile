@@ -4,7 +4,7 @@ ruby '2.3.1'
 
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.15'
-gem 'sass-rails'
+gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
 gem 'jquery-rails'
@@ -36,8 +36,7 @@ gem 'cocoon'
 gem 'remotipart'
 
 
-gem 'skim'
-gem 'sprockets', '>= 3.7.0'
+# gem 'skim'
 gem 'pundit'
 gem 'active_model_serializers'
 
@@ -57,9 +56,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec-rails'
   gem 'poltergeist'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '2.53.4'
   gem 'capybara-webkit'
   gem 'shoulda-matchers'
   gem 'capybara'

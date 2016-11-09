@@ -4,7 +4,7 @@
       = link_to 'vote cancel', vote_cancel_question_path(object),
               method: :PATCH,
               remote: true,
-              class: 'btn',
+              class: 'btn remove-btn',
               id: "vote-cancel-#{object.id}",
               data: {type: :json, target: "rating-#{object.id}"}
 

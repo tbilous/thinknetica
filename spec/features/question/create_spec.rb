@@ -17,7 +17,7 @@ feature 'Create question', %q{
 
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
-    click_on 'Save'
+    click_on 'submit'
 
     expect(page).to have_content question_params[:title]
     expect(page).to have_content question_params[:body]
@@ -31,7 +31,7 @@ feature 'Create question', %q{
 
     fill_in 'question_title', with: 'b' * 2
     fill_in 'question_body', with: 'b' * 2
-    click_on 'Save'
+    click_on 'submit'
 
     expect(current_path).to eq questions_path
   end

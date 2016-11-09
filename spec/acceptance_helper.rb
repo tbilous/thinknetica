@@ -3,6 +3,7 @@ require 'rspec/page-regression'
 require 'capybara/poltergeist'
 require "rack_session_access/capybara"
 require "puma"
+# require 'selenium-webdriver'
 
 RSpec.configure do |config|
   include ActionView::RecordIdentifier

@@ -1,3 +1,5 @@
+require 'acceptance_helper'
+
 feature 'Add attachment', %q{
   In order to add attachments for answer
 } do

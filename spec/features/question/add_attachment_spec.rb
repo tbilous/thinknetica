@@ -1,3 +1,5 @@
+require 'acceptance_helper'
+
 feature 'Add attachment', %q{
   In order to add attachments for question
   With create question
@@ -15,21 +17,18 @@ feature 'Add attachment', %q{
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
 
-    # click_on 'ADD FILE'
-    page.find(".add_fields").click
 
     within all('.nested-fields').first do
-      attach_file 'File', "#{Rails.root}/spec/support/for_upload/file1.txt"
+      attach_file 'attachment', "#{Rails.root}/spec/support/for_upload/file1.txt"
     end
 
-    page.find(".add_fields").click
+    page.find('.add_fields').click
 
     within all('.nested-fields').last do
-      attach_file 'File', "#{Rails.root}/spec/support/for_upload/file2.txt"
+      attach_file 'attachment', "#{Rails.root}/spec/support/for_upload/file2.txt"
     end
 
-    click_on 'Add question'
-
+    click_on 'submit'
     within '.attachments-block' do
       expect(page).to have_link('file1.txt', href: '/uploads/attachment/file/1/file1.txt')
       expect(page).to have_link('file2.txt', href: '/uploads/attachment/file/2/file2.txt')
