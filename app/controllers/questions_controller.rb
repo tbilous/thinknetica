@@ -8,6 +8,8 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+    @question = Question.new
+    @question.attachments.build
   end
 
   def show
@@ -26,6 +28,12 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.create(strong_params)
     render_json @question
+    # if @question.save
+    #   flash[:success] = 'NICE'
+    #   redirect_to @question
+    # else
+    #   render :new
+    # end
   end
 
   def update

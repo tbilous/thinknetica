@@ -20,19 +20,19 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
-  page:
-    home: "Home page"
-    registration: 'Registration'
-    sign_in: "Sign in"
-  activerecord:
-    errors:
-      models:
-        answer:
-          attributes:
-            body:
-              too_short: "Text is very short"
-        question:
-          attributes:
-            body:
-              too_short: "Text too short"
+  questions:
+    create:
+      message: "Your question has been successfully created"
+    destroy:
+      message: "Your question has been successfully removed"
+    update:
+      message: "Your question has been successfully updated"
+  answers:
+    create:
+      message: "Your answer has been successfully created"
+    destroy:
+      message: "Your answer has been successfully removed"
+    update:
+      message: "Your answer has been successfully updated"
+    best:
+      message: "You have successfully chosen the best answer"

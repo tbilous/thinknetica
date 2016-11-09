@@ -19,6 +19,9 @@ App.utils =
       message = 'Not found'
     else if data.status >= 400 && data.status < 500
       message = data.responseText
+    else if data.status == 200
+      message = data.status
+      console.log(data.status)
 
     App.utils.errorMessage message
 

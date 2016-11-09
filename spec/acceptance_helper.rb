@@ -25,7 +25,7 @@ RSpec.configure do |config|
 
   Capybara.javascript_driver = :poltergeist
 
-  # Capybara.server = :puma
+  Capybara.server = :puma
 
   RSpec::PageRegression.configure do |c|
     c.threshold = 0.01

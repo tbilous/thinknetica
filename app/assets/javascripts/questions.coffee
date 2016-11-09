@@ -16,7 +16,7 @@ ready = ->
 
   questionForm.on 'ajax:error', App.utils.ajaxErrorHandler
 
-#  PrivatePub.subscribe "/questions", (data, channel) ->
+#  PrivatePub.subscribe "/questions", (data, chanitnel) ->
 #    questionsList.empty() unless questionsList.find('.collection-item').length
 #    questionsList.append App.utils.render('question', data.question)
 $(document).on("turbolinks:load", ready)

@@ -53,6 +53,8 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'poltergeist'
+  gem 'selenium-webdriver'
+  gem 'capybara-webkit'
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'

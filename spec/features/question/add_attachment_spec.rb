@@ -8,18 +8,21 @@ feature 'Add attachment', %q{
 
   scenario 'user can add attachment when create question', js: true do
     login_as(user)
-    visit new_question_path
+    visit questions_path
+
+    page.find("#add_question_btn").click
 
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
 
-    click_on 'add file'
+    # click_on 'ADD FILE'
+    page.find(".add_fields").click
 
     within all('.nested-fields').first do
       attach_file 'File', "#{Rails.root}/spec/support/for_upload/file1.txt"
     end
 
-    click_on 'add file'
+    page.find(".add_fields").click
 
     within all('.nested-fields').last do
       attach_file 'File', "#{Rails.root}/spec/support/for_upload/file2.txt"
