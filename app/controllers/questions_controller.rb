@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   include Voted
-  include Serialized
+  # include Serialized
 
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
@@ -27,13 +27,13 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.create(strong_params)
-    render_json @question
-    # if @question.save
-    #   flash[:success] = 'NICE'
-    #   redirect_to @question
-    # else
-    #   render :new
-    # end
+    if @question.save
+      flash[:success] = 'NICE'
+      redirect_to @question
+    else
+      @questions = Question.all
+      render :index
+    end
   end
 
   def update

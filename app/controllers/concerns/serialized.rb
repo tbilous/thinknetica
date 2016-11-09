@@ -3,7 +3,7 @@ module Serialized
 
   def render_json(item, root_name = controller_name.singularize)
     if item.errors.any?
-      binding.pry
+      # binding.pry
       render_errors item
     else
       # binding.pry

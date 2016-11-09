@@ -35,6 +35,12 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'remotipart'
 
+
+gem 'skim'
+gem 'sprockets', '>= 3.7.0'
+gem 'pundit'
+gem 'active_model_serializers'
+
 group :development, :test do
   gem 'byebug'
   gem 'guard-rspec', require: false

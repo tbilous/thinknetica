@@ -2,8 +2,7 @@ class ItemToggle
   constructor: (el) ->
     @el = $(el)
     @item = $(@el.data('target'))
-    @focus = $(@item).find('.form-control:first')
-
+    @focus = $(@item).find('.input-field:first input')
 
     @el.click(@toggle)
 
@@ -14,7 +13,7 @@ class ItemToggle
 
 hookInstances = ->
   new ItemToggle(button) for button in $('.script-item-toggle')
-  console.log('(document).turbolinks:load')
+#  console.log('(document).turbolinks:load')
 
 
 

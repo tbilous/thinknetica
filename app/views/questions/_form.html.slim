@@ -1,6 +1,7 @@
 #question_form.hidden
   hr
   = form_for @question || :question, remote: true do |f|
+    = render 'layouts/shared/error_form', object: f.object
     .row
       .input-field.col.s12
         =f.text_field :title
@@ -13,7 +14,8 @@
       .input-field.col.s12
         = render 'application/attachments_nested_forms', f: f
     .row
-      .col
-        =f.submit 'Save', class: 'waves-effect waves-light btn'
-      .col
-        .btn.cancel-btn.grey.waves-effect.waves-light.lighten-4.black-text Cancel
+      .col.s12
+        .form-footer
+          = button_tag class: 'waves-effect waves-light btn' do
+            i.material-icons.right send
+            | submit

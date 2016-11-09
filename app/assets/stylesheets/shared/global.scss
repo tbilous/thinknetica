@@ -27,6 +27,13 @@ main {
   flex: 1 0 auto;
 }
 
+#sidenav-overlay {
+  z-index: 1 !important;
+}
+.side-nav {
+  padding-top: 2em;
+  background: color("amber", "lighten-4");
+}
 //=======================================
 
 // Utilites
@@ -76,8 +83,6 @@ main {
 .form-footer {
   margin-top: 1em;
   padding-top: 1em;
-  padding-bottom: 2em;
-  border-top: 1px solid lightgray;
 }
 
 textarea {
