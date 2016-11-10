@@ -1,0 +1,29 @@
+.votes.vote-container class="#{ 'has-vote' if votable.had_voted?(current_user) }"
+  /.col.chip.votes-sum  id="rating-#{ local_assigns.fetch(:part, nil) }-#{ votable.id }" = votable.rate
+  - target = "#{ local_assigns.fetch(:part, nil) }"
+  - if user_signed_in? && !current_user.owner_of?(votable)
+    .fixed-action-btn.horizontal.click-to-toggle.my-action-btn
+      a.btn-floating.btn-large.red
+        span.votes-sum  id="rating-#{target}-#{ votable.id }" = votable.rate
+      ul
+        li
+          = link_to polymorphic_path(votable, action: :vote_plus),
+                  remote: true, method: :PATCH,
+                  data: {type: :json, target: "#rating-#{target}-#{votable.id}"},
+                  class: 'vote-link btn-floating green' do
+            i.material-icons thumb_up
+        li
+          = link_to polymorphic_path(votable, action: :vote_minus),
+                  remote: true, method: :PATCH,
+                  class: 'vote-link btn-floating yellow darken-4',
+                  data: {type: :json, target: "#rating-#{target}-#{votable.id}"} do
+            i.material-icons thumb_down
+        li
+          span class=(votable.had_voted?(current_user) ? 'remove-btn' : 'hidden')
+            = link_to polymorphic_path(votable, action: :vote_cancel),
+                    remote: true, method: :PATCH,
+                    id: "vote-cancel-#{votable.id}",
+                    class: 'vote-link btn-floating red',
+                    data: {type: :json, target: "#rating-#{target}-#{votable.id}"} do
+              i.material-icons.no-events close
+
