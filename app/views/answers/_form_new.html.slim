@@ -6,5 +6,9 @@ h2 Write answer
     p Attachment:
   .attachment-nested
     = render 'application/attachments_nested_forms', f: f
+    = f.fields_for :attachments do |a|
+      = render 'application/attachment_fields', f: a
+      .input-field.col.s12
+        = link_to_add_association 'add file', f, :attachments, class: 'btn'
   .form-group
     = f.submit 'Add answer', class: 'btn btn-primary'
