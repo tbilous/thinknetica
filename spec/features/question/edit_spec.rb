@@ -15,11 +15,14 @@ feature 'Author can edit question', %q{
   scenario 'Author of question edits it', js: true do
     login_as(user)
     visit question_path(question)
-    click_on 'Edit question'
+    page.find("#edit-question-#{question.id}").click
 
     fill_in 'question_title', with: new_question_params[:title]
     fill_in 'question_body', with: new_question_params[:body]
-    click_on 'Save'
+    within "#edit_question_#{question.id}" do
+      click_on 'submit'
+    end
+
     within '.question-block' do
       expect(page).to have_content new_question_params[:title]
       expect(page).to have_content new_question_params[:body]
@@ -32,12 +35,12 @@ feature 'Author can edit question', %q{
     someones_question = create(:question)
     visit question_path(someones_question)
 
-    expect(page).to_not have_link 'Edit question'
+    expect(page).to_not have_css("#edit-question-#{question.id}")
   end
 
   scenario 'Non-authenticated user tries to delete question', js: true do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit question'
+    expect(page).to_not have_css("#edit-question-#{question.id}")
   end
 end

@@ -16,7 +16,9 @@ feature 'Create answer', %q{
 
     fill_in 'answer_body', with: answer_params[:body]
     # sleep(inspection_time=5)
-    click_button('Add answer')
+    within '#new_answer' do
+      click_button('submit')
+    end
 
     within '.answer-rendered' do
       expect(page).to have_content answer_params[:body]
@@ -30,7 +32,10 @@ feature 'Create answer', %q{
     visit question_path(question)
 
     fill_in 'answer_body', with: 'a' * 2
-    click_button 'Add answer'
+
+    within '#new_answer' do
+      click_button('submit')
+    end
 
     expect(page).to have_css('.alert-danger')
     expect(current_path).to eq question_path(question)

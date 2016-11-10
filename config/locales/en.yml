@@ -15,3 +15,7 @@ en:
       message: "Your answer has been successfully updated"
     best:
       message: "You have successfully chosen the best answer"
+  page:
+    sign_in: "Sign in page"
+    registration: "Sign up"
+    home: "Home page"

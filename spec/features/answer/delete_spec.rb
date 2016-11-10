@@ -14,10 +14,11 @@ feature 'Author can delete answers', %q{
     login_as(user, scope: :user)
     visit question_path(question)
 
-    expect(page).to have_link 'Delete'
-    click_on 'Delete'
+    page.find("#delete-answer-#{answer.id}").click
+
     sleep 1
 
+    expect(page).to_not have_css("#delete-answer-#{answer.id}")
     expect(current_path).to eq question_path(question)
   end
 
@@ -25,12 +26,12 @@ feature 'Author can delete answers', %q{
     login_as(other_user, scope: :user)
     visit question_path(question)
 
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_css("#delete-answer-#{answer.id}")
   end
 
   scenario 'Non-authenticated user tries to delete answer', js: true do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_css("#delete-answer-#{answer.id}")
   end
 end

@@ -7,7 +7,9 @@ feature 'user can login', %q{
   let!(:user_params) { attributes_for(:user) }
   scenario 'Sign Up ' do
     visit root_path
-    click_on 'Reg'
+    within '#nav-mobile' do
+      click_on 'Sign up'
+    end
 
     expect(page).to have_title t('page.registration')
 
@@ -15,23 +17,30 @@ feature 'user can login', %q{
     fill_in 'user_name', with: user_params[:name]
     fill_in 'user_password', with: user_params[:password]
     fill_in 'user_password_confirmation', with: user_params[:password_confirmation]
-    click_on t('devise.registrations.new.sign_up')
+    within '#new_user' do
+      click_on t('devise.registrations.new.sign_up')
+    end
 
-    expect(page).to have_css '.alert-info'
+    expect(current_path).to eq root_path
   end
   scenario 'Sign In' do
     User.create!(email: user_params[:email], name: user_params[:name], password: user_params[:password])
 
     visit root_path
-    click_on 'Sign'
+    within '#nav-mobile' do
+      click_on t('devise.sessions.new.sign_in')
+    end
 
     expect(page).to have_title t('page.sign_in')
     fill_in 'user_email', with: user_params[:email]
     fill_in 'user_password', with: user_params[:password]
-    click_on t('devise.sessions.new.sign_in')
+    within '#new_user' do
+      click_on t('devise.sessions.new.sign_in')
+    end
 
-    expect(page).to have_link 'Logout'
-    expect(page).to_not have_link 'Reg'
-    expect(page).to_not have_link 'Sign'
+    expect(current_path).to eq root_path
+    expect(page).to have_link 'Sign out'
+    expect(page).to_not have_link t('devise.registrations.new.sign_up')
+    expect(page).to_not have_link t('devise.sessions.new.sign_in')
   end
 end

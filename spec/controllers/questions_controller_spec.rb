@@ -23,6 +23,18 @@ RSpec.describe QuestionsController, type: :controller do
     it 'renders the index template' do
       expect(response).to render_template :index
     end
+
+
+    context 'user is authorized' do
+      login_user
+
+      it 'assign New Question' do
+        expect(assigns(:question)).to be_a_new(Question)
+      end
+      it 'assign Attach' do
+        expect(assigns(:question).attachments.first).to be_a_new(Attachment)
+      end
+    end
   end
 
   describe 'GET #show' do
@@ -32,12 +44,47 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
-    it 'assign Attach' do
-      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-    end
-
     it 'render the show template' do
       expect(response).to render_template :show
+    end
+    context 'user is not authorized', js: true do
+      before { get :edit, params: { id: question.id } }
+
+      it 'assign Edit Question' do
+        expect(assigns(:question)).to eq question
+      end
+    end
+
+    context 'user is authorized', js: true do
+      context 'attach' do
+        login_user
+        it 'assign Attach' do
+          expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
+        end
+
+      end
+      context 'user not is not owner' do
+        before do
+          sign_in @other_user
+          get :edit, params: { id: question.id }
+        end
+        it 'assign Edit Question' do
+          expect(assigns(:question)).to eq question
+        end
+      end
+
+      context 'user is owner' do
+        before do
+          sign_in @user
+          get :edit, params: { id: question.id }
+        end
+        it 'assign Edit Question' do
+          expect(assigns(:question)).to eq question
+        end
+        it 'render the edit template' do
+          expect(response).to render_template :edit
+        end
+      end
     end
   end
 
@@ -60,59 +107,51 @@ RSpec.describe QuestionsController, type: :controller do
 
       before { get :new }
 
-      it 'assign New Question' do
-        expect(assigns(:question)).to be_a_new(Question)
-      end
-
-      it 'assign Attach' do
-        expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-      end
-
-      it 'render the new template' do
-        expect(response).to render_template :new
-      end
+      # it 'assign New Question' do
+      #   expect(assigns(:question)).to be_a_new(Question)
+      # end
     end
   end
 
   describe 'GET #edit' do
-    context 'user is not authorized' do
-      before { get :edit, params: { id: question.id } }
-      it 'assign Edit Question' do
-        expect(assigns(:question)).to_not eq question
-      end
-
-      it 'render the edit template' do
-        expect(response).to redirect_to new_user_session_path
-      end
-    end
-
-    context 'user is authorized' do
-      context 'user not is not owner' do
-        before do
-          sign_in @other_user
-          get :edit, params: { id: question.id }
-        end
-        it 'assign Edit Question' do
-          expect(assigns(:question)).to eq question
-        end
-        it 'render the edit template' do
-          expect(response).to redirect_to root_path
-        end
-      end
-
-      context 'user is owner' do
-        before do
-          sign_in @user
-          get :edit, params: { id: question.id }
-        end
-        it 'assign Edit Question' do
-          expect(assigns(:question)).to eq question
-        end
-        it 'render the edit template' do
-          expect(response).to render_template :edit
-        end
-      end
-    end
+    # context 'user is not authorized' do
+    #   before { get :edit, params: { id: question.id } }
+    #   it 'assign Edit Question' do
+    #     expect(assigns(:question)).to_not eq question
+    #   end
+    #
+    #   it 'render the edit template' do
+    #     expect(response).to redirect_to new_user_session_path
+    #   end
+    # end
+    #
+    # context 'user is authorized' do
+    #   context 'user not is not owner' do
+    #     before do
+    #       sign_in @other_user
+    #       get :edit, params: { id: question.id }
+    #     end
+    #     it 'assign Edit Question' do
+    #       expect(assigns(:question)).to eq question
+    #     end
+    #     it 'render the edit template' do
+    #       expect(response).to redirect_to root_path
+    #     end
+    #   end
+    #
+    #   context 'user is owner' do
+    #     before do
+    #       sign_in @user
+    #       get :edit, params: { id: question.id }
+    #     end
+    #     it 'assign Edit Question' do
+    #       expect(assigns(:question)).to eq question
+    #     end
+    #     it 'render the edit template' do
+    #       expect(response).to render_template :edit
+    #     end
+    #   end
+    # end
   end
 
   describe 'POST #create' do

@@ -7,7 +7,7 @@ feature 'Attributes of pages', %q{
 
   scenario 'Root page have title' do
     visit root_path
-    expect(page).to have_title 'Home page'
+    expect(page).to have_title t('page.home')
   end
   scenario 'Question page have title' do
     visit question_path(question)

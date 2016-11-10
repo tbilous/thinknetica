@@ -17,6 +17,7 @@ feature 'Add attachment', %q{
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]
 
+    page.find('.add_fields').click
 
     within all('.nested-fields').first do
       attach_file 'attachment', "#{Rails.root}/spec/support/for_upload/file1.txt"

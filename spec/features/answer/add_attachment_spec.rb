@@ -13,20 +13,21 @@ feature 'Add attachment', %q{
 
     fill_in 'answer_body', with: answer_params[:body]
 
-    click_on 'add file'
+    page.find('.attach-file-answer').click
 
     within all('.nested-fields').first do
-      attach_file 'File', "#{Rails.root}/spec/support/for_upload/file1.txt"
+      attach_file 'attachment', "#{Rails.root}/spec/support/for_upload/file1.txt"
     end
 
-    click_on 'add file'
+    page.find('.attach-file-answer').click
 
     within all('.nested-fields').last do
-      attach_file 'File', "#{Rails.root}/spec/support/for_upload/file2.txt"
+      attach_file 'attachment', "#{Rails.root}/spec/support/for_upload/file2.txt"
     end
 
-    click_on 'Add answer'
-
+    within '#new_answer' do
+      click_on 'submit'
+    end
     within '.answer-rendered' do
       expect(page).to have_link('file1.txt', href: '/uploads/attachment/file/1/file1.txt')
       expect(page).to have_link('file2.txt', href: '/uploads/attachment/file/2/file2.txt')

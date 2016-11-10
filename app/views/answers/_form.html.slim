@@ -7,7 +7,6 @@
           = f.text_area :body, class: 'materialize-textarea validate',
                   required: true, rows: 5, placeholder: 'Compose new answer...'
           =f.label :body, class: 'validate'
-      = render 'application/attachments_nested_forms', f: f
       .attachment-nested
         = f.fields_for :attachments do |a|
           = render 'application/attachment_fields', f: a

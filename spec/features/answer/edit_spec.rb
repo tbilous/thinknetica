@@ -15,13 +15,11 @@ feature 'Author can delete answers', %q{
     login_as(user, scope: :user)
     visit question_path(question)
 
-    expect(page).to have_button 'Edit answer'
+    page.find("#edit-answer-#{answer.id}").click
 
-    click_on 'Edit answer'
-
-    within '.edit_answer_form' do
+    within "#edit_answer_#{answer.id}" do
       fill_in 'answer_body', with: new_answer_params
-      click_on 'Save'
+      click_on 'submit'
     end
 
     expect(page).to have_content new_answer_params
@@ -33,14 +31,14 @@ feature 'Author can delete answers', %q{
     login_as(user, scope: :user)
     visit question_path(question)
 
-    click_on 'Edit answer'
+    page.find("#edit-answer-#{answer.id}").click
 
-    within '.edit_answer_form' do
+    within "#edit_answer_#{answer.id}" do
       fill_in 'answer_body', with: 'a' * 2
-      click_button 'Save'
+      click_button 'submit'
     end
 
-    expect(page).to have_css('.alert-danger')
+    expect(page).to have_content(answer.body)
     expect(current_path).to eq question_path(question)
   end
 
@@ -48,12 +46,12 @@ feature 'Author can delete answers', %q{
     login_as(other_user, scope: :user)
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit answer'
+    expect(page).to_not have_css("#edit-answer-#{answer.id}")
   end
 
-  scenario 'Non-authenticated user tries to delete answer' do
+  scenario 'Non-authenticated user tries to edit answer' do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit answer'
+    expect(page).to_not have_css("#edit-answer-#{answer.id}")
   end
 end
