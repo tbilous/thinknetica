@@ -14,7 +14,12 @@ ready = ->
     data = $.parseJSON(xhr.responseText)
 
     $('.vote-error').remove()
+
+    console.log(target)
+
+
     $(target).html data.rating
+
     removeBtn.removeClass('hidden')
 
     return

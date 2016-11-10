@@ -103,3 +103,9 @@ main {
     margin-bottom: 3em;
   }
 }
+.fixed-action-btn.my-action-btn {
+  position: absolute !important;
+  bottom: auto;
+  top: 10px;
+  z-index: 1;
+}
