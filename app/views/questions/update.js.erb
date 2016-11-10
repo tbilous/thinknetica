@@ -1,4 +1,5 @@
 var form = $('#question_form' + '<%= @question.id %>');
+var target = $('#question-' + <%= @question.id %> + ' ' + '.question-rendered');
 
 <% if @question.errors.present? %>
   $("form .alert").remove();
@@ -6,14 +7,17 @@ var form = $('#question_form' + '<%= @question.id %>');
 <% else %>
 
 // refresh question
-$('#question-' + <%= @question.id %>).html(
-    "<div class='question-rendered'><%= j render 'question_l_line' %></div>");
+  $(target).html("<%= j render 'question_l_line' %></div>");
+
   $("#headerFlash").html("<%= j render 'layouts/shared/error_messages' %>");
 
 //hide form
-  $(form).toggleClass('hidden');
+  $('#question_form-edit-wrapper').toggleClass('hidden');
 
 //remove alert
   $("form .alert").remove();
+
+  ItemToggle($('.script-item-toggle'));
+
 <% end %>
 
