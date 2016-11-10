@@ -3,8 +3,8 @@ class QuestionsController < ApplicationController
   # include Serialized
 
   before_action :authenticate_user!, except: [:show, :index]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
-  before_action :require_permission, only: [:edit, :update, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy]
+  before_action :require_permission, only: [:update, :destroy]
 
   def index
     @questions = Question.all
@@ -14,12 +14,9 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.build
-    @answer.attachments.build
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
   end
 
   def edit

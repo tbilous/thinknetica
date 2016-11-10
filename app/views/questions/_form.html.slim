@@ -1,5 +1,4 @@
-#question_form.hidden
-  hr
+#question_form.card-panel
   = form_for @question || :question, remote: true do |f|
     = render 'layouts/shared/error_form', object: f.object
     .row
@@ -8,8 +7,9 @@
         =f.label :title, class: 'validate', required: true
     .row
       .input-field.col.s12
-        =f.text_area :body, class: 'materialize-textarea validate', required: true,
+        = f.text_area :body, class: 'materialize-textarea validate', required: true,
                 placeholder: 'Compose new question...'
+        = f.label :body
     .row
       .input-field.col.s12
         = render 'application/attachments_nested_forms', f: f

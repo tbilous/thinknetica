@@ -54,6 +54,15 @@ main {
     display: inline-block;
   }
 }
+.list-inline {
+  display: flex;
+  @extend .display__flex;
+  justify-content: space-around;
+
+  li {
+    margin: 0 auto 1em;
+  }
+}
 
 // Global elements
 .danger-block {
@@ -83,10 +92,6 @@ main {
 .form-footer {
   margin-top: 1em;
   padding-top: 1em;
-}
-
-textarea {
-  resize: none;
 }
 
 .page-header {

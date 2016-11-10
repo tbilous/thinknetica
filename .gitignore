@@ -23,3 +23,5 @@
 .rake_tasks~
 config/secrets.yml
 /public/uploads/
+/.ruby-version
+/.ruby-gemset

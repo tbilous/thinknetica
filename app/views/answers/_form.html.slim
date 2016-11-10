@@ -1,0 +1,23 @@
+.card
+  = form_for shallow_resource(@question, answer), remote: true do |f|
+    .card-content
+      = render 'layouts/shared/error_form', object: f.object
+      .row
+        .input-field.col.s12
+          = f.text_area :body, class: 'materialize-textarea validate',
+                  required: true, rows: 5, placeholder: 'Compose new answer...'
+          =f.label :body, class: 'validate'
+      = render 'application/attachments_nested_forms', f: f
+      .attachment-nested
+        = f.fields_for :attachments do |a|
+          = render 'application/attachment_fields', f: a
+        .input-field.col.s12
+          = link_to_add_association f, :attachments,
+                  class: 'btn-floating green attach-file-answer'
+            i.material-icons attach_file
+    .card-action
+      ul.list-inline
+        li
+          = button_tag class: 'waves-effect waves-light btn' do
+            i.material-icons.right send
+            | submit
