@@ -15,27 +15,24 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST create' do
     let(:params) do
       {
-          answer:      attributes_for(:answer),
-          question_id: question.id,
-          format: :js
+        answer:      attributes_for(:answer),
+        question_id: question.id,
+        format: :js
       }
     end
 
     context 'not authorized user' do
-
       it 'dont save the new answer in a DB' do
         expect { post :create, params: params }.to_not change(question.answers, :count)
       end
-
     end
 
     context 'authorized user' do
       before { sign_in @user }
 
       context 'with valid attributes' do
-
         it 'save the new answer in a DB' do
-          expect { post :create,  params: params }.to change(question.answers, :count).by(1)
+          expect { post :create, params: params }.to change(question.answers, :count).by(1)
         end
 
         it 'save the new answer in a DB with user relation' do
@@ -43,7 +40,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it 'redirect_to question' do
-          post :create,  params: params
+          post :create, params: params
           expect(response).to render_template :create
         end
       end
@@ -51,17 +48,17 @@ RSpec.describe AnswersController, type: :controller do
       context 'with invalid attr' do
         let(:wrong_params) do
           {
-              answer:      attributes_for(:wrong_answer),
-              question_id: question.id,
-              format: :js
+            answer:      attributes_for(:wrong_answer),
+            question_id: question.id,
+            format: :js
           }
         end
         it 'dont save in a DB' do
-          expect { post :create,  params: wrong_params }.to_not change(Answer, :count)
+          expect { post :create, params: wrong_params }.to_not change(Answer, :count)
         end
 
         it 'redirect to questions/show' do
-          post :create,  params: wrong_params
+          post :create, params: wrong_params
           expect(response).to render_template :create
         end
       end
@@ -73,9 +70,9 @@ RSpec.describe AnswersController, type: :controller do
     new_param = ('a' * 61)
     let(:params) do
       {
-          answer:     {  body: new_param  },
-          id: answer.id,
-          format: :js
+        answer:     { body: new_param },
+        id: answer.id,
+        format: :js
       }
     end
 
@@ -88,7 +85,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'change attributes' do
         expect(answer.body).to_not eql new_param
       end
-
     end
 
     context 'user is authorized' do
@@ -102,7 +98,6 @@ RSpec.describe AnswersController, type: :controller do
         it 'change attributes' do
           expect(answer.body).to_not eql new_param
         end
-
       end
 
       context 'user is owner' do
@@ -126,8 +121,8 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     let(:params) do
       {
-          id: answer.id,
-          format: :js
+        id: answer.id,
+        format: :js
       }
     end
 
@@ -180,8 +175,8 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #make_best' do
     let(:params) do
       {
-          id: answer.id,
-          format: :js
+        id: answer.id,
+        format: :js
       }
     end
     let!(:answer) { question.answers.create(body: 'b' * 120, user: @user) }

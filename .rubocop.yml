@@ -16,6 +16,7 @@ AllCops:
     - 'config/application.rb'
     - 'bin/**/*'
     - 'db/schema.rb'
+    - 'spec/support/**/*'
 
 Documentation:
   Enabled: false

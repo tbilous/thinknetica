@@ -52,7 +52,7 @@ feature 'Vote answer', %q{
     end
     sleep(1)
 
-    expect(page).to have_css("#vote-cancel-#{answer.id}",  visible: false)
+    expect(page).to have_css("#vote-cancel-#{answer.id}", visible: false)
   end
 
   scenario 'Owner user tries to vote for answer', js: true do

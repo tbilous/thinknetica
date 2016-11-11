@@ -1,18 +1,18 @@
 require 'rails_helper'
 require 'rspec/page-regression'
 require 'capybara/poltergeist'
-require "rack_session_access/capybara"
-require "puma"
+require 'rack_session_access/capybara'
+require 'puma'
 # require 'selenium-webdriver'
 
 RSpec.configure do |config|
   include ActionView::RecordIdentifier
   config.include AcceptanceHelper, type: :feature
 
-  Capybara.server_host = "0.0.0.0"
+  Capybara.server_host = '0.0.0.0'
   Capybara.server_port = 3001 + ENV['TEST_ENV_NUMBER'].to_i
   Capybara.default_max_wait_time = 2
-  Capybara.save_path = "./tmp/capybara_output"
+  Capybara.save_path = './tmp/capybara_output'
   Capybara.always_include_port = true # for correct app_host
 
   Capybara.register_driver :poltergeist do |app|

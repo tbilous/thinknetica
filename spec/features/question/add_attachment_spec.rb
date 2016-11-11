@@ -12,7 +12,7 @@ feature 'Add attachment', %q{
     login_as(user)
     visit questions_path
 
-    page.find("#add_question_btn").click
+    page.find('#add_question_btn').click
 
     fill_in 'question_title', with: question_params[:title]
     fill_in 'question_body', with: question_params[:body]

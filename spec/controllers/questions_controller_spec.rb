@@ -24,7 +24,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :index
     end
 
-
     context 'user is authorized' do
       login_user
 
@@ -38,7 +37,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, params:{ id: question.id } }
+    before { get :show, params: { id: question.id } }
 
     it 'assign question' do
       expect(assigns(:question)).to eq question
@@ -61,7 +60,6 @@ RSpec.describe QuestionsController, type: :controller do
         it 'assign Attach' do
           expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
         end
-
       end
       context 'user not is not owner' do
         before do
@@ -154,7 +152,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     let(:params) do
       {
-          question: attributes_for(:question)
+        question: attributes_for(:question)
       }
     end
 
@@ -172,7 +170,6 @@ RSpec.describe QuestionsController, type: :controller do
 
       describe 'POST #create' do
         context 'attr is valid' do
-
           it 'add tot database' do
             expect { post :create, params: params }.to change(@other_user.questions, :count).by(1)
           end
@@ -185,7 +182,7 @@ RSpec.describe QuestionsController, type: :controller do
         context 'attr is not valid' do
           let(:wrong_params) do
             {
-                question: attributes_for(:wrong_question)
+              question: attributes_for(:wrong_question)
             }
           end
 
@@ -205,27 +202,26 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH update' do
     let(:new_attr) do
       {
-          title: 'b' * 5,
-          body: 'b' * 61
+        title: 'b' * 5,
+        body: 'b' * 61
       }
     end
 
     let(:params) do
       {
-          id: question.id,
-          question:     { title: new_attr[:title],  body: new_attr[:body]  },
-          format: :js
+        id: question.id,
+        question:     { title: new_attr[:title], body: new_attr[:body] },
+        format: :js
       }
     end
     let(:wrong_params) do
       {
-          id: question.id,
-          question:     { title: nil,  body: nil  },
-          format: :js
+        id: question.id,
+        question:     { title: nil, body: nil },
+        format: :js
       }
     end
     context 'user is not authorized' do
-
       let(:attr) do
         { title: 'b' * 6, body: 'b' * 61 }
       end
@@ -239,7 +235,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.title).to_not eql new_attr[:title]
         expect(question.body).to_not eql new_attr[:body]
       end
-
     end
 
     context 'user is authorized' do
@@ -309,16 +304,15 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-
     context 'user is not authorized' do
       let!(:question) { create(:question) }
 
       it 'delete in DB' do
-        expect { delete :destroy, params:{ id: question.id } }.to_not change { Question.count }
+        expect { delete :destroy, params: { id: question.id } }.to_not change { Question.count }
       end
 
       it 'redirect to index' do
-        delete :destroy, params:{ id: question.id }
+        delete :destroy, params: { id: question.id }
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -329,11 +323,11 @@ RSpec.describe QuestionsController, type: :controller do
         let!(:question) { create(:question, user: @user) }
 
         it 'delete in DB' do
-          expect { delete :destroy, params:{ id: question.id } }.to_not change { Question.count }
+          expect { delete :destroy, params: { id: question.id } }.to_not change { Question.count }
         end
 
         it 'redirect to index' do
-          delete :destroy, params:{ id: question.id }
+          delete :destroy, params: { id: question.id }
           expect(response).to redirect_to root_path
         end
       end
@@ -344,11 +338,11 @@ RSpec.describe QuestionsController, type: :controller do
         let!(:question) { create(:question, user: @user) }
 
         it 'delete in DB' do
-          expect { delete :destroy, params:{ id: question.id } }.to change { Question.count }.by(-1)
+          expect { delete :destroy, params: { id: question.id } }.to change { Question.count }.by(-1)
         end
 
         it 'redirect to index' do
-          delete :destroy, params:{ id: question.id }
+          delete :destroy, params: { id: question.id }
           expect(response).to redirect_to root_path
         end
       end

@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.15'
 gem 'sass-rails', '~> 5.0', '>= 5.0.6'
@@ -34,7 +33,6 @@ gem 'rails-i18n'
 gem 'carrierwave'
 gem 'cocoon'
 gem 'remotipart'
-
 
 # gem 'skim'
 gem 'pundit'

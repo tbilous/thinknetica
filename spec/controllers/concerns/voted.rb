@@ -6,8 +6,8 @@ shared_examples 'voted' do
   describe 'PATCH #vote_plus' do
     let(:params) do
       {
-          id: model.id,
-          format: :json
+        id: model.id,
+        format: :json
       }
     end
 
@@ -58,8 +58,8 @@ shared_examples 'voted' do
   describe 'PATCH #vote_minus' do
     let(:params) do
       {
-          id: model.id,
-          format: :json
+        id: model.id,
+        format: :json
       }
     end
 
@@ -110,9 +110,9 @@ shared_examples 'voted' do
   describe 'PATCH #vote_cancel' do
     let(:params) do
       {
-          id: model.id,
-          user: @user,
-          format: :json
+        id: model.id,
+        user: @user,
+        format: :json
       }
     end
     context 'User is not authenticated' do
@@ -136,8 +136,8 @@ shared_examples 'voted' do
     context 'and not owner' do
       let(:params) do
         {
-            id: model.id,
-            format: :json
+          id: model.id,
+          format: :json
         }
       end
 
