@@ -1,3 +1,5 @@
+require 'acceptance_helper'
+
 feature 'Vote answer', %q{
   Authorized User can vote for answer
   User can vote positive or negative only one time
@@ -14,32 +16,43 @@ feature 'Vote answer', %q{
     visit question_path(question)
     # sleep(inspection_time=25)
 
-    click_on 'vote up'
+    page.find("#vote-plus-#{answer.id}").click
 
-    within "#answer-rating-#{answer.id}" do
+    within ".answer-block #rating-#{answer.id}" do
       expect(page).to have_text('1')
     end
 
-    click_on 'vote up'
+    page.find("#vote-plus-#{answer.id}").click
     sleep(1)
 
-    within "#answer-rating-#{answer.id}" do
+    within ".answer-block #rating-#{answer.id}" do
       expect(page).to have_text('1')
     end
+    expect(page).to have_css("#vote-cancel-#{answer.id}")
 
-    click_on 'vote down'
+    page.find("#vote-minus-#{answer.id}").click
     sleep(1)
 
-    within "#answer-rating-#{answer.id}" do
+    within ".answer-block #rating-#{answer.id}" do
       expect(page).to have_text('-1')
     end
 
-    click_on 'vote down'
+    page.find("#vote-minus-#{answer.id}").click
     sleep(1)
 
-    within "#answer-rating-#{answer.id}" do
+    within ".answer-block #rating-#{answer.id}" do
       expect(page).to have_text('-1')
     end
+    expect(page).to have_css("#vote-cancel-#{answer.id}")
+
+    page.find("#vote-cancel-#{answer.id}").click
+
+    within ".answer-block #rating-#{answer.id}" do
+      expect(page).to have_text('0')
+    end
+    sleep(1)
+
+    expect(page).to have_css("#vote-cancel-#{answer.id}",  visible: false)
   end
 
   scenario 'Owner user tries to vote for answer', js: true do
@@ -47,9 +60,9 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.answer-block' do
-      expect(page).to_not have_text('vote up')
-      expect(page).to_not have_text('vote down')
-      expect(page).to_not have_text('vote cancel')
+      expect(page).to_not have_css("#vote-plus-#{answer.id}")
+      expect(page).to_not have_css("#vote-minus-#{answer.id}")
+      expect(page).to_not have_css("#vote-cancel-#{answer.id}")
     end
   end
 
@@ -57,9 +70,9 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.answer-block' do
-      expect(page).to_not have_text('vote up')
-      expect(page).to_not have_text('vote down')
-      expect(page).to_not have_text('vote cancel')
+      expect(page).to_not have_css("#vote-plus-#{answer.id}")
+      expect(page).to_not have_css("#vote-minus-#{answer.id}")
+      expect(page).to_not have_css("#vote-cancel-#{answer.id}")
     end
   end
 end
