@@ -1,10 +1,10 @@
 .votes.vote-container class="#{ 'has-vote' if votable.had_voted?(current_user) }"
   /.col.chip.votes-sum  id="rating-#{ local_assigns.fetch(:part, nil) }-#{ votable.id }" = votable.rate
   - target = "#{ local_assigns.fetch(:part, nil) }"
-  - if user_signed_in? && !current_user.owner_of?(votable)
-    .fixed-action-btn.horizontal.click-to-toggle.my-action-btn
-      a.btn-floating.btn-large.red
-        span.votes-sum  id="rating-#{target}-#{ votable.id }" = votable.rate
+  .fixed-action-btn.horizontal.click-to-toggle.my-action-btn
+    a.btn-floating.btn-large.red
+      span.votes-sum  id="rating-#{target}-#{ votable.id }" = votable.rate
+    - if user_signed_in? && !current_user.owner_of?(votable)
       ul
         li
           = link_to polymorphic_path(votable, action: :vote_plus),

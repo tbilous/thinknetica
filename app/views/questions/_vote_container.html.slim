@@ -1,27 +1,31 @@
 .vote-container
-  - if user_signed_in? && !current_user.owner_of?(object)
-    div class=(object.had_voted?(current_user) ? 'remove-btn' : 'hidden')
-      = link_to vote_cancel_question_path(object), method: :PATCH, remote: true,
-              class: 'btn-floating btn-small red remove-btn vote-link',
-              id: "vote-cancel-#{object.id}",
-              data: {type: :json, target: "#rating-#{object.id}"} do
-        i.material-icons.right cancel
+  - target = "#{ local_assigns.fetch(:part, nil) }"
+  ul.vote-control
+    - if user_signed_in? && !current_user.owner_of?(object)
+      li class=(object.had_voted?(current_user) ? 'remove-btn' : 'remove-btn hidden') data-target = ("#rating-#{object.id}")
+        = link_to polymorphic_path(object, action: :vote_cancel),
+                method: :PATCH, remote: true,
+                class: 'btn-floating btn-small red',
+                id: "vote-cancel-#{object.id}",
+                data: {type: :json, target: "#rating-#{object.id}"} do
+          i.material-icons.right cancel
 
-  .rating_val.new.badge id="rating-#{object.id}" = object.rate
+    li.rating_val.chip.vote-sum id="rating-#{object.id}" = object.rate
 
-  - if user_signed_in? && !current_user.owner_of?(object)
-    = link_to vote_plus_question_path(object),
-            method: :PATCH,
-            remote: true,
-            class: 'btn-floating btn-small vote_link',
-            id: "vote-plus-#{object.id}",
-            data: {type: :json, target: "#rating-#{object.id}"} do
-      i.material-icons.right trending_up
-
-    = link_to  vote_minus_question_path(object),
-            method: :PATCH,
-            remote: true,
-            class: 'btn-floating btn-small vote_link',
-            id: "vote-minus-#{object.id}",
-            data: {type: :json, target: "#rating-#{object.id}"} do
-      i.material-icons.right trending_down
+    - if user_signed_in? && !current_user.owner_of?(object)
+      li
+        = link_to polymorphic_path(object, action: :vote_plus),
+                method: :PATCH,
+                remote: true,
+                class: 'btn-floating btn-small vote_link green',
+                id: "vote-plus-#{object.id}",
+                data: {type: :json, target: "#rating-#{object.id}"} do
+          i.material-icons.right thumb_up
+      li
+        = link_to  polymorphic_path(object, action: :vote_minus),
+                method: :PATCH,
+                remote: true,
+                class: 'btn-floating btn-small vote_link yellow darken-4',
+                id: "vote-minus-#{object.id}",
+                data: {type: :json, target: "#rating-#{object.id}"} do
+          i.material-icons.right thumb_down
