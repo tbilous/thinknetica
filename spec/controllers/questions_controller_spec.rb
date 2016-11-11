@@ -66,7 +66,7 @@ RSpec.describe QuestionsController, type: :controller do
       context 'user not is not owner' do
         before do
           sign_in @other_user
-          get :edit, params: { id: question.id }
+          get :edit, params: { id: question.id, format: :js }
         end
         it 'assign Edit Question' do
           expect(assigns(:question)).to eq question
@@ -76,13 +76,10 @@ RSpec.describe QuestionsController, type: :controller do
       context 'user is owner' do
         before do
           sign_in @user
-          get :edit, params: { id: question.id }
+          get :edit, params: { id: question.id, format: :js }
         end
         it 'assign Edit Question' do
           expect(assigns(:question)).to eq question
-        end
-        it 'render the edit template' do
-          expect(response).to render_template :edit
         end
       end
     end

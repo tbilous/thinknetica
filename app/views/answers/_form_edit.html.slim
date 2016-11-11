@@ -1,8 +1,0 @@
-= form_for subject, html: {class: 'edit_answer_form', id: "answer-form#{subject.id}" }, remote: true  do |f|
-  = render 'layouts/shared/error_form', object: f.object
-  .form-group
-    = f.text_area :body, class: 'form-control', required: true, rows: 5
-  .form-group
-    ul.list-inline
-      li
-        = f.submit 'Save', class: 'btn btn-primary'
