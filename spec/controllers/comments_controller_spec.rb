@@ -4,31 +4,36 @@ RSpec.describe CommentsController, type: :controller do
 
   shared_examples "comments #create" do |context_name|
     context context_name do
+      before { sign_in(user) }
 
-      context 'User is authorized' do
-        context 'change comments count' do
-          before { sign_in(@user) }
-          it {expect { subject }.to change(context.comments, :count).by(1)}
-        end
+      it {expect { subject }.to change(context.comments, :count).by(1) }
+
+      it_behaves_like "unauthorized user request" do
+        it {expect { subject }.to_not change(context.comments, :count) }
       end
 
-      context 'User is not authorized' do
-        it "do not change comments count" do
-          expect { subject }.to_not change(context.comments, :count)
-        end
+      it_behaves_like "invalid params", "empty body", model: Comment do
+        let(:form_params) { { body: '' } }
       end
-
-      # it_behaves_like "invalid params", "empty body", model: Comment do
-      #   let(:form_params) { { body: '' } }
-      # end
     end
   end
 
+  shared_examples "comments #destroy" do |context_name|
+    context context_name do
 
-  before :each do
-    @request.env['devise.mapping'] = Devise.mappings[:user]
-    @other_user = create :user
-    @user = create :user
+      before do
+        sign_in(user)
+      end
+
+      it {expect { subject }.to change(context.comments, :count).by(-1) }
+
+      it_behaves_like "unauthorized user destroy" do
+        it {expect { subject }.to_not change(context.comments, :count) }
+      end
+      it_behaves_like "non owner" do
+        it {expect { subject }.to_not change(context.comments, :count) }
+      end
+    end
   end
 
 
@@ -57,33 +62,26 @@ RSpec.describe CommentsController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    let(:question) { create(:question, user: @user) }
-    let(:answer) { create(:answer, question: question, user: @user) }
-    let!(:comment) { create(:comment, user:@user, commentable: question) }
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
-    context 'User is not authorized' do
-      it 'do not delete in DB' do
-        expect { delete :destroy, params: { id: comment.id, format: :js } }.to_not change { Comment.count }
-      end
+    let(:params) do
+      { id: comment.id, format: :js }
     end
 
-    context 'User is authorized' do
-      context 'when he is owner' do
-        before { sign_in(@user) }
+    subject { delete :destroy, params: params }
 
-        it 'does delete in DB' do
-          expect { delete :destroy, params: { id: comment.id, format: :js } }.to change { Comment.count }
-        end
-      end
+    it_behaves_like "comments #destroy", "question" do
+      let!(:comment) { create(:comment, user:user, commentable: question) }
+      let(:context_params) { { question_id: question, context: 'question' } }
+      let(:context) { question }
+    end
 
-      context 'when he is not owner' do
-        before { sign_in(@other_user) }
-
-        it 'does not delete in DB' do
-          expect { delete :destroy, params: { id: comment.id, format: :js } }.to_not change { Comment.count }
-        end
-      end
-
+    it_behaves_like "comments #destroy", "answer" do
+      let!(:comment) { create(:comment, user:user, commentable: answer) }
+      let(:context_params) { { answer_id: answer, context: 'answer' } }
+      let(:context) { answer }
     end
   end
 
