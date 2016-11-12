@@ -9,8 +9,16 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: [:votesable] do
-    resources :answers, concerns: [:votesable], shallow: true do
+  concern :commentable do
+    resources :comments, shallow: true, only: [:destroy]
+    member do
+      post 'comment_create'
+      get 'comment_index'
+    end
+  end
+
+  resources :questions, concerns: [:votesable, :commentable] do
+    resources :answers, concerns: [:votesable, :commentable], shallow: true do
       patch 'assign_best', on: :member
     end
   end

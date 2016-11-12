@@ -3,10 +3,8 @@ module Serialized
 
   def render_json(item, root_name = controller_name.singularize)
     if item.errors.any?
-      # binding.pry
       render_errors item
     else
-      # binding.pry
       render json: item, root: root_name, meta_key: :message, meta: t('.message')
     end
   end

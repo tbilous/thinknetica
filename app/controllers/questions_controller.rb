@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   include Voted
-  # include Serialized
+  include Commented
+  include Serialized
 
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :update, :destroy]
