@@ -1,10 +1,8 @@
 require 'rails_helper'
 require_relative 'concerns/voted'
-require_relative 'concerns/commented'
 
 RSpec.describe AnswersController, type: :controller do
   it_behaves_like 'voted'
-  it_behaves_like 'commented'
 
   let(:question) { @user.questions.create(title: 'a' * 61, body: 'b' * 120) }
 

@@ -1,7 +1,5 @@
 class QuestionsController < ApplicationController
   include Voted
-  include Commented
-  include Serialized
 
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :update, :destroy]
@@ -14,6 +12,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @question_comment = @question.answers.build
     @answer = @question.answers.build
     @answer.attachments.build
   end

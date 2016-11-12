@@ -1,5 +1,9 @@
 class CommentsController < ApplicationController
+  include Contexted
+  include Serialized
 
+  before_action :authenticate_user!
+  before_action :set_context, only: [:create]
   before_action :load_comment, only: :destroy
   before_action :require_permission, only: :destroy
 
@@ -7,7 +11,17 @@ class CommentsController < ApplicationController
     @comment.destroy
   end
 
+  def create
+    @comment = @context.comments.create(
+        strong_params.merge(user: current_user)
+    )
+    render_json @comment
+  end
+
   private
+  def strong_params
+    params.require(:comment).permit(:body)
+  end
 
   def load_comment
     @comment = Comment.find(params['id'])

@@ -2,11 +2,12 @@ require 'rails_helper'
 
 shared_examples 'commented' do
   let!(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: @user) }
+  context = described_class.controller_name.classify.underscore.to_sym
 
   describe 'PATCH #comment_create' do
-
     let(:params) do
       {
+          context: context,
           id: model.id,
           body: 'a' * 6,
           format: :json
@@ -14,7 +15,8 @@ shared_examples 'commented' do
     end
     context 'User is not authenticated' do
       it 'comment does not created in DB' do
-        expect { patch :comment_create, params: params }
+        binding.pry
+        expect { post :question_comments, params: params }
             .to_not change(model.comments.where(commentable: model), :count)
       end
     end
@@ -24,7 +26,7 @@ shared_examples 'commented' do
       }
 
       it 'comment has created in DB' do
-        expect { patch :comment_create, params: params }
+        expect { post :comment_create, params: params }
             .to change(model.comments.where(commentable: model), :count).by(1)
       end
     end

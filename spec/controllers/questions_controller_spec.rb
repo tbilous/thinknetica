@@ -1,10 +1,10 @@
 require 'rails_helper'
 require_relative 'concerns/voted'
-require_relative 'concerns/commented'
+# require_relative 'concerns/commented'
 
 RSpec.describe QuestionsController, type: :controller do
   it_behaves_like 'voted'
-  it_behaves_like 'commented'
+  # it_behaves_like 'commented'
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]

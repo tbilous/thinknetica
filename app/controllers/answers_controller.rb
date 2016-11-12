@@ -1,7 +1,5 @@
 class AnswersController < ApplicationController
   include Voted
-  include Commented
-  include Serialized
 
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
