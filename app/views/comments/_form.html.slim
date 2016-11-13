@@ -1,5 +1,6 @@
+h4 Write comment
 .collection-item
-  = form_for shallow_resource(@question, comment), remote: true do |f|
+  = form_for shallow_resource(@question, comment), :html => {:id => "NewQuestionComment"}, remote: true do |f|
     .card-content
       = render 'layouts/shared/error_form', object: f.object
       .row

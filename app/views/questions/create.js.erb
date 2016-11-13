@@ -1,0 +1,15 @@
+var message, color;
+
+<% if @question.errors.present? %>
+color = 'red';
+
+<% @question.errors.each do |field, msg| %>
+message = "<%= j msg %>";
+alertFunc(message, color);
+<% end %>
+
+<% else %>
+  message = "<%=j flash[:success] %>";
+  color = 'green';
+  alertFunc(message, color);
+<% end %>

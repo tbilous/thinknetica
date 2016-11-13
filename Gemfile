@@ -34,7 +34,9 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'remotipart'
 
-# gem 'skim'
+gem 'skim'
+gem 'sprockets', '>= 3.7.0'
+
 gem 'pundit'
 gem 'active_model_serializers'
 

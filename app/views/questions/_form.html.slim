@@ -1,6 +1,5 @@
 #question_form.card-panel
   = form_for @question || :question, remote: true do |f|
-    = render 'layouts/shared/error_form', object: f.object
     .row
       .input-field.col.s12
         =f.text_field :title

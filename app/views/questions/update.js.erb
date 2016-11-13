@@ -1,15 +1,22 @@
 var form = $('#question_form' + '<%= @question.id %>');
 var target = $('#question-' + <%= @question.id %> + ' ' + '.question-rendered');
-
+var message, color;
 <% if @question.errors.present? %>
-  $("form .alert").remove();
-  form.prepend('<%= j render 'layouts/shared/error_form', object: @question %>');
+color = 'red';
+
+<% @question.errors.each do |field, msg| %>
+message = "<%= j msg %>";
+alertFunc(message, color);
+<% end %>
+
 <% else %>
 
 // refresh question
   $(target).html("<%= j render 'question_l_line' %></div>");
 
-  $("#headerFlash").html("<%= j render 'layouts/shared/error_messages' %>");
+  message = "<%=j flash[:success] %>";
+  color = 'green';
+  alertFunc(message, color);
 
 //hide form
   $('#question_form-edit-wrapper').toggleClass('hidden');

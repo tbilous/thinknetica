@@ -1,2 +1,11 @@
 $("#answer-block-<%= @answer.id %>").remove();
-$("#headerFlash").html("<%=j render 'layouts/shared/error_messages' %>");
+<% if flash[:success] %>
+  message = "<%=j flash[:success] %>";
+  color = 'green';
+alertFunc(message, color);
+
+<% elsif flash[:error]  %>
+  color = 'red';
+  message = "<%=j flash[:success] %>";
+  Materialize.toast(message, 4000, 'red');
+<% end %>

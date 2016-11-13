@@ -16,11 +16,16 @@
 //= require turbolinks
 //= require materialize-sprockets
 //= require cocoon
+//= require skim
 //= require_tree .
 
-$(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function () {
     $(".dropdown-button").dropdown();
     $(".button-collapse").sideNav();
     $('.materialize-textarea').trigger('autoresize');
     Materialize.updateTextFields();
 });
+
+alertFunc = function (message, color) {
+    Materialize.toast(message, 4000, color);
+};

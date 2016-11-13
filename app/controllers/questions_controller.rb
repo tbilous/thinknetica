@@ -29,8 +29,6 @@ class QuestionsController < ApplicationController
       flash[:success] = 'NICE'
       redirect_to @question
     else
-      @questions = Question.all
-      render :index
     end
   end
 

@@ -1,12 +1,22 @@
-var form = $('#answer-form' + '<%= @answer.id %>');
+var form = $('#answer-form' + '<%= @answer.id %>'),
+    message,
+    color;
 
 <% if @answer.errors.present? %>
-  form.prepend('<%= j render 'layouts/shared/error_form', object: @answer %>');
+  color = 'red';
+
+  <% @answer.errors.each do |field, msg| %>
+    message = "<%= j msg %>";
+  alertFunc(message, color);
+  <% end %>
 <% else %>
 $('#answer-' + <%= @answer.id %>).replaceWith(
     "<div class='answer-rendered'><%= j render partial: 'answers/answer_l_line', locals: {object: @answer}%></div>");
-  $("#headerFlash").html("<%= j render 'layouts/shared/error_messages' %>");
-  $(form).toggleClass('hidden');
-  $("form .alert").remove();
+  message = "<%=j flash[:success] %>";
+  color = 'green';
+  alertFunc(message, color);
+
+$(form).toggleClass('hidden');
+
 <% end %>
 
