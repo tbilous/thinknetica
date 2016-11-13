@@ -1,0 +1,3 @@
+ul.list-line
+  li = object.created_at.try(:strftime,'%Y.%m.%d %H:%M')
+  li.comment-body = object.body
