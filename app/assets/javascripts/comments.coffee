@@ -1,5 +1,6 @@
 $ ->
   commentForm = $("#NewQuestionComment")
+  clearForm = $("#NewQuestionComment textarea")
   addAnswerBtn = $("#add_answer_btn")
   commentsList = $("#QuestionCommentsList")
   cancelBtn = $(".cancel-btn")
@@ -19,6 +20,7 @@ $ ->
   commentForm.on 'ajax:success', (e, data, status, xhr) ->
     App.utils.successMessage(data?.message)
     appendComment data.comment
+    clearForm.val('')
     wrapper.toggleClass('hidden')
 
   commentForm.on 'ajax:error', App.utils.ajaxErrorHandler
