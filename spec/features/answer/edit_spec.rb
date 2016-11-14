@@ -23,7 +23,6 @@ feature 'Author can delete answers', %q{
     end
 
     expect(page).to have_content new_answer_params
-    expect(page).to have_css('.alert-success')
     expect(current_path).to eq question_path(question)
   end
 

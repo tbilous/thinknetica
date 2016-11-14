@@ -1,16 +1,16 @@
-h4 Write comment
+h5 Write comment
 .collection-item
-  = form_for shallow_resource(@question, comment), :html => {:id => "NewQuestionComment"}, remote: true do |f|
+  = form_for shallow_resource(object, comment), :html => {:id => "New#{ local_assigns.fetch(:name, nil) }Comment"}, remote: true do |f|
     .card-content
       = render 'layouts/shared/error_form', object: f.object
       .row
         .input-field.col.s12
           = f.text_area :body, class: 'materialize-textarea validate',
-                  required: true, rows: 5, placeholder: 'Compose new answer...'
+                  required: true
           =f.label :body, class: 'validate'
     .card-action
       ul.list-inline
         li
-          = button_tag class: 'waves-effect waves-light btn', id: 'QuestionCommentAdd' do
+          = button_tag class: 'waves-effect waves-light btn', id: '#{ local_assigns.fetch(:name, nil) }CommentAdd' do
             i.material-icons.right send
             | submit

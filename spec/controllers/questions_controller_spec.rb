@@ -124,7 +124,8 @@ RSpec.describe QuestionsController, type: :controller do
         context 'attr is not valid' do
           let(:wrong_params) do
             {
-              question: attributes_for(:wrong_question)
+              question: attributes_for(:wrong_question),
+              format: :js
             }
           end
 

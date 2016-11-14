@@ -37,7 +37,6 @@ feature 'Create answer', %q{
       click_button('submit')
     end
 
-    expect(page).to have_css('.alert-danger')
     expect(current_path).to eq question_path(question)
   end
 
