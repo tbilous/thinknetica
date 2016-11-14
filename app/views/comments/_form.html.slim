@@ -1,6 +1,6 @@
 h5 Write comment
 .collection-item
-  = form_for shallow_resource(object, comment), :html => {:id => "New#{ local_assigns.fetch(:name, nil) }Comment"}, remote: true do |f|
+  = form_for shallow_resource(object, comment), data: { target: "#{ local_assigns.fetch(:target, nil) }" }, html: {:id => "New#{ local_assigns.fetch(:name, nil) }Comment"}, remote: true do |f|
     .card-content
       = render 'layouts/shared/error_form', object: f.object
       .row

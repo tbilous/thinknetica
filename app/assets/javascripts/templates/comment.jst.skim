@@ -1,4 +1,4 @@
-comment-block id = "comment-#{@id}"
+.comment-block id = "comment-#{@id}"
   .collection-item
     .row
       .col.s11

@@ -21,9 +21,6 @@ ready = ->
 
     $('.vote-error').remove()
 
-#    console.log(wrapper)
-
-
     $(target).html data.rating
 
     removeBtn.removeClass('hidden')
@@ -43,15 +40,3 @@ ready = ->
   return
 
 $(document).on("turbolinks:load", ready)
-#$ ->
-#  console.log('(document).turbolinks:load votes')
-#  $('.main').on 'ajax:success', '.vote-link', (e, data) ->
-##    console.log($(this))
-##    console.log(data)
-#    cont = $(e.target).closest('.vote-container')
-#    console.log(cont)
-##    return unless cont?
-#    cont.find('.votes-sum').text(data.rating)
-##    cont.toggleClass('has-vote', data.is_voted)
-#
-#  $('.main').on 'ajax:error', '.vote-link', App.utils.ajaxErrorHandler
