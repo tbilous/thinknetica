@@ -1,7 +1,6 @@
 require 'acceptance_helper'
-# require_relative '../../acceptance_helper'
 
-feature 'Add comments', %q{
+feature 'Add comments answer', %q{
   In order to add comments for question
   All user on question page see comment after his added
 } do
@@ -27,19 +26,19 @@ feature 'Add comments', %q{
         find('.btn').trigger("click")
       end
 
-      within '#QuestionCommentsList' do
+      within "#QuestionCommentsList-#{question.id}" do
         expect(page).to have_content comment_attrib[:body]
       end
     end
 
     scenario 'user can`t create comment when his not authorized', :aggregate_failures, :js do
       within '.question-block' do
-        expect(page).to_not have_css("#addcomment-question-#{question.id}")
+        expect(page).to_not have_css("#comment-question-#{question.id}")
       end
     end
   end
 
-  context 'user can to delete comment' do
+  context 'user can to delete comment', :js do
     let(:other_user) { create(:user) }
     let!(:comment) { create(:comment, user:other_user, commentable: question) }
 
@@ -48,6 +47,8 @@ feature 'Add comments', %q{
       visit question_path(question)
 
       expect(page).to have_css('.delete-comment-link')
+      page.find('.delete-comment-link').click
+      expect(page).to_not have_content(comment[:body])
 
     end
 
