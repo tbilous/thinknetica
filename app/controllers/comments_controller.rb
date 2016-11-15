@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @context.comments.create(
-        strong_params.merge(user: current_user)
+      strong_params.merge(user: current_user)
     )
     render_json @comment
   end
@@ -20,6 +20,7 @@ class CommentsController < ApplicationController
   end
 
   private
+
   def strong_params
     params.require(:comment).permit(:body)
   end

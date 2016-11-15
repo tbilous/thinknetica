@@ -9,8 +9,6 @@ feature 'Add comments answer', %q{
   let(:question) { create(:question, user: user) }
   let(:comment_attrib) { attributes_for(:comment) }
 
-
-
   background do
     visit question_path(question)
   end
@@ -23,7 +21,7 @@ feature 'Add comments answer', %q{
 
       within '#NewQuestionComment' do
         fill_in 'comment_body', with: comment_attrib[:body]
-        find('.btn').trigger("click")
+        find('.btn').trigger('click')
       end
 
       within "#QuestionCommentsList-#{question.id}" do
@@ -40,7 +38,7 @@ feature 'Add comments answer', %q{
 
   context 'user can to delete comment', :js do
     let(:other_user) { create(:user) }
-    let!(:comment) { create(:comment, user:other_user, commentable: question) }
+    let!(:comment) { create(:comment, user: other_user, commentable: question) }
 
     scenario 'authorized user can to delete his comment for question' do
       login_as(other_user)
@@ -49,7 +47,6 @@ feature 'Add comments answer', %q{
       expect(page).to have_css('.delete-comment-link')
       page.find('.delete-comment-link').click
       expect(page).to_not have_content(comment[:body])
-
     end
 
     scenario 'authorized user can`t to delete other user`s comment for question' do
@@ -69,9 +66,5 @@ feature 'Add comments answer', %q{
         expect(page).to_not have_css("#delete-comment-#{question.id}")
       end
     end
-
   end
-
-
-
 end

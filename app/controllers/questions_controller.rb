@@ -29,6 +29,7 @@ class QuestionsController < ApplicationController
       flash[:success] = 'NICE'
       redirect_to @question
     else
+      flash[:success] = 'WRONG'
     end
   end
 

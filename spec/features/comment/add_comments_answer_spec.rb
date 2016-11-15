@@ -10,8 +10,6 @@ feature 'Add comments for answer', %q{
   let!(:answer) { create(:answer, question: question, user: user) }
   let(:comment_attrib) { attributes_for(:comment) }
 
-
-
   background do
     visit question_path(question)
   end
@@ -24,7 +22,7 @@ feature 'Add comments for answer', %q{
 
       within '#NewAnswerComment' do
         fill_in 'comment_body', with: comment_attrib[:body]
-        find('.btn').trigger("click")
+        find('.btn').trigger('click')
       end
 
       within "#AnswerCommentsList-#{answer.id}" do
@@ -41,7 +39,7 @@ feature 'Add comments for answer', %q{
 
   context 'user can to delete comment', :js do
     let(:other_user) { create(:user) }
-    let!(:comment) { create(:comment, user:other_user, commentable: answer) }
+    let!(:comment) { create(:comment, user: other_user, commentable: answer) }
 
     scenario 'authorized user can to delete his comment for answer' do
       login_as(other_user)
@@ -70,5 +68,4 @@ feature 'Add comments for answer', %q{
       end
     end
   end
-
 end

@@ -16,6 +16,6 @@ module Contexted
   end
 
   def context_id
-    params.fetch("#{params[:context].foreign_key}")
+    params.fetch(params[:context].foreign_key.to_s)
   end
 end

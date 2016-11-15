@@ -1,4 +1,4 @@
-shared_examples "invalid params" do |message, model: nil, code: 403|
+shared_examples 'invalid params' do |message, model: nil, code: 403|
   context message do
     if model
       it "doesn't create #{model}" do
@@ -14,15 +14,15 @@ shared_examples "invalid params" do |message, model: nil, code: 403|
   end
 end
 
-shared_examples "unauthorized user request" do |message, **hargs|
-  include_context "unauthorized user"
-  include_examples "invalid params", message, hargs.merge(code: 401)
+shared_examples 'unauthorized user request' do |message, **hargs|
+  include_context 'unauthorized user'
+  include_examples 'invalid params', message, hargs.merge(code: 401)
 end
 
-shared_examples "unauthorized user destroy" do
-  include_context "unauthorized user"
+shared_examples 'unauthorized user destroy' do
+  include_context 'unauthorized user'
 end
 
-shared_examples "non owner" do
-  include_context "non owner user"
+shared_examples 'non owner' do
+  include_context 'non owner user'
 end
