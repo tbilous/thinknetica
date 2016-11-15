@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     end
     resources :comments, only: [:create], defaults: { context: 'question' }
   end
+
   root 'questions#index'
   resources :attachments, only: :destroy
+
+  mount ActionCable.server => '/cable'
 end

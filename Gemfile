@@ -39,6 +39,7 @@ gem 'sprockets', '>= 3.7.0'
 
 gem 'pundit'
 gem 'active_model_serializers'
+gem 'gon'
 
 group :development, :test do
   gem 'byebug'

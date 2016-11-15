@@ -17,6 +17,11 @@ ready = ->
     commentForm.on 'ajax:success', (e, data, status, xhr) ->
       appendComment data.comment
 
+
+
     commentForm.on 'ajax:error', App.utils.ajaxErrorHandler
+
+
+
 
 $(document).on("turbolinks:load", ready)

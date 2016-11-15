@@ -6,6 +6,7 @@ class CommentsController < ApplicationController
   before_action :set_context, only: [:create]
   before_action :load_comment, only: :destroy
   before_action :require_permission, only: :destroy
+  after_action :publish_comment, only: :create
 
   def create
     @comment = @context.comments.create(
@@ -23,6 +24,18 @@ class CommentsController < ApplicationController
 
   def strong_params
     params.require(:comment).permit(:body)
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+    ActionCable.server.broadcast('comments',
+      {
+        comment: ApplicationController.render(
+          locals: { comment: @comment },
+          partial: 'comments/comment'
+        )
+      }
+    )
   end
 
   def load_comment

@@ -19,6 +19,9 @@
 //= require skim
 //= require_tree .
 
+// var App = App || {};
+// App.cable = ActionCable.createConsumer();
+
 $(document).on('turbolinks:load', function () {
     $(".dropdown-button").dropdown();
     $(".button-collapse").sideNav();
