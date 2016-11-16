@@ -22,14 +22,14 @@
 ##      received: (data) ->
 ##        $(commentsList)(data)
 #}
-App.cable.subscriptions.create 'CommentsChannel',
-  connected: ->
-    if questionId = $('.answers').data('question-id')
-      @perform 'follow', question_id: questionId
-    else
-      @perform 'unfollow'
-  received: (data) ->
-    comments_selector = '#comments-' + data['commentable_type'] + '-' + data['commentable_id']
-    $(comments_selector + ' ul').append JST['templates/comment'](
-      comment: data['comment']
-      current_user_id: gon.current_user_id)
+#App.cable.subscriptions.create 'CommentsChannel',
+#  connected: ->
+#    if questionId = $('.answers').data('question-id')
+#      @perform 'follow', question_id: questionId
+#    else
+#      @perform 'unfollow'
+#  received: (data) ->
+#    comments_selector = '#comments-' + data['commentable_type'] + '-' + data['commentable_id']
+#    $(comments_selector + ' ul').append JST['templates/comment'](
+#      comment: data['comment']
+#      current_user_id: gon.current_user_id)
