@@ -15,6 +15,11 @@ ru:
       message: "Ваш ответ изменен"
     best:
       message: "Ответ назван лучшим"
+  comments:
+    create:
+      message: "Ваш комментарий добавлен"
+    destroy:
+      message: "Ваш комментарий удален"
   page:
     home: "Домашняя страница"
     registration: 'Регистрация'
@@ -42,3 +47,5 @@ ru:
         body: 'Вопрос:'
       answer:
         body: 'Ответ:'
+      comment:
+        body: 'Комментарий:'

@@ -3,7 +3,7 @@
     .row
       .col.s11
         ul.list-line
-          li = @created_at
+          li = @created_date
           li.comment-body = @body
       .col.s1.center
         a.delete-comment-link.btn-floating.red data-remote="true" rel="nofollow" data-method="delete" href="/comments/#{@id}"

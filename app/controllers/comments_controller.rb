@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
   before_action :set_context, only: [:create]
   before_action :load_comment, only: :destroy
   before_action :require_permission, only: :destroy
-  after_action :publish_comment, only: :create
+  # after_action :publish_comment, only: :create
 
   def create
     @comment = @context.comments.create(

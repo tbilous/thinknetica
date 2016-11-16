@@ -8,16 +8,14 @@ ready = ->
     appendComment = (data) ->
       return if $("#comment-#{data.id}")[0]?
       $(commentsList).append App.utils.render('comment', data)
-      App.utils.successMessage('Comment added')
-      $(clearForm).val('')
-      $(formWrapper).toggleClass('hidden')
 
     $(formWrapper).toggleClass('hidden')
 
     commentForm.on 'ajax:success', (e, data, status, xhr) ->
+      App.utils.successMessage(data?.message)
+      $(clearForm).val('')
+      $(formWrapper).toggleClass('hidden')
       appendComment data.comment
-
-
 
     commentForm.on 'ajax:error', App.utils.ajaxErrorHandler
 
