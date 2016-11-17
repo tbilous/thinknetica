@@ -1,7 +1,6 @@
 $(document).on 'turbolinks:load', ->
   App.questions = App.cable.subscriptions.create "RootChannel",
     connected: ->
-      @follow()
 
     received: (data) ->
       questionList = $('.questions-list.collection')

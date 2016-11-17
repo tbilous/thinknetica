@@ -14,14 +14,25 @@ $(document).on 'turbolinks:load', ->
       @perform 'unfollow'
       console.log 'QuestionChannel', 'unfollow'
 
+    proceedAnswer: (data) ->
+      debugger
+      App.utils.successMessage(data.meta)
+      $('#answersList').append App.utils.render('comment', data.answer)
+
     received: (data) ->
-      return unless data.answer
-        answer = $.parseJSON(data.answer)
-        $('.answers-list').append JST['templates/answer'](answer)
-      return unless data.comment
-        comment = $.parseJSON(data.comment)
-        $parent = $('[data-' + comment.parent.type + '-id ="' + comment.parent.id + '"]')
-        $parent.find('.comments-list').append JST['templates/comment'](comment)
+
+      if (data.answer) then @proceedAnswer(data)
+#      console.log data
+#      App.utils.successMessage(data.meta)
+      return
+#      return unless data.answer
+#        App.utils.successMessage(data.meta)
+#        answer = $.parseJSON(data.answer)
+#        $('.answers-list').append JST['templates/answer'](answer)
+#      return unless data.comment
+#        comment = $.parseJSON(data.comment)
+#        $parent = $('[data-' + comment.parent.type + '-id ="' + comment.parent.id + '"]')
+#        $parent.find('.comments-list').append JST['templates/comment'](comment)
 
 $(document).on 'turbolinks:load', ->
   question_id = $('.question-block').data('question')

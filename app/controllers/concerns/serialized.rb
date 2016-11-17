@@ -20,4 +20,8 @@ module Serialized
   def render_not_found
     render status: :not_found
   end
+
+  def render_broadcast(item, root_name = controller_name.singularize)
+    render json: item, root: root_name, meta_key: :message, meta: t('.message')
+  end
 end
