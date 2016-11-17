@@ -23,7 +23,7 @@ feature 'Create question', %q{
     expect(page).to have_content question_params[:body]
   end
 
-  scenario 'Authenticated user tries to create question with invalid data', js: true do
+  scenario 'Authenticated user tries to create question with invalid data' do
     login_as(user)
     visit questions_path
 

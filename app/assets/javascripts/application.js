@@ -12,15 +12,21 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require action_cable
 //= require jquery.remotipart
 //= require turbolinks
 //= require materialize-sprockets
 //= require cocoon
 //= require skim
-//= require_tree .
+//= require ./shared/utils
+//= require comments
+//= require votes
+//= require_tree ./templates
+//= require_tree ./channels
+//= require_tree ./widgets
 
-// var App = App || {};
-// App.cable = ActionCable.createConsumer();
+var App = App || {};
+App.cable = ActionCable.createConsumer();
 
 $(document).on('turbolinks:load', function () {
     $(".dropdown-button").dropdown();

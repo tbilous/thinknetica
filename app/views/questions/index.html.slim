@@ -1,12 +1,13 @@
 - provide(:title, t('page.home'))
 
-- if @questions.any?
-  br
-  h5 List of questions
-  .questions-list.collection
-    = render @questions
-- else
-  h3.center No questions
+#QuestionsList
+  - if @questions.any?
+    br
+    h5 List of questions
+    .questions-list.collection
+      = render @questions
+  - else
+    h3.center No questions
 
 
 - if user_signed_in?

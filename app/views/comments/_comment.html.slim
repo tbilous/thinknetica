@@ -8,6 +8,6 @@
             li.comment-body = comment.body
         .col.s1.center
           - if user_signed_in? && current_user.owner_of?(comment)
-          = button_to comment, method: :delete, remote: true,
-                  class: 'btn-floating red delete-comment-link', id: "delete-comment-#{comment.id}" do
-            i.material-icons delete
+            = button_to comment, method: :delete, remote: true,
+                    class: 'btn-floating red delete-comment-link', id: "delete-comment-#{comment.id}" do
+              i.material-icons delete

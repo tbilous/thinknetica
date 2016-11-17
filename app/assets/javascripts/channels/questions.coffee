@@ -1,10 +1,22 @@
-App.questions = App.cable.subscriptions.create "RootChannel",
-  connected: ->
-    @perform 'follow'
-    console.log 'RootChannel', 'follow'
+$(document).on 'turbolinks:load', ->
+  App.questions = App.cable.subscriptions.create "RootChannel",
+    connected: ->
+      @follow()
 
-  received: (data) ->
-    questionList = $('.questions-list.collection')
-    questionList.append data
-  follow: ->
-    @perform 'follow'
+    received: (data) ->
+      questionList = $('.questions-list.collection')
+      questionList.append data
+
+    follow: ->
+      @perform 'follow'
+      console.log 'RootChannel', 'follow'
+
+    unfollow: ->
+      @perform 'unfollow'
+      console.log 'RootChannel', 'unfollow'
+
+$(document).on 'turbolinks:load', ->
+  if questions = document.getElementById('QuestionsList')
+    App.questions.follow()
+  else
+    App.questions.unfollow()
