@@ -30,6 +30,7 @@ class QuestionsController < ApplicationController
   def edit
   end
 
+
   def create
     @question = current_user.questions.create(strong_params)
     if @question.save
@@ -75,4 +76,8 @@ class QuestionsController < ApplicationController
     redirect_to root_path, alert: 'NO RIGHTS!' unless current_user && current_user.owner_of?(@question)
   end
 
+
+  def set_gon_current_user
+    gon.current_user_id = current_user ? current_user.id : 0
+  end
 end

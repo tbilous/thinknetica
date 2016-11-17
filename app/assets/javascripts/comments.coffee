@@ -12,6 +12,7 @@ ready = ->
     $(formWrapper).toggleClass('hidden')
 
     commentForm.on 'ajax:success', (e, data, status, xhr) ->
+#      debugger
       App.utils.successMessage(data?.message)
       $(clearForm).val('')
       $(formWrapper).toggleClass('hidden')

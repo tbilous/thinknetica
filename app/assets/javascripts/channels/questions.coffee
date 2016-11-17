@@ -1,8 +1,7 @@
-App.questions = App.cable.subscriptions.create "QuestionsChannel",
-
+App.questions = App.cable.subscriptions.create "RootChannel",
   connected: ->
-    console.log 'QuestionsChannel', 'connected'
     @perform 'follow'
+    console.log 'RootChannel', 'follow'
 
   received: (data) ->
     questionList = $('.questions-list.collection')

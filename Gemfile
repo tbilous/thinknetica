@@ -35,7 +35,7 @@ gem 'cocoon'
 gem 'remotipart'
 
 gem 'skim'
-gem 'sprockets', '>= 3.7.0'
+gem 'sprockets', '3.6.3'
 
 gem 'pundit'
 gem 'active_model_serializers'

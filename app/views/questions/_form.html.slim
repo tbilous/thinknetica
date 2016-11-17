@@ -1,5 +1,5 @@
 #question_form.card-panel
-  = form_for @question || :question, remote: true do |f|
+  = form_for @question || :question, data: {remote: "#{ local_assigns.fetch(:remoted, nil) }"}  do |f|
     .row
       .input-field.col.s12
         =f.text_field :title

@@ -1,5 +1,4 @@
 .vote-container
-  - target = "#{ local_assigns.fetch(:part, nil) }"
   ul.vote-control
     - if user_signed_in? && !current_user.owner_of?(object)
       li class=(object.had_voted?(current_user) ? 'remove-btn' : 'remove-btn hidden') data-target = ("#rating-#{object.id}")
@@ -8,7 +7,7 @@
                 class: 'btn-floating btn-small red',
                 id: "vote-cancel-#{object.id}",
                 data: {type: :json, target: "#rating-#{object.id}"} do
-          i.material-icons.right cancel
+          i.material-icons cancel
 
     li.rating_val.chip.vote-sum id="rating-#{object.id}" = object.rate
 
@@ -20,7 +19,7 @@
                 class: 'btn-floating btn-small vote_link green',
                 id: "vote-plus-#{object.id}",
                 data: {type: :json, target: "#rating-#{object.id}"} do
-          i.material-icons.right thumb_up
+          i.material-icons thumb_up
       li
         = link_to  polymorphic_path(object, action: :vote_minus),
                 method: :PATCH,
@@ -28,4 +27,4 @@
                 class: 'btn-floating btn-small vote_link yellow darken-4',
                 id: "vote-minus-#{object.id}",
                 data: {type: :json, target: "#rating-#{object.id}"} do
-          i.material-icons.right thumb_down
+          i.material-icons thumb_down
