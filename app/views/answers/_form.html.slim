@@ -1,5 +1,5 @@
 .card
-  = form_for shallow_resource(@question, answer), remote: true do |f|
+  = form_for shallow_resource(@question, answer), data: {type: "#{ local_assigns.fetch(:type, nil) }"  }, remote: true do |f|
     .card-content
       /= render 'layouts/shared/error_form', object: f.object
       .row

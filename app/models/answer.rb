@@ -27,19 +27,4 @@ class Answer < ApplicationRecord
     end
   end
 
-  private
-  def broadcast
-    return if errors.any?
-
-    files = []
-    attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
-
-    ActionCable.server.broadcast(
-      "answers_#{question_id}",
-      answer:             self,
-      answer_attachments: files,
-      answer_rating:      rate,
-      question_user_id:   question.user_id
-    )
-  end
 end

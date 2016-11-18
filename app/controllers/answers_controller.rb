@@ -1,12 +1,14 @@
 class AnswersController < ApplicationController
   include Voted
   include Serialized
+  include Broadcasted
+
 
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
   before_action :require_permission, only: [:destroy, :update]
 
-  after_action :publish_answer, only: :create
+  # after_action :broadcasted, only: :create
 
   def update
     @question = @answer.question
@@ -20,18 +22,11 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(strong_params)
     @answer.user = current_user
 
-    # flash[:success] = 'NICE!' if @answer.save
     if @answer.save
       render_json @answer
-      # render json: @answer, root: 'answer', meta_key: :message, meta: t('.message')
     else
-      render_errors_for @answer
+      render_errors @answer
     end
-    # if @answer.save
-    #   # render json: @answer
-    # else
-    #   render json: @answer.errors.full_messages, status: :unprocessable_entity
-    # end
   end
 
   def destroy
@@ -47,14 +42,11 @@ class AnswersController < ApplicationController
       flash[:alert] = 'NO RIGHTS!'
     end
   end
-  def render_errors_for(resource)
-    flash.now.alert = resource.errors.full_messages.join(', ')
-  end
+
   private
 
-  def publish_answer
-    return if @answer.errors.any?
-    ActionCable.server.broadcast "answers_#{@answer.question_id}", answer: @answer, meta_key: :message, meta: t('.message')
+  def broadcasted
+    publish_broadcast @answer
   end
 
   def set_gon_current_user

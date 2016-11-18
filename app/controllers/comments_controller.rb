@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   include Contexted
   include Serialized
+  include Broadcasted
 
   before_action :authenticate_user!
   before_action :set_context, only: [:create]
@@ -12,7 +13,12 @@ class CommentsController < ApplicationController
     @comment = @context.comments.create(
       strong_params.merge(user: current_user)
     )
-    render_json @comment
+    # render_json @comment
+    if @comment.save
+      render_json @comment
+    else
+      render_errors @comment
+    end
   end
 
   def destroy
@@ -26,17 +32,21 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:body)
   end
 
-  def publish_comment
-    return if @comment.errors.any?
-    ActionCable.server.broadcast('comments',
-      {
-        comment: ApplicationController.render(
-          locals: { comment: @comment },
-          partial: 'comments/comment'
-        )
-      }
-    )
+  def broadcasted
+    publish_broadcast @comment
   end
+
+  # def publish_comment
+  #   return if @comment.errors.any?
+  #   ActionCable.server.broadcast('comments',
+  #     {
+  #       comment: ApplicationController.render(
+  #         locals: { comment: @comment },
+  #         partial: 'comments/comment'
+  #       )
+  #     }
+  #   )
+  # end
 
   def load_comment
     @comment = Comment.find(params['id'])
