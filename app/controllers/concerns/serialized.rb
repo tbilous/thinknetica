@@ -2,11 +2,11 @@ module Serialized
   extend ActiveSupport::Concern
 
   def render_json(item, root_name = controller_name.singularize)
-    if item.errors.any?
-      render_errors item
-    else
-      render json: item, root: root_name, meta_key: :message, meta: t('.message')
-    end
+    # if item.errors.any?
+    #   render_errors item
+    # else
+    render json: item, root: root_name, meta_key: :message, meta: t('.message')
+    # end
   end
 
   def render_json_message

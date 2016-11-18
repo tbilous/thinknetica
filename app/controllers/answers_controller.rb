@@ -20,12 +20,18 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(strong_params)
     @answer.user = current_user
 
-    flash[:success] = 'NICE!' if @answer.save
+    # flash[:success] = 'NICE!' if @answer.save
     if @answer.save
-      render json: @answer
+      render_json @answer
+      # render json: @answer, root: 'answer', meta_key: :message, meta: t('.message')
     else
-      render json: @answer.errors.full_messages, status: :unprocessable_entity
+      render_errors_for @answer
     end
+    # if @answer.save
+    #   # render json: @answer
+    # else
+    #   render json: @answer.errors.full_messages, status: :unprocessable_entity
+    # end
   end
 
   def destroy
@@ -41,7 +47,9 @@ class AnswersController < ApplicationController
       flash[:alert] = 'NO RIGHTS!'
     end
   end
-
+  def render_errors_for(resource)
+    flash.now.alert = resource.errors.full_messages.join(', ')
+  end
   private
 
   def publish_answer

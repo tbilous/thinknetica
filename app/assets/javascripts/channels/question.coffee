@@ -15,16 +15,20 @@ $(document).on 'turbolinks:load', ->
       console.log 'QuestionChannel', 'unfollow'
 
     proceedAnswer: (data) ->
-      debugger
       App.utils.successMessage(data.meta)
       $('#answersList').append App.utils.render('comment', data.answer)
 
-    received: (data) ->
-
-      if (data.answer) then @proceedAnswer(data)
-#      console.log data
+#    proceedComment: (data) ->
 #      App.utils.successMessage(data.meta)
-      return
+#      $('.comment-list').append App.utils.render('comment', data.comment)
+
+    received: (data) ->
+      if (data.answer)
+        @proceedAnswer(data)
+      else if (data.comment)
+#        @proceedComment(data)
+      else
+        return
 #      return unless data.answer
 #        App.utils.successMessage(data.meta)
 #        answer = $.parseJSON(data.answer)

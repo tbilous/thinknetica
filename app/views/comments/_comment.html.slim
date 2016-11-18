@@ -2,11 +2,11 @@
   .comment-block id = "comment-#{comment.id}"
     .collection-item
       .row
-        .col.s11
+        .col.s10
           ul.list-line
             li = comment.created_date
             li.comment-body = comment.body
-        .col.s1.center
+        .col.s2.center
           - if user_signed_in? && current_user.owner_of?(comment)
             = button_to comment, method: :delete, remote: true,
                     class: 'btn-floating red delete-comment-link', id: "delete-comment-#{comment.id}" do

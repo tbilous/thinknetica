@@ -21,6 +21,7 @@
 //= require ./shared/utils
 //= require comments
 //= require votes
+//= require answer
 //= require_tree ./templates
 //= require_tree ./channels
 //= require_tree ./widgets

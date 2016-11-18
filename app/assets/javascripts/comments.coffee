@@ -12,15 +12,12 @@ ready = ->
     $(formWrapper).toggleClass('hidden')
 
     commentForm.on 'ajax:success', (e, data, status, xhr) ->
-#      debugger
-      App.utils.successMessage(data?.message)
       $(clearForm).val('')
       $(formWrapper).toggleClass('hidden')
+      App.utils.successMessage(data?.message)
       appendComment data.comment
+      reset(this)
 
     commentForm.on 'ajax:error', App.utils.ajaxErrorHandler
-
-
-
 
 $(document).on("turbolinks:load", ready)
