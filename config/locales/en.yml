@@ -1,20 +1,25 @@
 en:
   questions:
     create:
-      message: "Your question has been successfully created"
+      message: "Question has been successfully created"
     destroy:
-      message: "Your question has been successfully removed"
+      message: "Question has been successfully removed"
     update:
-      message: "Your question has been successfully updated"
+      message: "Question has been successfully updated"
   answers:
     create:
-      message: "Your answer has been successfully created"
+      message: "Answer has been successfully created"
     destroy:
-      message: "Your answer has been successfully removed"
+      message: "Answer has been successfully removed"
     update:
-      message: "Your answer has been successfully updated"
+      message: "Answer has been successfully updated"
     best:
       message: "You have successfully chosen the best answer"
+  comments:
+    create:
+      message: "Comment has been successfully removed"
+    destroy:
+      message: "Comment has been successfully removed"
   page:
     sign_in: "Sign in page"
     registration: "Sign up"

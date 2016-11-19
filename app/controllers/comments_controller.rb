@@ -7,7 +7,6 @@ class CommentsController < ApplicationController
   before_action :set_context, only: [:create]
   before_action :load_comment, only: :destroy
   before_action :require_permission, only: :destroy
-  # after_action :publish_comment, only: :create
 
   def create
     @comment = @context.comments.create(
@@ -23,7 +22,12 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    flash[:success] = 'NICE' if @comment.destroy
+    # flash[:success] = 'NICE' if @comment.destroy
+    if @comment.destroy
+      render_json @comment
+    else
+      render_errors @comment
+    end
   end
 
   private
@@ -35,18 +39,6 @@ class CommentsController < ApplicationController
   def broadcasted
     publish_broadcast @comment
   end
-
-  # def publish_comment
-  #   return if @comment.errors.any?
-  #   ActionCable.server.broadcast('comments',
-  #     {
-  #       comment: ApplicationController.render(
-  #         locals: { comment: @comment },
-  #         partial: 'comments/comment'
-  #       )
-  #     }
-  #   )
-  # end
 
   def load_comment
     @comment = Comment.find(params['id'])

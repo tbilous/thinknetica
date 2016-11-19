@@ -3,9 +3,10 @@
     .row
       .col.s10
         ul.list-line
-          li = @created_date
+          li = @date
           li.comment-body = @body
       .col.s2.center
-        a.delete-comment-link.btn-floating.red data-remote="true" rel="nofollow" data-method="delete" href="/comments/#{@id}"
-          i.material-icons delete
-          /- if use1r_signed_in? && current_user.owner_of?(comment)
+        - if gon.current_user_id == @user_id || gon.current_user_id
+          a.delete-comment-link.btn-floating.red data-remote="true" rel="nofollow" data-method="delete" href="/comments/#{@id}"
+            i.material-icons delete
+          /- if user_signed_in? && current_user.owner_of?(comment)

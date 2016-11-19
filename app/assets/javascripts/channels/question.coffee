@@ -15,12 +15,41 @@ $(document).on 'turbolinks:load', ->
       console.log 'QuestionChannel', 'unfollow'
 
     proceedAnswer: (data) ->
-      App.utils.successMessage(data.message)
+      switch data.action
+        when 'create'
+          @createAnswer(data)
+        when 'destroy'
+          @destroyAnswer(data)
+
+    createAnswer: (data) ->
       $('#answersList').append App.utils.render('comment', data.answer)
+      App.utils.successMessage(data.message)
+
+    destroyAnswer: (data) ->
+      $("#answer-block-#{data.answer.id}").detach()
+      App.utils.successMessage(data.message)
 
     proceedComment: (data) ->
       App.utils.successMessage(data.message)
-      $('.comment-list').append App.utils.render('comment', data.comment)
+      switch data.action
+        when 'create'
+          @createComment(data)
+        when 'destroy'
+          @destroyComment(data)
+
+    createComment: (data) ->
+      debugger
+      commentRoot = data.comment.commentable_type
+      commentContainer = $("##{commentRoot}CommentsList-#{data.comment.commentable_id}")
+      $(commentContainer).prepend App.utils.render('comment', data.comment)
+
+    destroyComment: (data) ->
+      data = data.comment
+      commentRoot = data.commentable_type
+      commentContainer = $("##{commentRoot}CommentsList-#{data.commentable_id}")
+      $(commentContainer).find("#comment-#{data.id}").detach()
+
+
 
     received: (data) ->
       if (data.answer)
@@ -29,14 +58,7 @@ $(document).on 'turbolinks:load', ->
         @proceedComment(data)
       else
         return
-#      return unless data.answer
-#        App.utils.successMessage(data.meta)
-#        answer = $.parseJSON(data.answer)
-#        $('.answers-list').append JST['templates/answer'](answer)
-#      return unless data.comment
-#        comment = $.parseJSON(data.comment)
-#        $parent = $('[data-' + comment.parent.type + '-id ="' + comment.parent.id + '"]')
-#        $parent.find('.comments-list').append JST['templates/comment'](comment)
+
 
 $(document).on 'turbolinks:load', ->
   question_id = $('.question-block').data('question')

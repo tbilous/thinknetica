@@ -2,20 +2,38 @@ module Broadcasted
   extend ActiveSupport::Concern
 
   included do
-    after_action :broadcasted, only: :create
+    after_action :broadcasted, only: [:create, :destroy]
   end
 
-  def publish_broadcast(item, target = controller_name.singularize )
+  def publish_broadcast(item, target = controller_name.singularize, action = action_name)
     return if item.errors.any?
-    item.has_attribute?('commentable_type') ? broadcast_comment(item, target) : broadcast_answer(item, target)
+    target == 'comment' ? broadcast_comment(item, target, action) : broadcast_answer(item, target, action)
   end
 
-  def broadcast_comment(item, target)
-    ActionCable.server.broadcast "#{target}_#{item.root_question_id}", "#{target}": item, message: t('.message')
+  def broadcast_comment(item, target, action)
+
+    data = {id: item.id,
+            body: item.body,
+            commentable_type: item.commentable_type,
+            commentable_id: item.commentable_id,
+            user_id: item.user_id,
+            date: item.created_date
+    }
+
+    ActionCable.server.broadcast "#{target}_#{item.root_question_id}",
+                                 "#{target}": data, message: t('.message'), action: action
   end
 
-  def broadcast_answer(item, target)
-    ActionCable.server.broadcast "#{target}_#{item.question_id}", "#{target}": item, message: t('.message')
+  def broadcast_answer(item, target, action)
+    data = {id: item.id,
+            body: item.body,
+            files: item.files,
+            question_id: item.question_id,
+            user_id: item.user_id,
+            date: item.created_date
+    }
+    ActionCable.server.broadcast "#{target}_#{item.question_id}",
+                                 "#{target}": data, message: t('.message'), action: action
   end
 
 end
