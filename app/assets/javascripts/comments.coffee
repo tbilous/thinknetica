@@ -8,7 +8,8 @@ ready = ->
 
   commentForm.on 'ajax:success', (e, data, status, xhr) ->
     $(commentForm).closest('.comment-wrapper').hide()
-    $(commentForm)[0].reset();
+    FormForClear = $(document).find(this)
+    $(FormForClear)[0].reset();
 
   commentForm.on 'ajax:error', App.utils.ajaxErrorHandler
 

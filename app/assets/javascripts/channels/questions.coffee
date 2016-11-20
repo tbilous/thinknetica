@@ -1,3 +1,4 @@
+#= require cable
 $(document).on 'turbolinks:load', ->
   App.questions = App.cable.subscriptions.create "RootChannel",
     connected: ->

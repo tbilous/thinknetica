@@ -1,9 +1,8 @@
-$(document).on 'turbolinks:load', ->
-  App.questionChannel = App.cable.subscriptions.create "QuestionChannel",
+#= require cable
+$ ->
+  App.cable.subscriptions.create "QuestionChannel",
     connected: ->
       @follow()
-
-    disconnected: ->
 
     follow: ->
       return unless question_id = $('.question-block').data('question')
@@ -33,20 +32,16 @@ $(document).on 'turbolinks:load', ->
       App.utils.successMessage(data.message)
       switch data.action
         when 'create'
-          @createComment(data)
+          commentRoot = data.comment.commentable_type
+          commentContainer = $("##{commentRoot}CommentsList-#{data.comment.commentable_id}")
+          return if $("#comment-#{data.comment.id}.comment-block")[0]?
+          $(commentContainer).prepend App.utils.render('comment', data.comment)
         when 'destroy'
-          @destroyComment(data)
-
-    createComment: (data) ->
-      commentRoot = data.comment.commentable_type
-      commentContainer = $("##{commentRoot}CommentsList-#{data.comment.commentable_id} .comment-block")
-      $(commentContainer).prepend App.utils.render('comment', data.comment)
-
-    destroyComment: (data) ->
-      data = data.comment
-      commentRoot = data.commentable_type
-      commentContainer = $("##{commentRoot}CommentsList-#{data.commentable_id}")
-      $(commentContainer).find("#comment-#{data.id}").detach()
+          data = data.comment
+          commentRoot = data.commentable_type
+          commentContainer =
+            $("##{commentRoot}CommentsList-#{data.commentable_id}")
+          $(commentContainer).find("#comment-#{data.id}").detach()
 
     received: (data) ->
       if (data.answer)
@@ -56,9 +51,11 @@ $(document).on 'turbolinks:load', ->
       else
         return
 
-$(document).on 'turbolinks:load', ->
-  question_id = $('.question-block').data('question')
-  if typeof question_id != 'undefined'
-    App.questionChannel.follow()
-  else
-    App.questionChannel.unfollow()
+#
+#$(document).on 'turbolinks:load', ->
+#  question = document.getElementById('QuestionPage')
+#  if question
+#    App.questionChannel.follow()
+#  if !question
+#    App.questionChannel.unfollow()
+
