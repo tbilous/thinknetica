@@ -1,0 +1,13 @@
+form#NewAnswerComment.new_comment accept-charset="UTF-8" action="/answers/#{@id}/comments" data-remote="true" data-target="#AnswerCommentsList-#{@id}" method="post" 
+  input name="utf8" type="hidden" value="✓" /
+  .card-content
+    .row
+      .input-field.col.s12
+        textarea#comment_body.materialize-textarea.validate name="comment[body]" required="required" 
+        label.validate for="comment_body"  Комментарий:
+  .card-action
+    ul.list-inline
+      li
+        button.send-form.waves-effect.waves-light.btn name="button" type="submit" 
+          i.material-icons.right> send
+          | submit

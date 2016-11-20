@@ -31,7 +31,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    flash[:success] = 'NICE'
+    # flash[:success] = 'NICE'
   end
 
   def assign_best

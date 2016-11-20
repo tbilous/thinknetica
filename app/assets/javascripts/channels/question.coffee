@@ -22,7 +22,7 @@ $(document).on 'turbolinks:load', ->
           @destroyAnswer(data)
 
     createAnswer: (data) ->
-      $('#answersList').append App.utils.render('comment', data.answer)
+      $('#answersList').append App.utils.render('answer', data.answer)
       App.utils.successMessage(data.message)
 
     destroyAnswer: (data) ->
@@ -38,9 +38,8 @@ $(document).on 'turbolinks:load', ->
           @destroyComment(data)
 
     createComment: (data) ->
-      debugger
       commentRoot = data.comment.commentable_type
-      commentContainer = $("##{commentRoot}CommentsList-#{data.comment.commentable_id}")
+      commentContainer = $("##{commentRoot}CommentsList-#{data.comment.commentable_id} .comment-block")
       $(commentContainer).prepend App.utils.render('comment', data.comment)
 
     destroyComment: (data) ->
@@ -49,8 +48,6 @@ $(document).on 'turbolinks:load', ->
       commentContainer = $("##{commentRoot}CommentsList-#{data.commentable_id}")
       $(commentContainer).find("#comment-#{data.id}").detach()
 
-
-
     received: (data) ->
       if (data.answer)
         @proceedAnswer(data)
@@ -58,7 +55,6 @@ $(document).on 'turbolinks:load', ->
         @proceedComment(data)
       else
         return
-
 
 $(document).on 'turbolinks:load', ->
   question_id = $('.question-block').data('question')

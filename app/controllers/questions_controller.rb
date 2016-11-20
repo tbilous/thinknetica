@@ -1,15 +1,10 @@
 class QuestionsController < ApplicationController
   include Voted
-  include Gone
 
   before_action :authenticate_user!, except: [:show, :index]
-
   before_action :load_question, only: [:show, :update, :destroy]
-
   before_action :require_permission, only: [:update, :destroy]
   before_action :load_questions, only: [:index, :create]
-
-  # before_action :set_gon_current_user, only: :show
 
   after_action :publish_question, only: [:create]
 
@@ -22,9 +17,10 @@ class QuestionsController < ApplicationController
     @question_comment = @question.answers.build
     @answer = @question.answers.build
     @answer.attachments.build
-    # gon.push({ current_user_id: current_user.id }) if user_signed_in?
-    gon.current_user_id = current_user.id if user_signed_in?
-    gon.question_id = @question.id
+    gon.push({ current_user_id: current_user.id }) if user_signed_in?
+    # gon.current_user_id = current_user.id if user_signed_in?
+    # gon.user_signed_in = user_signed_in?
+    # gon.question_id = @question.id
   end
 
   def new
@@ -75,7 +71,6 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-
   def strong_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
@@ -83,7 +78,6 @@ class QuestionsController < ApplicationController
   def require_permission
     redirect_to root_path, alert: 'NO RIGHTS!' unless current_user && current_user.owner_of?(@question)
   end
-
 
   def set_gon_current_user
     gon.current_user_id = current_user ? current_user.id : 0

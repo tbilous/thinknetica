@@ -1,0 +1,15 @@
+form.edit_answer id="edit_answer_#{@id}" accept-charset="UTF-8" action="/answers/#{@id}" data-remote="true" data-type="" enctype="multipart/form-data" method="post"
+  input name="utf8" type="hidden" value="✓" /
+  input name="_method" type="hidden" value="patch" /
+  .card-content
+    .row
+      .input-field.col.s12
+        textarea#answer_body.materialize-textarea.validate.valid name="answer[body]" placeholder=("Compose new answer...") required="required"
+          = @body
+        label.validate.active for="answer_body"  Ответ:
+  .card-action
+    ul.list-inline
+      li
+        button.waves-effect.waves-light.btn name="button" type="submit"
+          i.material-icons.right> send
+          | submit

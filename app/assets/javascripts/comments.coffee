@@ -7,7 +7,7 @@ ready = ->
 #    $(commentsList).append App.utils.render('comment', data)
 
   commentForm.on 'ajax:success', (e, data, status, xhr) ->
-    $(commentForm).closest('.comment-wrapper').toggleClass('hidden')
+    $(commentForm).closest('.comment-wrapper').hide()
     $(commentForm)[0].reset();
 
   commentForm.on 'ajax:error', App.utils.ajaxErrorHandler

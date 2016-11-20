@@ -18,7 +18,7 @@
 //= require materialize-sprockets
 //= require cocoon
 //= require skim
-//= require ./shared/utils
+//= require_tree ./shared
 //= require comments
 //= require votes
 //= require answer

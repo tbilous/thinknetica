@@ -1,9 +1,10 @@
 - if target.attachments.present?
-  .attachments-block
-    ul.list-unstyled
-      - target.attachments.each do |a|
-        li id="attachment-id-#{a.id}"
+  li.attachments-block
+    - target.attachments.each do |a|
+      ul id="attachment-id-#{a.id}"
+        li
           = link_to a.file.identifier, a.file.url
-          - if current_user && current_user.owner_of?(a.attachable)
+        - if current_user && current_user.owner_of?(a.attachable)
+          li
             = link_to '[x]', attachment_path(a), method: :delete, remote: true,
-                    class: 'delete_attachment btn btn-link text-danger'
+                  class: 'delete_attachment btn red'
