@@ -1,17 +1,10 @@
 #= require cable
-$ ->
-  App.cable.subscriptions.create "QuestionChannel",
+
+App.question =  App.cable.subscriptions.create "QuestionChannel",
     connected: ->
-      @follow()
-
-    follow: ->
-      return unless question_id = $('.question-block').data('question')
-      @perform 'follow', question_id: question_id
-      console.log 'QuestionChannel', 'follow'
-
-    unfollow: ->
-      @perform 'unfollow'
-      console.log 'QuestionChannel', 'unfollow'
+      @followQuestionPage()
+      @installPageChangeCallback()
+      return
 
     proceedAnswer: (data) ->
       switch data.action
@@ -32,16 +25,22 @@ $ ->
       App.utils.successMessage(data.message)
       switch data.action
         when 'create'
-          commentRoot = data.comment.commentable_type
-          commentContainer = $("##{commentRoot}CommentsList-#{data.comment.commentable_id}")
-          return if $("#comment-#{data.comment.id}.comment-block")[0]?
-          $(commentContainer).prepend App.utils.render('comment', data.comment)
+          @createComment(data)
         when 'destroy'
-          data = data.comment
-          commentRoot = data.commentable_type
-          commentContainer =
-            $("##{commentRoot}CommentsList-#{data.commentable_id}")
-          $(commentContainer).find("#comment-#{data.id}").detach()
+          @destroyComment(data)
+
+    createComment: (data) ->
+      commentRoot = data.comment.commentable_type
+      commentContainer = $("##{commentRoot}CommentsList-#{data.comment.commentable_id}")
+      return if $("#comment-#{data.comment.id}.comment-block")[0]?
+      $(commentContainer).prepend App.utils.render('comment', data.comment)
+
+    destroyComment: (data) ->
+      data = data.comment
+      commentRoot = data.commentable_type
+      commentContainer =
+        $("##{commentRoot}CommentsList-#{data.commentable_id}")
+      $(commentContainer).find("#comment-#{data.id}").detach()
 
     received: (data) ->
       if (data.answer)
@@ -50,3 +49,21 @@ $ ->
         @proceedComment(data)
       else
         return
+
+    followQuestionPage: ->
+      question_id = $('.question-block').data('question')
+      if $(question_id).length
+        @perform 'follow', question_id: question_id
+        console.log 'question follow'
+      else
+        @perform 'unfollow'
+        console.log 'question unfollow'
+      return
+
+    installPageChangeCallback: ->
+      if !@installedPageChangeCallback
+        @installedPageChangeCallback = true
+        $(document).on 'turbolinks:load', ->
+          App.question.followQuestionPage()
+          return
+      return
