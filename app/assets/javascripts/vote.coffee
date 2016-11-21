@@ -4,7 +4,6 @@ ready = ->
     wrapper = $(this).closest($('.vote-container'))
     target = $(wrapper).find($(this).data('target'))
     removeBtn = $(wrapper).find($('.remove-btn'))
-    debugger
     $(target).html data.rating
     removeBtn.removeClass('hidden')
     App.utils.successMessage(data.message)

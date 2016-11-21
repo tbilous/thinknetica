@@ -20,7 +20,7 @@ RSpec.configure do |config|
       app,
       timeout: 90, js_errors: true,
       phantomjs_logger: Logger.new(STDOUT),
-      window_size: [1020, 740]
+      window_size: [1920, 6000]
     )
   end
 

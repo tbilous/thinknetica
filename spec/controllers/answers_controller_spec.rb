@@ -38,11 +38,6 @@ RSpec.describe AnswersController, type: :controller do
         it 'save the new answer in a DB with user relation' do
           expect { post :create, params: params }.to change(@user.answers, :count).by(1)
         end
-
-        it 'redirect_to question' do
-          post :create, params: params
-          expect(response).to render_template :create
-        end
       end
 
       context 'with invalid attr' do
@@ -57,10 +52,6 @@ RSpec.describe AnswersController, type: :controller do
           expect { post :create, params: wrong_params }.to_not change(Answer, :count)
         end
 
-        it 'redirect to questions/show' do
-          post :create, params: wrong_params
-          expect(response).to render_template :create
-        end
       end
     end
   end

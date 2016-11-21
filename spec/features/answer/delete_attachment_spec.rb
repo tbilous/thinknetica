@@ -14,7 +14,7 @@ feature 'Delete file attached to the answer', %q{
     login_as(user)
     visit question_path(question)
 
-    within '.answer-rendered' do
+    within '.answer-rendered-attachment' do
       click_on '[x]'
     end
 
