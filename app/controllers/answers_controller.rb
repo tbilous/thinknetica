@@ -3,7 +3,6 @@ class AnswersController < ApplicationController
   include Serialized
   include Broadcasted
 
-
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
   before_action :require_permission, only: [:destroy, :update]

@@ -16,7 +16,7 @@ module Broadcasted
       when 'answer'
         broadcast_answer(item, target, action)
       else
-       return
+        return
     end
   end
 
@@ -38,7 +38,7 @@ module Broadcasted
 
     attached = []
     item.attachments.each { |a| attached <<
-      { id: a.id, file_url: a.file.url, file_name: a.file.identifier } } if item.attachments.present?
+      {id: a.id, file_url: a.file.url, file_name: a.file.identifier} } if item.attachments.present?
 
     data = {id: item.id,
             body: item.body,
@@ -57,7 +57,7 @@ module Broadcasted
   def broadcast_root(item, target = controller_name, action)
     attached = []
     item.attachments.each { |a| attached <<
-      { id: a.id, file_url: a.file.url, file_name: a.file.identifier } } if item.attachments.present?
+      {id: a.id, file_url: a.file.url, file_name: a.file.identifier} } if item.attachments.present?
 
     data = {id: item.id,
             title: item.title,

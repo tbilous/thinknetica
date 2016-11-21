@@ -51,7 +51,6 @@ RSpec.describe AnswersController, type: :controller do
         it 'dont save in a DB' do
           expect { post :create, params: wrong_params }.to_not change(Answer, :count)
         end
-
       end
     end
   end

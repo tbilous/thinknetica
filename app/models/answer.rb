@@ -30,7 +30,4 @@ class Answer < ApplicationRecord
     attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
   end
 
-  private
-
-
 end

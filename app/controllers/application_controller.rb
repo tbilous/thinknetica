@@ -29,7 +29,6 @@ class ApplicationController < ActionController::Base
     logger.debug "*!!! Locale set to '#{I18n.locale}'"
   end
 
-
   private
 
   def gon_user

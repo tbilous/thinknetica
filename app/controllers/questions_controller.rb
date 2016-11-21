@@ -25,7 +25,6 @@ class QuestionsController < ApplicationController
   def edit
   end
 
-
   def create
     @question = current_user.questions.create(strong_params)
 
@@ -55,6 +54,7 @@ class QuestionsController < ApplicationController
   def load_question
     @question = Question.find(params[:id])
   end
+
   def load_questions
     @questions = Question.all
   end
