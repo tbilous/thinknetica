@@ -17,7 +17,6 @@ class QuestionsController < ApplicationController
     @question_comment = @question.answers.build
     @answer = @question.answers.build
     @answer.attachments.build
-    # gon.push({ current_user_id: current_user.id }) if user_signed_in?
   end
 
   def new

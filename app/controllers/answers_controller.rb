@@ -8,8 +8,6 @@ class AnswersController < ApplicationController
   before_action :load_answer, except: [:create]
   before_action :require_permission, only: [:destroy, :update]
 
-  # after_action :broadcasted, only: :create
-
   def update
     @question = @answer.question
     @answer.update(strong_params)
@@ -31,7 +29,6 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    # flash[:success] = 'NICE'
   end
 
   def assign_best
