@@ -19,7 +19,7 @@
 //= require skim
 //= require_tree ./shared
 //= require comments
-//= require votes
+//= require vote
 //= require answer
 //= require question
 //= require_tree ./channels

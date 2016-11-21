@@ -6,6 +6,12 @@ ru:
       message: "Вопрос удален"
     update:
       message: "Вопрос изменен"
+    vote_plus:
+      message: "Понравилось"
+    vote_minus:
+      message: "Не понравилось"
+    vote_cancel:
+      message: "Передумал голосовать"
   answers:
     create:
       message: "Ответ создан"
@@ -14,7 +20,13 @@ ru:
     update:
       message: "Ответ изменен"
     best:
-      message: "Ответ лучшим"
+      message: "Ответ лучший"
+    vote_plus:
+      message: "Понравилось"
+    vote_minus:
+      message: "Не понравилось"
+    vote_cancel:
+      message: "Передумал голосовать"
   comments:
     create:
       message: "Комментарий добавлен"

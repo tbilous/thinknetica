@@ -3,8 +3,10 @@
     .answer-body id = "answer-#{answer.id}"
       .row
         .col.s10
-          ul.answer-rendered
-            = render partial: 'answers/answer_l_line', locals: { object: answer }
+          .renders-text
+            ul.answer-rendered
+              = render partial: 'answers/answer_l_line', locals: { object: answer }
+          ul.answer-rendered-attachment
             = render 'attachments/attachments', target: answer
         .col.s2.center
           .card-content

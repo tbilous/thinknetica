@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
-
   before_action :debug_locale if Rails.env.test? || Rails.env.development?
+  before_action :gon_user, unless: :devise_controller?
 
   def set_locale
     I18n.locale = (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
@@ -29,7 +29,12 @@ class ApplicationController < ActionController::Base
     logger.debug "*!!! Locale set to '#{I18n.locale}'"
   end
 
+
   private
+
+  def gon_user
+    gon.current_user_id = current_user.id if current_user
+  end
 
   def extract_full_header
     request.env['HTTP_ACCEPT_LANGUAGE'].to_s

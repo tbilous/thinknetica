@@ -9,7 +9,6 @@ ready = ->
   commentForm.on 'ajax:success', (e, data, status, xhr) ->
     FormForClear = $(document).find(this)
     $(FormForClear)[0].reset();
-    debugger
     $(FormForClear).closest('.comment-wrapper').toggle()
 
   commentForm.on 'ajax:error', App.utils.ajaxErrorHandler

@@ -1,4 +1,4 @@
-var form = $('#answer-form' + '<%= @answer.id %>'),
+var form = $('#answer-form-wrapper-' + '<%= @answer.id %>'),
     message,
     color;
 
@@ -10,13 +10,12 @@ var form = $('#answer-form' + '<%= @answer.id %>'),
   alertFunc(message, color);
   <% end %>
 <% else %>
-$('#answer-' + <%= @answer.id %>).replaceWith(
-    "<div class='answer-rendered'><%= j render partial: 'answers/answer_l_line', locals: {object: @answer}%></div>");
+$('#answer-' + <%= @answer.id %> + ' .renders-text').replaceWith(
+    "<ul class='answer-rendered'><%= j render partial: 'answers/answer_l_line', locals: {object: @answer}%></ul>");
   message = "<%=j flash[:success] %>";
   color = 'green';
   alertFunc(message, color);
 
-$(form).toggleClass('hidden');
-
+  $(form).toggle();
 <% end %>
 
