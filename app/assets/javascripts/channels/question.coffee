@@ -50,12 +50,3 @@ $ ->
         @proceedComment(data)
       else
         return
-
-#
-#$(document).on 'turbolinks:load', ->
-#  question = document.getElementById('QuestionPage')
-#  if question
-#    App.questionChannel.follow()
-#  if !question
-#    App.questionChannel.unfollow()
-

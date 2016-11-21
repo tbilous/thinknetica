@@ -13,6 +13,6 @@
 - if user_signed_in?
   .question-form-wrapper.hidden id=('question-form-wrapper')
     h3.center Ask Question
-    = render 'form', remoted: false
+    = render 'form', remoted: true, type: :json
     .center
   = render 'shared/add_btn', id: 'add_question_btn', target: '#question-form-wrapper'

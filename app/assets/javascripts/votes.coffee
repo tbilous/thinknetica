@@ -2,7 +2,6 @@
 ## All this logic will automatically be available in application.js.
 ## You can use CoffeeScript in this file: http://coffeescript.org/
 ready = ->
-  console.log('(document).turbolinks:load votes')
 
   $('.remove-btn').on('ajax:success', (e, data, status, xhr) ->
     $(this).toggleClass('hidden');
