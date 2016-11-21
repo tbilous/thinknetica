@@ -45,7 +45,7 @@ group :development, :test do
   gem 'byebug'
   gem 'guard-rspec', require: false
   gem 'rspec-rails'
-  gem 'spork'
+  gem 'spork', github: 'sporkrb/spork'
   gem 'guard-spork'
   gem 'childprocess'
   gem 'factory_girl_rails'

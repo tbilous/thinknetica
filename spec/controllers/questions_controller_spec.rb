@@ -112,12 +112,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       describe 'POST #create' do
         context 'attr is valid' do
-          it 'add tot database' do
+          it 'add to database' do
             expect { post :create, params: params }.to change(@other_user.questions, :count).by(1)
-          end
-          it 'redirect to show' do
-            post :create, params: params
-            expect(response).to redirect_to question_path(assigns(:question))
           end
         end
 

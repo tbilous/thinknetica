@@ -1,15 +1,30 @@
 #= require cable
 
-App.questions = App.cable.subscriptions.create "RootChannel",
+App.rootQuestions = App.cable.subscriptions.create "RootChannel",
   connected: ->
     @followQuestionsList()
     @installPageChangeCallback()
     return
 
-  received: (data) ->
-    debugger
+  createQuestion: (data) ->
     questionList = $('.questions-list.collection')
-    questionList.append data
+    questionList.append App.utils.render('question_list', data.questions)
+    App.utils.successMessage(data.message)
+
+  destroyQuestion: (data) ->
+    questionList = $(".collection-item##{data.questions.id}")
+    $(questionList).detach()
+    App.utils.successMessage(data.message)
+
+  proceedQuestion: (data) ->
+    switch data.action
+      when 'create'
+        @createQuestion(data)
+      when 'destroy'
+        @destroyQuestion(data)
+
+  received: (data) ->
+    @proceedQuestion(data)
 
   followQuestionsList: ->
     if $('.questions-list').length
@@ -24,6 +39,6 @@ App.questions = App.cable.subscriptions.create "RootChannel",
     if !@installedPageChangeCallback
       @installedPageChangeCallback = true
       $(document).on 'turbolinks:load', ->
-        App.questions.followQuestionsList()
+        App.rootQuestions.followQuestionsList()
         return
     return

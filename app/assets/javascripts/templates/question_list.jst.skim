@@ -1,0 +1,7 @@
+.collection-item id="#{@id}"
+  .row
+    .col.m2.s4
+      = @date
+    .col.m10.s8
+      a href="/questions/#{@id}"
+        = @title

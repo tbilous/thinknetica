@@ -7,7 +7,17 @@ module Broadcasted
 
   def publish_broadcast(item, target = controller_name.singularize, action = action_name)
     return if item.errors.any?
-    target == 'comment' ? broadcast_comment(item, target, action) : broadcast_answer(item, target, action)
+    # target == 'comment' ? broadcast_comment(item, target, action) : broadcast_answer(item, target, action)
+    case target
+      when 'question'
+        broadcast_root(item, action)
+      when 'comment'
+        broadcast_comment(item, target, action)
+      when 'answer'
+        broadcast_answer(item, target, action)
+      else
+       return
+    end
   end
 
   def broadcast_comment(item, target, action)
@@ -41,6 +51,20 @@ module Broadcasted
     }
 
     ActionCable.server.broadcast "#{target}_#{item.question_id}",
+                                 "#{target}": data, message: t('.message'), action: action
+  end
+
+  def broadcast_root(item, target = controller_name, action)
+    attached = []
+    item.attachments.each { |a| attached <<
+      { id: a.id, file_url: a.file.url, file_name: a.file.identifier } } if item.attachments.present?
+
+    data = {id: item.id,
+            title: item.title,
+            date: item.created_date
+    }
+
+    ActionCable.server.broadcast "#{target}",
                                  "#{target}": data, message: t('.message'), action: action
   end
 end
