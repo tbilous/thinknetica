@@ -7,7 +7,7 @@ module Broadcasted
 
   def publish_broadcast(item, target = controller_name.singularize, action = action_name)
     return if item.errors.any?
-    # target == 'comment' ? broadcast_comment(item, target, action) : broadcast_answer(item, target, action)
+
     case target
       when 'question'
         broadcast_root(item, action)

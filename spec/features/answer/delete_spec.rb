@@ -8,7 +8,7 @@ feature 'Author can delete answers', %q{
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let(:question) { create(:question) }
-  let!(:answer) { create(:answer, question: question, user: user, body: 'y'*60) }
+  let!(:answer) { create(:answer, question: question, user: user, body: 'y' * 60) }
   context 'as user', :js do
     scenario 'Author of answer deletes it', js: true do
       login_as(user, scope: :user)
@@ -40,17 +40,13 @@ feature 'Author can delete answers', %q{
       end
 
       Capybara.using_session('author') do
-
         page.find("#delete-answer-#{answer.id}").click
         sleep 1
 
         expect(page).to_not have_content answer.body
-
       end
       Capybara.using_session('guest') do
-
         expect(page).to_not have_content answer.body
-
       end
     end
   end

@@ -66,5 +66,4 @@ class QuestionsController < ApplicationController
   def require_permission
     redirect_to root_path, alert: 'NO RIGHTS!' unless current_user && current_user.owner_of?(@question)
   end
-
 end

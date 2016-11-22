@@ -57,22 +57,21 @@ feature 'Create question', %q{
       end
 
       Capybara.using_session('author') do
-        sleep(inspection_time=2)
+        sleep 2
         page.find('#add_question_btn').click
 
         fill_in 'question_title', with: question_params[:title]
         fill_in 'question_body', with: question_params[:body]
         click_on 'submit'
-        sleep(inspection_time=5)
+        sleep 2
         expect(page).to have_content question_params[:title]
         expect(page).to have_content question_params[:body]
       end
 
       Capybara.using_session('guest') do
-        sleep(inspection_time=2)
+        sleep 2
         expect(page).to have_content question_params[:title]
       end
     end
   end
-
 end

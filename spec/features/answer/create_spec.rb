@@ -15,7 +15,6 @@ feature 'Create answer', %q{
       visit question_path(question)
 
       fill_in 'answer_body', with: answer_params[:body]
-      # sleep(inspection_time=5)
       within '#new_answer' do
         click_button('submit')
       end
@@ -38,7 +37,6 @@ feature 'Create answer', %q{
       end
 
       Capybara.using_session('author') do
-
         fill_in 'answer_body', with: answer_params[:body]
         within '#new_answer' do
           click_button('submit')
@@ -47,7 +45,6 @@ feature 'Create answer', %q{
         within '.answer-rendered' do
           expect(page).to have_content answer_params[:body]
         end
-
       end
       Capybara.using_session('guest') do
         within '.answer-rendered' do
