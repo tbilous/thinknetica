@@ -67,7 +67,4 @@ class QuestionsController < ApplicationController
     redirect_to root_path, alert: 'NO RIGHTS!' unless current_user && current_user.owner_of?(@question)
   end
 
-  def set_gon_current_user
-    gon.current_user_id = current_user ? current_user.id : 0
-  end
 end

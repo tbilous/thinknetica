@@ -9,36 +9,70 @@ feature 'Create question', %q{
   given(:user) { create(:user) }
   let(:question_params) { attributes_for(:question) }
 
-  scenario 'Authenticated user creates question with proper data' do
-    login_as(user)
-    visit questions_path
+  context 'as user', :js do
+    scenario 'Authenticated user creates question with proper data' do
+      login_as(user)
+      visit questions_path
 
-    page.find('#add_question_btn').click
+      page.find('#add_question_btn').click
 
-    fill_in 'question_title', with: question_params[:title]
-    fill_in 'question_body', with: question_params[:body]
-    click_on 'submit'
+      fill_in 'question_title', with: question_params[:title]
+      fill_in 'question_body', with: question_params[:body]
+      click_on 'submit'
 
-    expect(page).to have_content question_params[:title]
-    expect(page).to have_content question_params[:body]
+      expect(page).to have_content question_params[:title]
+      expect(page).to have_content question_params[:body]
+    end
+
+    scenario 'Authenticated user tries to create question with invalid data' do
+      login_as(user)
+      visit questions_path
+
+      page.find('#add_question_btn').click
+
+      fill_in 'question_title', with: 'b' * 2
+      fill_in 'question_body', with: 'b' * 2
+      click_on 'submit'
+
+      expect(current_path).to eq questions_path
+    end
+  end
+  context 'as guest', :js do
+    scenario 'Non-authenticated user tries to create question' do
+      visit root_path
+
+      expect(page).to_not have_css('#new_question')
+    end
   end
 
-  scenario 'Authenticated user tries to create question with invalid data' do
-    login_as(user)
-    visit questions_path
+  context 'multiple sessions', :js do
+    scenario 'all users see new question in real-time' do
+      Capybara.using_session('author') do
+        login_as(user)
+        visit questions_path
+      end
 
-    page.find('#add_question_btn').click
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
 
-    fill_in 'question_title', with: 'b' * 2
-    fill_in 'question_body', with: 'b' * 2
-    click_on 'submit'
+      Capybara.using_session('author') do
+        sleep(inspection_time=2)
+        page.find('#add_question_btn').click
 
-    expect(current_path).to eq questions_path
+        fill_in 'question_title', with: question_params[:title]
+        fill_in 'question_body', with: question_params[:body]
+        click_on 'submit'
+        sleep(inspection_time=5)
+        expect(page).to have_content question_params[:title]
+        expect(page).to have_content question_params[:body]
+      end
+
+      Capybara.using_session('guest') do
+        sleep(inspection_time=2)
+        expect(page).to have_content question_params[:title]
+      end
+    end
   end
 
-  scenario 'Non-authenticated user tries to create question' do
-    visit root_path
-
-    expect(page).to_not have_css('#new_question')
-  end
 end

@@ -66,4 +66,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.after(:suite) do
+    FileUtils.rm_rf Rails.root.join("public/uploads#{ENV['TEST_ENV_NUMBER'] || ''}")
+  end
 end

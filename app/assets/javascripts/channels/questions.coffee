@@ -7,7 +7,7 @@ App.rootQuestions = App.cable.subscriptions.create "RootChannel",
     return
 
   createQuestion: (data) ->
-    questionList = $('.questions-list.collection')
+    questionList = $('.questions-list')
     questionList.append App.utils.render('question_list', data.questions)
     App.utils.successMessage(data.message)
 
