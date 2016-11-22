@@ -47,10 +47,6 @@ feature 'Add comments answer', %q{
 
       Capybara.using_session('author') do
 
-        sleep(inspection_time=2)
-
-        page.find("#comment-question-#{question.id}").click
-
         within '#NewQuestionComment' do
           fill_in 'comment_body', with: comment_attrib[:body]
           find('.btn').trigger('click')
