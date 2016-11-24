@@ -44,9 +44,17 @@ App.question =  App.cable.subscriptions.create "QuestionChannel",
 
     received: (data) ->
       if (data.answer)
-        @proceedAnswer(data)
+        if gon.current_user_id == data.answer.user_id
+          console.log 'self'
+          return
+        else
+          @proceedAnswer(data)
       else if (data.comment)
-        @proceedComment(data)
+        if gon.current_user_id == data.comment.user_id
+          console.log 'self'
+          return
+        else
+          @proceedComment(data)
       else
         return
 

@@ -35,11 +35,14 @@ gem 'cocoon'
 gem 'remotipart'
 
 gem 'skim'
+gem 'gon'
+
 gem 'sprockets', '3.6.3'
 
 gem 'pundit'
 gem 'active_model_serializers'
-gem 'gon'
+
+gem 'responders'
 
 group :development, :test do
   gem 'byebug'

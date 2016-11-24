@@ -4,7 +4,6 @@ var form = $('#new_answer'),
     color;
 
 container = $('.attachment-nested .nested-fields');
-
 <% if @answer.errors.any? %>
   color = 'red';
 
@@ -12,18 +11,16 @@ container = $('.attachment-nested .nested-fields');
     message = "<%= j msg %>";
     alertFunc(message, color);
   <% end %>
+
 <% else %>
-  alert.remove();
-//  $('#answersList').append('<%= j render @answer %>');
 
+  $('#answersList').append('<%= j render @answer %>');
   form.find('#answer_body').val('');
-
-  container.hide();
+  container.toggle();
 
   message = "<%=j flash[:success] %>";
   color = 'green';
   alertFunc(message, color);
 
-  form.reset();
 <% end %>
 

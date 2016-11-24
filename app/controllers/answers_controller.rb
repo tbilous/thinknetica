@@ -1,7 +1,10 @@
 class AnswersController < ApplicationController
+
   include Voted
   include Serialized
   include Broadcasted
+  respond_to :js, :json
+  before_action :verify_requested_format!
 
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
@@ -16,14 +19,7 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(strong_params)
-    @answer.user = current_user
-
-    if @answer.save
-      render_json @answer
-    else
-      render_errors @answer
-    end
+    respond_with(@answer = @question.answers.create(strong_params.merge(user: current_user)))
   end
 
   def destroy
@@ -45,9 +41,9 @@ class AnswersController < ApplicationController
     publish_broadcast @answer
   end
 
-  def set_gon_current_user
-    gon.current_user_id = current_user ? current_user.id : 0
-  end
+  # def set_gon_current_user
+  #   gon.current_user_id = current_user ? current_user.id : 0
+  # end
 
   def strong_params
     params.require(:answer).permit(:body, attachments_attributes: [:file])
