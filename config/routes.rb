@@ -9,11 +9,18 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :comments, only: [:destroy]
+
   resources :questions, concerns: [:votesable] do
     resources :answers, concerns: [:votesable], shallow: true do
       patch 'assign_best', on: :member
+      resources :comments, only: [:create], defaults: { context: 'answer' }
     end
+    resources :comments, only: [:create], defaults: { context: 'question' }
   end
+
   root 'questions#index'
   resources :attachments, only: :destroy
+
+  mount ActionCable.server => '/cable'
 end

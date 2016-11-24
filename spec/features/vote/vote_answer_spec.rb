@@ -14,7 +14,7 @@ feature 'Vote answer', %q{
   scenario 'User votes for the answer', js: true do
     login_as(user)
     visit question_path(question)
-    # sleep(inspection_time=25)
+    # sleep(inspection_time=45)
 
     page.find("#vote-plus-#{answer.id}").click
 
@@ -28,21 +28,27 @@ feature 'Vote answer', %q{
     within ".answer-block #rating-#{answer.id}" do
       expect(page).to have_text('1')
     end
+
     expect(page).to have_css("#vote-cancel-#{answer.id}")
 
-    page.find("#vote-minus-#{answer.id}").click
-    sleep(1)
+    within '.answer-block' do
+      page.find("#vote-minus-#{answer.id}").click
+      sleep(1)
+    end
 
     within ".answer-block #rating-#{answer.id}" do
       expect(page).to have_text('-1')
     end
 
-    page.find("#vote-minus-#{answer.id}").click
-    sleep(1)
+    within '.answer-block' do
+      page.find("#vote-minus-#{answer.id}").click
+      sleep(1)
+    end
 
     within ".answer-block #rating-#{answer.id}" do
       expect(page).to have_text('-1')
     end
+
     expect(page).to have_css("#vote-cancel-#{answer.id}")
 
     page.find("#vote-cancel-#{answer.id}").click

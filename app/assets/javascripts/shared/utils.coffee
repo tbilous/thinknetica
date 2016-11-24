@@ -1,6 +1,6 @@
 App = window.App = {}
 
-App.utils = 
+App.utils =
   successMessage: (message) ->
     return unless message
     console.info(message)

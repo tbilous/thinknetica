@@ -1,20 +1,37 @@
 ru:
   questions:
     create:
-      message: "Ваш вопрос создан"
+      message: "Вопрос создан"
     destroy:
-      message: "Ваш вопрос удален"
+      message: "Вопрос удален"
     update:
-      message: "Ваш вопрос изменен"
+      message: "Вопрос изменен"
+    vote_plus:
+      message: "Понравилось"
+    vote_minus:
+      message: "Не понравилось"
+    vote_cancel:
+      message: "Передумал голосовать"
   answers:
     create:
-      message: "Ваш ответ создан"
+      message: "Ответ создан"
     destroy:
-      message: "Ваш ответ удален"
+      message: "Ответ удален"
     update:
-      message: "Ваш ответ изменен"
+      message: "Ответ изменен"
     best:
-      message: "Ответ назван лучшим"
+      message: "Ответ лучший"
+    vote_plus:
+      message: "Понравилось"
+    vote_minus:
+      message: "Не понравилось"
+    vote_cancel:
+      message: "Передумал голосовать"
+  comments:
+    create:
+      message: "Комментарий добавлен"
+    destroy:
+      message: "Комментарий удален"
   page:
     home: "Домашняя страница"
     registration: 'Регистрация'
@@ -42,3 +59,5 @@ ru:
         body: 'Вопрос:'
       answer:
         body: 'Ответ:'
+      comment:
+        body: 'Комментарий:'

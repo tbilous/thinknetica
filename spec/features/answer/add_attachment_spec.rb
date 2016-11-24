@@ -28,7 +28,7 @@ feature 'Add attachment', %q{
     within '#new_answer' do
       click_on 'submit'
     end
-    within '.answer-rendered' do
+    within '.answer-rendered-attachment' do
       expect(page).to have_link('file1.txt', href: '/uploads/attachment/file/1/file1.txt')
       expect(page).to have_link('file2.txt', href: '/uploads/attachment/file/2/file2.txt')
     end

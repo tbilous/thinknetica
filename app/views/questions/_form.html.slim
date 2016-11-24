@@ -1,6 +1,6 @@
 #question_form.card-panel
-  = form_for @question || :question, remote: true do |f|
-    = render 'layouts/shared/error_form', object: f.object
+  = form_for @question || :question, data: {remote: "#{ local_assigns.fetch(:remoted, nil) }",
+          type: "#{ local_assigns.fetch(:type, nil) }" }  do |f|
     .row
       .input-field.col.s12
         =f.text_field :title

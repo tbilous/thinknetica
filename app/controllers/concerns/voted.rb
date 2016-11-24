@@ -27,7 +27,7 @@ module Voted
 
   def send_response(success, error)
     if success
-      render json: { rating: @votesable.rate }.to_json
+      render json: { rating: @votesable.rate, message: t('.message') }.to_json
     else
       render json: { error: error }.to_json, status: :unprocessable_entity
     end

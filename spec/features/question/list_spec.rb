@@ -10,13 +10,11 @@ feature 'List questions', %q{
 
   scenario 'User views the list of questions' do
     visit questions_path
-    expect(page).to have_selector '.questions-list'
+    expect(page).to have_selector '#QuestionsList'
 
-    within '.questions-list' do
-      questions.each do |q|
-        expect(page).to have_text q.created_at.strftime('%Y-%m-%d')
-        expect(page).to have_link q.title
-      end
+    questions.each do |q|
+      expect(page).to have_text q.created_at.strftime('%d/%m/%y %H:%M')
+      expect(page).to have_link q.title
     end
   end
 end

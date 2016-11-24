@@ -1,18 +1,20 @@
 class QuestionsController < ApplicationController
   include Voted
-  # include Serialized
+  include Serialized
+  include Broadcasted
 
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :update, :destroy]
   before_action :require_permission, only: [:update, :destroy]
+  before_action :load_questions, only: [:index, :create]
 
   def index
-    @questions = Question.all
     @question = Question.new
     @question.attachments.build
   end
 
   def show
+    @question_comment = @question.answers.build
     @answer = @question.answers.build
     @answer.attachments.build
   end
@@ -25,12 +27,11 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.create(strong_params)
+
     if @question.save
-      flash[:success] = 'NICE'
-      redirect_to @question
+      render_json @question
     else
-      @questions = Question.all
-      render :index
+      render_errors @question
     end
   end
 
@@ -46,8 +47,16 @@ class QuestionsController < ApplicationController
 
   private
 
+  def broadcasted
+    publish_broadcast @question
+  end
+
   def load_question
     @question = Question.find(params[:id])
+  end
+
+  def load_questions
+    @questions = Question.all
   end
 
   def strong_params

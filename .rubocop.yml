@@ -1,7 +1,6 @@
 # Common configuration.
 AllCops:
   # Include common Ruby source files.
-
   Exclude:
     - 'vendor/**/*'
     - 'tmp/**/*'
@@ -17,6 +16,7 @@ AllCops:
     - 'bin/**/*'
     - 'db/schema.rb'
     - 'spec/support/**/*'
+    - 'app/controllers/concerns/broadcasted.rb'
 
 Documentation:
   Enabled: false

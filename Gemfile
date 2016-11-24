@@ -34,9 +34,12 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'remotipart'
 
-# gem 'skim'
+gem 'skim'
+gem 'sprockets', '3.6.3'
+
 gem 'pundit'
 gem 'active_model_serializers'
+gem 'gon'
 
 group :development, :test do
   gem 'byebug'
@@ -69,6 +72,6 @@ group :test do
 end
 
 group :development do
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.0'
   gem 'spring'
 end

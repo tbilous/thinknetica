@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
   include Voted
+  include Serialized
+  include Broadcasted
 
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
@@ -17,12 +19,15 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(strong_params)
     @answer.user = current_user
 
-    flash[:success] = 'NICE!' if @answer.save
+    if @answer.save
+      render_json @answer
+    else
+      render_errors @answer
+    end
   end
 
   def destroy
     @answer.destroy
-    flash[:success] = 'NICE'
   end
 
   def assign_best
@@ -35,6 +40,14 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def broadcasted
+    publish_broadcast @answer
+  end
+
+  def set_gon_current_user
+    gon.current_user_id = current_user ? current_user.id : 0
+  end
 
   def strong_params
     params.require(:answer).permit(:body, attachments_attributes: [:file])

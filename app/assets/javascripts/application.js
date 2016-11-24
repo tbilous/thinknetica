@@ -16,11 +16,23 @@
 //= require turbolinks
 //= require materialize-sprockets
 //= require cocoon
-//= require_tree .
+//= require skim
+//= require_tree ./shared
+//= require comments
+//= require vote
+//= require answer
+//= require question
+//= require_tree ./channels
+//= require_tree ./widgets
 
-$(document).on('turbolinks:load', function() {
+
+$(document).on('turbolinks:load', function () {
     $(".dropdown-button").dropdown();
     $(".button-collapse").sideNav();
     $('.materialize-textarea').trigger('autoresize');
     Materialize.updateTextFields();
 });
+
+alertFunc = function (message, color) {
+    Materialize.toast(message, 4000, color);
+};

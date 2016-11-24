@@ -1,5 +1,7 @@
 class Answer < ApplicationRecord
   include Votable
+  include Commentable
+  include Formatted
 
   belongs_to :question
   belongs_to :user
@@ -21,5 +23,10 @@ class Answer < ApplicationRecord
       end
       update!(best: true)
     end
+  end
+
+  def files
+    files = []
+    attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
   end
 end

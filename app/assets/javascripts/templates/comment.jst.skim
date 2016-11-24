@@ -1,0 +1,11 @@
+.comment-block id = "comment-#{@id}"
+  .collection-item
+    .row
+      .col.s10
+        ul.list-line
+          li = @date
+          li.comment-body = @body
+      .col.s2.center
+        - if gon.current_user_id == @user_id || gon.current_user_id
+          a.delete-comment-link.btn-floating.red data-remote="true" rel="nofollow" data-method="delete" href="/comments/#{@id}"
+            i.material-icons delete

@@ -2,13 +2,7 @@ module Serialized
   extend ActiveSupport::Concern
 
   def render_json(item, root_name = controller_name.singularize)
-    if item.errors.any?
-      # binding.pry
-      render_errors item
-    else
-      # binding.pry
-      render json: item, root: root_name, meta_key: :message, meta: t('.message')
-    end
+    render json: item, root: root_name, meta_key: :message, meta: t('.message')
   end
 
   def render_json_message
@@ -21,5 +15,9 @@ module Serialized
 
   def render_not_found
     render status: :not_found
+  end
+
+  def render_broadcast(item, root_name = controller_name.singularize)
+    render json: item, root: root_name, meta_key: :message, meta: t('.message')
   end
 end
