@@ -1,5 +1,4 @@
 class AnswersController < ApplicationController
-
   include Voted
   include Serialized
   include Broadcasted

@@ -31,24 +31,14 @@ class QuestionsController < ApplicationController
 
   def create
     respond_with(@question = current_user.questions.create(strong_params))
-    # @question = current_user.questions.create(strong_params)
-    #
-    # if @question.save
-    #   render_json @question
-    # else
-    #   render_errors @question
-    # end
   end
 
   def update
-    # flash[:success] = 'NICE' if @question.update(strong_params)
     respond_with(@question.update(strong_params))
   end
 
   def destroy
     respond_with(@question.destroy)
-    # flash[:success] = 'NICE!'
-    # redirect_to root_path
   end
 
   private

@@ -109,13 +109,6 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in @other_user }
 
       describe 'POST #create' do
-        # let(:params) do
-        #   {
-        #     id: question.id,
-        #     question:     { title: new_attr[:title], body: new_attr[:body] },
-        #     format: :json
-        #   }
-        # end
         context 'attr is valid' do
           it 'add to database' do
             expect { post :create, params: params, format: :json }.to change(@other_user.questions, :count).by(1)
