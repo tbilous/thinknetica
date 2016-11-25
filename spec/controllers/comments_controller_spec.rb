@@ -42,7 +42,7 @@ RSpec.describe CommentsController, type: :controller do
     let(:form_params) { {} }
 
     let(:params) do
-      { comment: attributes_for(:comment).merge(form_params), format: :js }.merge(context_params)
+      { comment: attributes_for(:comment).merge(form_params), format: :json }.merge(context_params)
     end
 
     subject { process :create, method: :post, params: params }

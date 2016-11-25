@@ -7,27 +7,15 @@ class CommentsController < ApplicationController
   before_action :set_context, only: [:create]
   before_action :load_comment, only: :destroy
   before_action :require_permission, only: :destroy
+  respond_to :json, only: [:create]
+  respond_to :js, only: [:destroy]
 
   def create
-    @comment = @context.comments.create(
-      strong_params.merge(user: current_user)
-    )
-    # render_json @comment
-    if @comment.save
-      render_json @comment
-    else
-      render_errors @comment
-    end
+    respond_with(@comment = @context.comments.create(strong_params.merge(user: current_user)))
   end
 
   def destroy
-    @comment.destroy
-    # flash[:success] = 'NICE' if @comment.destroy
-    if @comment.destroy
-      render_json @comment
-    else
-      render_errors @comment
-    end
+    respond_with(@comment.destroy)
   end
 
   private

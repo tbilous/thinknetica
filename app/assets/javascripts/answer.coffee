@@ -4,8 +4,6 @@ ready = ->
   clearForm = $(answerForm).find('textarea')
 
   answerForm.on 'ajax:success', (e, data, status, xhr) ->
-#    $(answerForm)[0].reset();
-#    $(this).find('.nested-fields').remove()
     App.utils.successMessage(data.message)
 
 #  answerForm.on 'ajax:error', App.utils.ajaxErrorHandler
