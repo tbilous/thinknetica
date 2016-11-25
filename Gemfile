@@ -49,7 +49,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'rspec-rails'
   gem 'spork', github: 'sporkrb/spork'
-  gem 'guard-spork'
+  # gem 'guard-spork'
   gem 'childprocess'
   gem 'factory_girl_rails'
   gem 'pry-rails'

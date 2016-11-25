@@ -4,17 +4,17 @@ class AnswersController < ApplicationController
   include Serialized
   include Broadcasted
   respond_to :js, :json
-  before_action :verify_requested_format!
 
+  before_action :verify_requested_format!
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
   before_action :require_permission, only: [:destroy, :update]
+  before_action :load_question, only: [:update]
+  before_action :check_question_authority, only: [:assign_best]
 
   def update
-    @question = @answer.question
     @answer.update(strong_params)
-
-    flash[:success] = 'NICE' if @answer.save
+    respond_with(@answer)
   end
 
   def create
@@ -23,16 +23,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
+    respond_with(@answer.destroy)
   end
 
   def assign_best
-    if current_user.owner_of?(@answer.question)
-      @answer.set_best
-      flash[:success] = 'NICE'
-    else
-      flash[:alert] = 'NO RIGHTS!'
-    end
+    respond_with(@answer.set_best)
   end
 
   private
@@ -40,10 +35,6 @@ class AnswersController < ApplicationController
   def broadcasted
     publish_broadcast @answer
   end
-
-  # def set_gon_current_user
-  #   gon.current_user_id = current_user ? current_user.id : 0
-  # end
 
   def strong_params
     params.require(:answer).permit(:body, attachments_attributes: [:file])
@@ -59,5 +50,9 @@ class AnswersController < ApplicationController
 
   def require_permission
     redirect_to root_path, alert: 'NO RIGHTS!' unless current_user && current_user.owner_of?(@answer)
+  end
+
+  def check_question_authority
+    flash[:alert] = 'NO RIGHTS!' unless current_user.owner_of?(@answer.question)
   end
 end
