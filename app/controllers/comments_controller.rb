@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
   before_action :set_context, only: [:create]
   before_action :load_comment, only: :destroy
   before_action :require_permission, only: :destroy
+
   respond_to :json, only: [:create]
   respond_to :js, only: [:destroy]
 

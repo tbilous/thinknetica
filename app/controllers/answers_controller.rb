@@ -3,7 +3,6 @@ class AnswersController < ApplicationController
   include Voted
   include Serialized
   include Broadcasted
-  respond_to :js, :json
 
   before_action :verify_requested_format!
   before_action :authenticate_user!
@@ -11,6 +10,8 @@ class AnswersController < ApplicationController
   before_action :require_permission, only: [:destroy, :update]
   before_action :load_question, only: [:update]
   before_action :check_question_authority, only: [:assign_best]
+
+  respond_to :js, :json
 
   def update
     @answer.update(strong_params)
