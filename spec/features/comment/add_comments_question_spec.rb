@@ -51,7 +51,7 @@ feature 'Add comments answer', %q{
           find('.btn').trigger('click')
         end
 
-        sleep 2
+        sleep 3
 
         within "#QuestionCommentsList-#{question.id}" do
           expect(page).to have_content comment_attrib[:body]

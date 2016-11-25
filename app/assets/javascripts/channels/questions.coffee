@@ -7,12 +7,12 @@ App.rootQuestions = App.cable.subscriptions.create "RootChannel",
     return
 
   createQuestion: (data) ->
-    questionList = $('.questions-list .collection')
+    questionList = $('#QuestionsList .collection')
     questionList.append App.utils.render('question_list', data.questions)
     App.utils.successMessage(data.message)
 
   destroyQuestion: (data) ->
-    questionList = $(".collection-item##{data.questions.id}")
+    questionList = $("#question_#{data.questions.id}")
     $(questionList).detach()
     App.utils.successMessage(data.message)
 

@@ -37,7 +37,8 @@ class ApplicationController < ActionController::Base
   private
 
   def gon_user
-    gon.current_user_id = current_user.id if current_user
+    gon.current_user_id = current_user ? current_user.id : 0
+    # gon.current_user_id = current_user.id if current_user
   end
 
   def extract_full_header
