@@ -1,13 +1,15 @@
 $("#comment-<%= @comment.id %>").remove();
 var message, color;
 
-<% if flash[:success] %>
-  message = "<%=j flash[:success] %>";
+<% if flash[:notice] %>
+  message = "<%=j flash[:notice] %>";
   color = 'green';
   alertFunc(message, color);
+  debugger;
 
-<% elsif flash[:error]  %>
+<% elsif flash[:alert]  %>
   color = 'red';
-  message = "<%=j flash[:success] %>";
+  message = "<%=j flash[:alert] %>";
   Materialize.toast(message, 4000, 'red');
+  debugger;
 <% end %>

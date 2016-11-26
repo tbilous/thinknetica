@@ -1,4 +1,9 @@
+require 'application_responder'
+
 class ApplicationController < ActionController::Base
+  self.responder = ApplicationResponder
+  respond_to :html
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -32,7 +37,8 @@ class ApplicationController < ActionController::Base
   private
 
   def gon_user
-    gon.current_user_id = current_user.id if current_user
+    gon.current_user_id = current_user ? current_user.id : 0
+    # gon.current_user_id = current_user.id if current_user
   end
 
   def extract_full_header

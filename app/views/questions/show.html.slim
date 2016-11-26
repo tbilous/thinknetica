@@ -27,7 +27,11 @@
 
 .collection.comment-wrapper.hidden id=("question-comment-wrapper-#{@question.id}")
   .collection-item
-    = render 'comments/form', comment: @question.comments.new, object: @question, name: 'Question', target: "#QuestionCommentsList-#{@question.id}"
+    = render 'comments/form',
+            comment: @question.comments.new,
+            object: @question,
+            name: 'Question',
+            target: "#QuestionCommentsList-#{@question.id}"
 
 .collection id = ("QuestionCommentsList-#{@question.id}")
   - if @question.comments.present?
@@ -41,4 +45,4 @@
 - if user_signed_in?
   .answer-wrapper
     h4 Write answer
-    = render 'answers/form', answer: @question.answers.new, type: :json
+    = render 'answers/form', answer: @question.answers.new

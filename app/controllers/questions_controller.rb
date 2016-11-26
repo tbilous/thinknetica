@@ -8,6 +8,10 @@ class QuestionsController < ApplicationController
   before_action :require_permission, only: [:update, :destroy]
   before_action :load_questions, only: [:index, :create]
 
+  respond_to :json, only: :create
+  respond_to :js, only: [:update]
+  respond_to :html, only: :destroy
+
   def index
     @question = Question.new
     @question.attachments.build
@@ -26,23 +30,15 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.questions.create(strong_params)
-
-    if @question.save
-      render_json @question
-    else
-      render_errors @question
-    end
+    respond_with(@question = current_user.questions.create(strong_params))
   end
 
   def update
-    flash[:success] = 'NICE' if @question.update(strong_params)
+    respond_with(@question.update(strong_params))
   end
 
   def destroy
-    @question.destroy
-    flash[:success] = 'NICE!'
-    redirect_to root_path
+    respond_with(@question.destroy)
   end
 
   private

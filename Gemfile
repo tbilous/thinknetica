@@ -35,18 +35,21 @@ gem 'cocoon'
 gem 'remotipart'
 
 gem 'skim'
+gem 'gon'
+
 gem 'sprockets', '3.6.3'
 
 gem 'pundit'
 gem 'active_model_serializers'
-gem 'gon'
+
+gem 'responders'
 
 group :development, :test do
   gem 'byebug'
   gem 'guard-rspec', require: false
   gem 'rspec-rails'
   gem 'spork', github: 'sporkrb/spork'
-  gem 'guard-spork'
+  # gem 'guard-spork'
   gem 'childprocess'
   gem 'factory_girl_rails'
   gem 'pry-rails'

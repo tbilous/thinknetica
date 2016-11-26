@@ -20,7 +20,7 @@
 //= require_tree ./shared
 //= require comments
 //= require vote
-//= require answer
+
 //= require question
 //= require_tree ./channels
 //= require_tree ./widgets

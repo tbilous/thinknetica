@@ -61,7 +61,8 @@ module Broadcasted
 
     data = {id: item.id,
             title: item.title,
-            date: item.created_date
+            date: item.created_date,
+            user_id: item.user_id
     }
 
     ActionCable.server.broadcast "#{target}",

@@ -58,6 +58,6 @@ ru:
         title: 'Заголовок:'
         body: 'Вопрос:'
       answer:
-        body: 'Ответ:'
+        body: 'Ответ'
       comment:
         body: 'Комментарий:'

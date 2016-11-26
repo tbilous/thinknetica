@@ -7,12 +7,12 @@ App.rootQuestions = App.cable.subscriptions.create "RootChannel",
     return
 
   createQuestion: (data) ->
-    questionList = $('.questions-list')
+    questionList = $('#QuestionsList .collection')
     questionList.append App.utils.render('question_list', data.questions)
     App.utils.successMessage(data.message)
 
   destroyQuestion: (data) ->
-    questionList = $(".collection-item##{data.questions.id}")
+    questionList = $("#question_#{data.questions.id}")
     $(questionList).detach()
     App.utils.successMessage(data.message)
 
@@ -24,7 +24,11 @@ App.rootQuestions = App.cable.subscriptions.create "RootChannel",
         @destroyQuestion(data)
 
   received: (data) ->
-    @proceedQuestion(data)
+    if gon.current_user_id == data.questions.user_id
+      console.log 'self'
+      return
+    else
+      @proceedQuestion(data)
 
   followQuestionsList: ->
     if $('.questions-list').length

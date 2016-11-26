@@ -1,10 +1,8 @@
 require 'rails_helper'
 require_relative 'concerns/voted'
-# require_relative 'concerns/commented'
 
 RSpec.describe QuestionsController, type: :controller do
   it_behaves_like 'voted'
-  # it_behaves_like 'commented'
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -113,7 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
       describe 'POST #create' do
         context 'attr is valid' do
           it 'add to database' do
-            expect { post :create, params: params }.to change(@other_user.questions, :count).by(1)
+            expect { post :create, params: params, format: :json }.to change(@other_user.questions, :count).by(1)
           end
         end
 
@@ -126,11 +124,11 @@ RSpec.describe QuestionsController, type: :controller do
           end
 
           it 'does not add to database' do
-            expect { post :create, params: wrong_params }.to_not change(Question, :count)
+            expect { post :create, params: wrong_params, format: :json }.to_not change(Question, :count)
           end
 
           it 'render new' do
-            post :create, params: wrong_params
+            post :create, params: wrong_params, format: :json
             { title: 'b' * 6, body: 'b' * 61 }
           end
         end
@@ -282,7 +280,7 @@ RSpec.describe QuestionsController, type: :controller do
 
         it 'redirect to index' do
           delete :destroy, params: { id: question.id }
-          expect(response).to redirect_to root_path
+          expect(response).to redirect_to questions_path
         end
       end
     end

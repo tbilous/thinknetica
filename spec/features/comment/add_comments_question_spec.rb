@@ -16,7 +16,7 @@ feature 'Add comments answer', %q{
     scenario 'authorized user can to create comment for question' do
       login_as(user)
       visit question_path(question)
-
+      sleep 2
       page.find("#comment-question-#{question.id}").click
 
       within '#NewQuestionComment' do
@@ -51,7 +51,7 @@ feature 'Add comments answer', %q{
           find('.btn').trigger('click')
         end
 
-        sleep 2
+        sleep 3
 
         within "#QuestionCommentsList-#{question.id}" do
           expect(page).to have_content comment_attrib[:body]

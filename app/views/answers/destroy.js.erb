@@ -1,11 +1,11 @@
-$("#answer-block-<%= @answer.id %>").remove();
+$("#answer-block-<%= @answer.id %>").detach();
 <% if flash[:success] %>
   message = "<%=j flash[:success] %>";
   color = 'green';
-alertFunc(message, color);
+  alertFunc(message, color);
 
 <% elsif flash[:error]  %>
   color = 'red';
   message = "<%=j flash[:success] %>";
-  Materialize.toast(message, 4000, 'red');
+  alertFunc(message, color);
 <% end %>
