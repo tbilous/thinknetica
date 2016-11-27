@@ -24,3 +24,28 @@ en:
     sign_in: "Sign in page"
     registration: "Sign up"
     home: "Home page"
+  activerecord:
+    errors:
+      models:
+        answer:
+          attributes:
+            body:
+              too_short: "Text too short"
+        question:
+          attributes:
+            body:
+              too_short: "Text too short"
+            title:
+              too_short: "Text too short"
+    models:
+      answer: 'Answer'
+      question: 'Question'
+      comment: 'Comment'
+    attributes:
+      question:
+        title: 'Title'
+        body: 'Question'
+      answer:
+        body: 'Answer'
+      comment:
+        body: 'Comment'

@@ -10,7 +10,7 @@ class QuestionsController < ApplicationController
 
   respond_to :json, only: :create
   respond_to :js, only: [:update]
-  respond_to :html, only: :destroy
+  respond_to :html, only: [:destroy, :update]
 
   def index
     @question = Question.new
@@ -30,7 +30,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    respond_with(@question = current_user.questions.create(strong_params))
+    @question = current_user.questions.create(strong_params)
+    render_json @question
   end
 
   def update
@@ -39,6 +40,8 @@ class QuestionsController < ApplicationController
 
   def destroy
     respond_with(@question.destroy)
+    # flash[:success] = 'NICE!'
+    # redirect_to root_path
   end
 
   private
