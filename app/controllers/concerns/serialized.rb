@@ -10,7 +10,7 @@ module Serialized
   end
 
   def render_json_message
-    render json: {message: t('.message')}
+    render json: { message: t('.message') }
   end
 
   def render_errors(object)
