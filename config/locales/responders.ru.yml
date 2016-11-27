@@ -1,0 +1,12 @@
+ru:
+  flash:
+    actions:
+      create:
+        notice: '%{resource_name} создан.'
+        alert: '%{resource_name} не создан.'
+      update:
+        notice: '%{resource_name} обновлен.'
+        alert: '%{resource_name} не обновлен.'
+      destroy:
+        notice: '%{resource_name} удален.'
+        alert: '%{resource_name} не удален.'

@@ -7,14 +7,22 @@ var form = $('#answer-form-wrapper-' + '<%= @answer.id %>'),
 
   <% @answer.errors.each do |field, msg| %>
     message = "<%= j msg %>";
-  alertFunc(message, color);
+    alertFunc(message, color);
+  <% end %>
+  <% if flash[:alert].present? %>
+    message = "<%=j flash[:notice] %>";
+    alertFunc(message, color);
   <% end %>
 <% else %>
-$('#answer-' + <%= @answer.id %> + ' .renders-text').replaceWith(
-    "<ul class='answer-rendered'><%= j render partial: 'answers/answer_l_line', locals: {object: @answer}%></ul>");
-  message = "<%=j flash[:success] %>";
-  color = 'green';
-  alertFunc(message, color);
+
+  $('#answer-' + <%= @answer.id %> + ' .renders-text').replaceWith(
+      "<ul class='answer-rendered'><%= j render partial: 'answers/answer_l_line', locals: {object: @answer}%></ul>");
+
+  <% if flash[:notice].present? %>
+    message = "<%=j flash[:notice] %>";
+    color = 'green';
+    alertFunc(message, color);
+  <% end %>
 
   $(form).toggle();
 <% end %>

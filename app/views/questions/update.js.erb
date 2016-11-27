@@ -1,22 +1,25 @@
 var form = $('#question_form' + '<%= @question.id %>');
 var target = $('#question-' + <%= @question.id %> + ' ' + '.question-rendered');
 var message, color;
-<% if @question.errors.present? %>
-color = 'red';
 
-<% @question.errors.each do |field, msg| %>
-message = "<%= j msg %>";
-alertFunc(message, color);
+<% if @question.errors.present? %>
+  color = 'red';
+
+  <% @question.errors.each do |field, msg| %>
+  message = "<%= j msg %>";
+  alertFunc(message, color);
 <% end %>
 
 <% else %>
 
-// refresh question
   $(target).html("<%= j render 'question_l_line' %></div>");
 
-  message = "<%=j flash[:success] %>";
-  color = 'green';
-  alertFunc(message, color);
+  <% if flash[:notice].present? %>
+    message = "<%=j flash[:notice] %>";
+    color = 'green';
+    alertFunc(message, color);
+  <% end %>
+
 
 //hide form
   $('#question_form-edit-wrapper').toggleClass('hidden');

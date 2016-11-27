@@ -53,11 +53,12 @@ ru:
     models:
       answer: 'Ответ'
       question: 'Вопрос'
+      comment: 'Комментарий'
     attributes:
       question:
-        title: 'Заголовок:'
-        body: 'Вопрос:'
+        title: 'Заголовок'
+        body: 'Вопрос'
       answer:
         body: 'Ответ'
       comment:
-        body: 'Комментарий:'
+        body: 'Комментарий'

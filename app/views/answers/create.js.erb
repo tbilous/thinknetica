@@ -8,7 +8,12 @@ container = $('.attachment-nested .nested-fields');
   color = 'red';
 
   <% @answer.errors.each do |field, msg| %>
-    message = "<%= j msg %>";
+    message = "<%= j  msg %>";
+    alertFunc(message, color);
+  <% end %>
+
+  <% if flash[:alert].present? %>
+    message = "<%=j flash[:alert] %>";
     alertFunc(message, color);
   <% end %>
 
@@ -18,9 +23,11 @@ container = $('.attachment-nested .nested-fields');
   form.find('#answer_body').val('');
   container.toggle();
 
-  message = "<%=j flash[:success] %>";
-  color = 'green';
-  alertFunc(message, color);
+  <% if flash[:notice].present? %>
+    message = "<%=j flash[:notice] %>";
+    color = 'green';
+    alertFunc(message, color);
+  <% end %>
 
 <% end %>
 
