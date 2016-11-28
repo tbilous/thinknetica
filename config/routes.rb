@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   concern :votesable do
     member do
@@ -14,9 +14,9 @@ Rails.application.routes.draw do
   resources :questions, concerns: [:votesable] do
     resources :answers, concerns: [:votesable], shallow: true do
       patch 'assign_best', on: :member
-      resources :comments, only: [:create], defaults: { context: 'answer' }
+      resources :comments, only: [:create], defaults: {context: 'answer'}
     end
-    resources :comments, only: [:create], defaults: { context: 'question' }
+    resources :comments, only: [:create], defaults: {context: 'question'}
   end
 
   root 'questions#index'

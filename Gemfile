@@ -24,6 +24,8 @@ gem 'slim-rails'
 # Authorization
 gem 'devise'
 gem 'devise-i18n'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # i18n
 # gem 'russian'
