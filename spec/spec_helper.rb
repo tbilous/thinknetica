@@ -13,7 +13,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # uncomment the following line to use spork with the debugger
 # require 'spork/ext/ruby-debug'
 
-
 RSpec.configure do |config|
   config.include AbstractController::Translation
 
@@ -28,5 +27,4 @@ RSpec.configure do |config|
   end
 
   config.include Capybara::DSL
-
 end

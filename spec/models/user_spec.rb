@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
   include_context 'oauth'
 
   describe '.find_for_oauth' do
@@ -15,11 +14,11 @@ RSpec.describe User, type: :model do
     context 'user has not authorization' do
       context 'user already exists' do
         it 'does not create new user' do
-          expect{ User.find_for_oauth(facebook) }.to_not change(User, :count)
+          expect { User.find_for_oauth(facebook) }.to_not change(User, :count)
         end
 
         it 'creates authorization for user' do
-          expect{ User.find_for_oauth(facebook) }.to change(user.authorizations, :count).by(1)
+          expect { User.find_for_oauth(facebook) }.to change(user.authorizations, :count).by(1)
         end
 
         it 'create authorization with provider and uid' do
@@ -37,14 +36,13 @@ RSpec.describe User, type: :model do
     end
 
     context 'user does not exist' do
-
       before do
         facebook.info[:email] = 'new@email.com'
         facebook.uid = '54321'
       end
 
-      it 'creates new user'do
-        expect{ User.find_for_oauth(facebook) }.to change(User, :count).by(1)
+      it 'creates new user' do
+        expect { User.find_for_oauth(facebook) }.to change(User, :count).by(1)
       end
 
       it 'returns new user' do
@@ -57,9 +55,8 @@ RSpec.describe User, type: :model do
       end
 
       it 'creates authorization for user' do
-        user =  User.find_for_oauth(facebook)
+        user = User.find_for_oauth(facebook)
         expect(user.authorizations).to_not be_empty
-
       end
 
       it 'creates authorization with provider and uid' do
