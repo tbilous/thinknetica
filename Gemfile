@@ -34,19 +34,24 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'remotipart'
 
+# js
 gem 'skim'
 gem 'gon'
 
 gem 'sprockets', '3.6.3'
 
 gem 'pundit'
+
 gem 'active_model_serializers'
 
 gem 'responders'
 
 group :development, :test do
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'spring-commands-cucumber'
   gem 'byebug'
-  gem 'guard-rspec', require: false
+  # gem 'guard-rspec', require: false
   gem 'rspec-rails'
   gem 'spork', github: 'sporkrb/spork'
   # gem 'guard-spork'
@@ -76,5 +81,4 @@ end
 
 group :development do
   gem 'web-console', '~> 3.0'
-  gem 'spring'
 end
