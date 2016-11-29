@@ -53,10 +53,8 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'spring-commands-cucumber'
   gem 'byebug'
-  # gem 'guard-rspec', require: false
   gem 'rspec-rails'
   gem 'spork', github: 'sporkrb/spork'
-  # gem 'guard-spork'
   gem 'childprocess'
   gem 'factory_girl_rails'
   gem 'pry-rails'
@@ -83,4 +81,5 @@ end
 
 group :development do
   gem 'web-console', '~> 3.0'
+  gem 'spring-commands-rubocop'
 end

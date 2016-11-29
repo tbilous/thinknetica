@@ -2,6 +2,14 @@
 h2 Log in
 .row
   .col.m8.offset-m2
+    - if devise_mapping.omniauthable?
+      ul.list-inline
+        li
+          a href="/users/auth/facebook"
+            = image_tag('social/facebook.png', width: '32', height: '32', alt: 'Facebook', title: 'Facebook')
+        li
+          a href="#"
+            = image_tag('social/twitter.png', width: '32', height: '32', alt: 'Twitter', title: 'Twitter')
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       .row
         .col.input-field.s12
