@@ -26,6 +26,7 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 # i18n
 # gem 'russian'
@@ -62,6 +63,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'timecop'
   gem 'faker'
+  gem 'letter_opener'
 end
 
 group :test do

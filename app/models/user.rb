@@ -2,40 +2,56 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :recoverable, :timeoutable and :omniauthable
 
-  devise :database_authenticatable, :registerable,
-         :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+  devise :database_authenticatable, :registerable, :confirmable,
+         :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
   has_many :questions, dependent: :destroy
   has_many :answers
   has_many :votes
-  has_many :authorizations
+  has_many :authorizations, dependent: :destroy
 
   validates :name, length: 3..20
   validates :email, length: 5..128
 
-  def self.find_for_oauth(auth)
-    authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
-    return authorization.user if authorization
-
-    email = auth.info[:email]
-    name = auth.info[:name]
-    user = User.find_by_email(email)
-    # binding.pry
-    if user
-      user.authorizations.create(provider: auth.provider, uid: auth.uid)
-    else
-      password = Devise.friendly_token[0..20]
-      user = User.create!(email: email, name: name, password: password, password_confirmation: password)
-      user.authorizations.create(provider: auth.provider, uid: auth.uid)
-    end
-    user
-  end
-
-  def self.random_password
-    Devise.friendly_token[0..20]
-  end
-
   def owner_of?(object)
     id == object.user_id
+  end
+
+  def need_email_confirmation?
+    (authorizations.any? && authorizations.last.provider == 'twitter') ? true : false
+  end
+
+  def self.find_for_oauth(auth)
+    return nil if (auth.blank? || auth.provider.blank? || auth.uid.blank?)
+
+    authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
+
+    return authorization.user if authorization
+
+    user = nil
+    confirmation_required = false
+
+    if auth.info[:email].present?
+      email = auth.info[:email]
+      user = User.find_by_email(email)
+    else
+      email = "#{SecureRandom.hex(8)}@example.org"
+      confirmation_required = true
+    end
+
+    unless user
+      name = auth.info[:name]
+      password = Devise.friendly_token[0..20]
+      user = User.new(email: email, name: name, password: password, password_confirmation: password)
+      # skip send confirmation to fake email
+      user.skip_confirmation!
+      user.save
+    end
+
+    user.authorizations.create!(provider: auth.provider, uid: auth.uid)
+    # reinitialize confirmation
+    user.update!(confirmed_at: nil) if confirmation_required
+    # return user
+    user
   end
 end
