@@ -3,7 +3,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def edit_email; end
 
-
   def update_email
     if @user && @user.update(email: params['email'])
       redirect_to root_path
