@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   include_context 'oauth'
 
+  it { should have_many(:questions) }
+  it { should have_many(:answers) }
+  it { should have_many(:votes) }
+
+  it { should validate_presence_of :email }
+  it { should validate_presence_of :password }
+
   describe '.find_for_oauth' do
     context 'user already has authorization' do
       it 'returns the user' do
