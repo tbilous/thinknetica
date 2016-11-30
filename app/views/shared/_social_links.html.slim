@@ -1,0 +1,29 @@
+- if devise_mapping.omniauthable?
+  ul.list-inline
+    - if omniauth_present?(resource_class, 'facebook')
+      li
+        a href="/users/auth/facebook"
+          = image_tag('social/facebook.png',
+                  width: '32',
+                  height: '32',
+                  alt: 'Facebook',
+                  data: {tooltip: 'Facebook'},
+                  class: 'tooltipped')
+    - if resource_present?(resource_class, 'twitter')
+      li
+        a href="/users/auth/twitter"
+          = image_tag('social/twitter.png',
+                  width: '32',
+                  height: '32',
+                  alt: 'Twitter',
+                  data: {tooltip: 'Twitter'},
+                  class: 'tooltipped')
+    - if resource_present?(resource_class, 'github')
+      li
+        a href="/users/auth/github"
+          = image_tag('social/github.png',
+                  width: '32',
+                  height: '32',
+                  alt: 'Github',
+                  data: {tooltip: 'Github'},
+                  class: 'tooltipped')

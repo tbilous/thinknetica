@@ -44,7 +44,10 @@ class User < ApplicationRecord
       end
 
       password = Devise.friendly_token[0..20]
-      user = User.new(email: email, name: name, password: password, password_confirmation: password)
+      user = User.new(email: email,
+                      name: name,
+                      password: password,
+                      password_confirmation: password)
       # skip send confirmation to fake email
       user.skip_confirmation!
       user.save

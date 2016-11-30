@@ -1,8 +1,7 @@
 h2 = t('devise.failure.unconfirmed')
 .row
   .col.m8.offset-m2.s12
-= form_tag(update_signup_email_path) do
-  /= render_errors_for(@user)
+= form_tag(update_signup_email_path), id:'socialConfirmEmail' do
   .row
     .input-field.col.s12
       = email_field_tag :email, nil, class: 'form-control'

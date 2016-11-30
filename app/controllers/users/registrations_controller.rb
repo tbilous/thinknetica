@@ -1,7 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
 
-  # Request for user's e-mail to replace auto-generated e-mail
-  # when user authenticates via omniauth provider (e.g. Twitter) which doesn't return e-mail
   def edit_email
   end
 

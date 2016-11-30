@@ -56,7 +56,6 @@ group :development, :test do
   gem 'spring-commands-cucumber'
   gem 'byebug'
   gem 'rspec-rails'
-  gem 'spork', github: 'sporkrb/spork'
   gem 'childprocess'
   gem 'factory_girl_rails'
   gem 'pry-rails'

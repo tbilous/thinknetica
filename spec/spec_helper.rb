@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'spork'
 require 'database_cleaner'
 require 'capybara/rspec'
 
