@@ -45,5 +45,6 @@ feature 'user can login', %q{
       expect(page).to_not have_link t('devise.registrations.new.sign_up')
       expect(page).to_not have_link t('devise.sessions.new.sign_in')
     end
+
   end
 end
