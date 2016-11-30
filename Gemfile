@@ -27,6 +27,7 @@ gem 'devise-i18n'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'omniauth-github'
 
 # i18n
 # gem 'russian'

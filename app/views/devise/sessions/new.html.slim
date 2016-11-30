@@ -10,6 +10,9 @@ h2 Log in
         li
           a href="/users/auth/twitter"
             = image_tag('social/twitter.png', width: '32', height: '32', alt: 'Twitter', title: 'Twitter')
+        li
+          a href="/users/auth/github"
+            = image_tag('social/github.png', width: '32', height: '32', alt: 'Github', title: 'Github')
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       .row
         .col.input-field.s12

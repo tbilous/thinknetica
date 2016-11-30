@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :recoverable, :timeoutable and :omniauthable
 
   devise :database_authenticatable, :registerable, :confirmable,
-         :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
+         :rememberable, :trackable, :validatable, :omniauthable,
+         omniauth_providers: [:facebook, :twitter, :github]
 
   has_many :questions, dependent: :destroy
   has_many :answers
@@ -15,10 +16,6 @@ class User < ApplicationRecord
 
   def owner_of?(object)
     id == object.user_id
-  end
-
-  def need_email_confirmation?
-    (authorizations.any? && authorizations.last.provider == 'twitter') ? true : false
   end
 
   def self.find_for_oauth(auth)
@@ -40,7 +37,12 @@ class User < ApplicationRecord
     end
 
     unless user
-      name = auth.info[:name]
+      if auth[:provider] == 'github'
+        name = auth.info[:nickname]
+      else
+        name = auth.info[:name]
+      end
+
       password = Devise.friendly_token[0..20]
       user = User.new(email: email, name: name, password: password, password_confirmation: password)
       # skip send confirmation to fake email
