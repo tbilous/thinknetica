@@ -1,13 +1,18 @@
-h2 = t('devise.failure.unconfirmed')
+h5 = t('devise.failure.unconfirmed')
 .row
   .col.m8.offset-m2.s12
-= form_tag(update_signup_email_path) do
-  .row
-    .input-field.col.s12
-      = email_field_tag :email, nil, class: 'form-control'
-  .row
-    .col.s12
-      .form-footer
-        = button_tag class: 'waves-effect waves-light btn' do
-          i.material-icons.right send
-          | submit
+    .card
+      .card-panel
+        .hidden
+          = render_errors_for(@user)
+        = form_tag(update_signup_email_path)
+          .row
+            .input-field.col.s12
+              = email_field_tag :email, nil
+              label E-mail
+          .row
+            .col.s12
+              .form-footer
+                = button_tag class: 'waves-effect waves-light btn' do
+                  i.material-icons.right send
+                  | submit
