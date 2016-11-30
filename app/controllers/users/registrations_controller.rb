@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :get_user, only: [:edit_email, :update_email]
+  before_action :load_oauth_user, only: [:edit_email, :update_email]
 
   def edit_email; end
 
@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def get_user
+  def load_oauth_user
     @user = User.find(session['devise.new_user_id'])
   end
 end
