@@ -28,31 +28,11 @@ shared_examples 'oauth authorization' do |context_name|
   end
 end
 
-# shared_examples  'oauth_example_twitter' do
-#   OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
-#     provider: 'twitter',
-#     uid: uid,
-#     info: {
-#       name: myname,
-#     }
-#   })
+# shared_examples 'oauth_example_facebook_invalid' do |context_name|
+#   context context_name do
+#     OmniAuth.config.mock_auth[":#{context_name}"] = :credentials_are_invalid
+#   end
 # end
-#
-# shared_examples  'oauth_example_github' do
-#   OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
-#     provider: 'github',
-#     uid: uid,
-#     info: {
-#       nickname: myname,
-#     }
-#   })
-# end
-
-shared_examples 'oauth_example_facebook_invalid' do |context_name|
-  context context_name do
-    OmniAuth.config.mock_auth[":#{context_name}"] = :credentials_are_invalid
-  end
-end
 #
 # shared_examples 'oauth_example_twitter_invalid' do
 #   OmniAuth.config.mock_auth[:twitter]  = :credentials_are_invalid

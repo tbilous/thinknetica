@@ -18,6 +18,17 @@ feature 'Signing in using oauth account', %q{
         # save_and_open_page
         expect(page).to have_content 'Successfully authenticated from Facebook account'
       end
+
+    end
+    context 'user already exist' do
+      let!(:user) { create(:user, email: 'example@example.org')}
+      it_behaves_like 'oauth authorization', 'facebook' do
+        scenario 'Success authorization' do
+          binding.pry
+          page.find('#oauthFacebook').click
+          expect(page).to have_content 'Successfully authenticated from Facebook account'
+        end
+      end
     end
   end
 
