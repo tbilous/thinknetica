@@ -19,7 +19,7 @@ class User < ApplicationRecord
   end
 
   def self.find_for_oauth(auth)
-    return nil if (auth.blank? || auth.provider.blank? || auth.uid.blank?)
+    return nil if auth.blank? || auth.provider.blank? || auth.uid.blank?
 
     authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
 
@@ -37,11 +37,11 @@ class User < ApplicationRecord
     end
 
     unless user
-      if auth[:provider] == 'github'
-        name = auth.info[:nickname]
-      else
-        name = auth.info[:name]
-      end
+      name = if auth[:provider] == 'github'
+               auth.info[:nickname]
+             else
+               auth.info[:name]
+             end
 
       password = Devise.friendly_token[0..20]
       user = User.new(email: email,

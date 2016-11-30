@@ -1,7 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-
-  def edit_email
-  end
+  def edit_email; end
 
   def update_email
     @user = User.find(session['devise.new_user_id'])

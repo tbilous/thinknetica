@@ -28,7 +28,6 @@ feature 'user can login', %q{
   context 'user is created' do
     let!(:user) { create(:user) }
     scenario 'Sign In' do
-
       visit root_path
       within '#nav-mobile' do
         click_on t('devise.sessions.new.sign_in')
