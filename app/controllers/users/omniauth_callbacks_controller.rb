@@ -13,13 +13,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @oauth = request.env['omniauth.auth']
     @user = User.find_for_oauth(@oauth)
 
-    return unless @user && @user.persisted?
-    if @user.confirmed?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: @oauth.provider.capitalize) if is_navigational_format?
+    if @user && @user.persisted?
+      if @user.confirmed?
+        sign_in_and_redirect @user, event: :authentication
+        set_flash_message(:notice, :success, kind: @oauth.provider.capitalize) if is_navigational_format?
+      else
+        session['devise.new_user_id'] = @user.id
+        redirect_to edit_signup_email_path
+      end
     else
-      session['devise.new_user_id'] = @user.id
-      redirect_to edit_signup_email_path
+      flash[:alert] = 'No have data!'
     end
   end
 end
