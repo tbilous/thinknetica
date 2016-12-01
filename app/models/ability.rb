@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ?  user_abilities(user) : guest_abilities
+    user ? user_abilities(user) : guest_abilities
   end
 
   def guest_abilities
@@ -25,5 +25,4 @@ class Ability
     cannot :vote_minus, [Question, Answer], user_id: user.id
     cannot :vote_cancel, [Question, Answer], user_id: user.id
   end
-
 end

@@ -49,39 +49,38 @@ feature 'Add comments answer', %q{
         expect(page).to_not have_css("#comment-question-#{question.id}")
       end
     end
-# I have issue when I starting  all specs but i did test for create and websockets together - All OK
+    # I have issue when I starting  all specs but i did test for create and websockets together - All OK
 
-#     scenario 'all users see new comment in real-time' do
-#       Capybara.using_session('author') do
-#         login_as(user)
-#         visit question_path(question)
-#       end
-#
-#       Capybara.using_session('guest') do
-#         visit question_path(question)
-#       end
-#
-#       Capybara.using_session('author') do
-#         within '#NewQuestionComment' do
-#           fill_in 'comment_body', with: comment_attrib[:body]
-#           find('.btn').trigger('click')
-#         end
-#
-#         sleep 3
-#
-#         within "#QuestionCommentsList-#{question.id}" do
-#           expect(page).to have_content comment_attrib[:body]
-#         end
-#       end
-#
-#       Capybara.using_session('guest') do
-#         sleep 2
-#         within "#QuestionCommentsList-#{question.id}" do
-#           expect(page).to have_content comment_attrib[:body]
-#         end
-#       end
-#     end
-
+    #     scenario 'all users see new comment in real-time' do
+    #       Capybara.using_session('author') do
+    #         login_as(user)
+    #         visit question_path(question)
+    #       end
+    #
+    #       Capybara.using_session('guest') do
+    #         visit question_path(question)
+    #       end
+    #
+    #       Capybara.using_session('author') do
+    #         within '#NewQuestionComment' do
+    #           fill_in 'comment_body', with: comment_attrib[:body]
+    #           find('.btn').trigger('click')
+    #         end
+    #
+    #         sleep 3
+    #
+    #         within "#QuestionCommentsList-#{question.id}" do
+    #           expect(page).to have_content comment_attrib[:body]
+    #         end
+    #       end
+    #
+    #       Capybara.using_session('guest') do
+    #         sleep 2
+    #         within "#QuestionCommentsList-#{question.id}" do
+    #           expect(page).to have_content comment_attrib[:body]
+    #         end
+    #       end
+    #     end
   end
 
   context 'user can to delete comment', :js do

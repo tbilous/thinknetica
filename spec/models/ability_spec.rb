@@ -13,7 +13,6 @@ RSpec.describe Ability, type: :model do
     it { should_not be_able_to :manage, :all }
   end
 
-
   describe 'for user' do
     include_context 'users'
 
@@ -28,7 +27,6 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
-
 
     context 'update' do
       it { should be_able_to :update, user_question }
