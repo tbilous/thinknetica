@@ -3,11 +3,14 @@ require 'rspec/page-regression'
 require 'capybara/poltergeist'
 require 'rack_session_access/capybara'
 require 'puma'
+require 'capybara/email/rspec'
 # require 'selenium-webdriver'
 
 RSpec.configure do |config|
   include ActionView::RecordIdentifier
   config.include AcceptanceHelper, type: :feature
+  config.include FeatureMacros, type: :feature
+  OmniAuth.config.test_mode = true
 
   # Capybara.server_host = '0.0.0.0'
   # Capybara.server_port = 3001 + ENV['TEST_ENV_NUMBER'].to_i

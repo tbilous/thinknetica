@@ -24,6 +24,10 @@ gem 'slim-rails'
 # Authorization
 gem 'devise'
 gem 'devise-i18n'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
 
 # i18n
 # gem 'russian'
@@ -34,22 +38,24 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'remotipart'
 
+# js
 gem 'skim'
 gem 'gon'
 
 gem 'sprockets', '3.6.3'
 
 gem 'pundit'
+
 gem 'active_model_serializers'
 
 gem 'responders'
 
 group :development, :test do
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'spring-commands-cucumber'
   gem 'byebug'
-  gem 'guard-rspec', require: false
   gem 'rspec-rails'
-  gem 'spork', github: 'sporkrb/spork'
-  # gem 'guard-spork'
   gem 'childprocess'
   gem 'factory_girl_rails'
   gem 'pry-rails'
@@ -57,17 +63,18 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'timecop'
   gem 'faker'
+  gem 'letter_opener'
 end
 
 group :test do
   gem 'poltergeist'
   gem 'selenium-webdriver', '2.53.4'
+  gem 'capybara'
+  gem 'capybara-email'
   gem 'capybara-webkit'
   gem 'shoulda-matchers'
-  gem 'capybara'
   gem 'launchy'
   gem 'database_cleaner'
-  gem 'email_spec'
   gem 'json_spec'
   gem 'fuubar'
   gem 'rspec-page-regression', github: 'teachbase/rspec-page-regression', branch: 'use-imatcher'
@@ -76,5 +83,5 @@ end
 
 group :development do
   gem 'web-console', '~> 3.0'
-  gem 'spring'
+  gem 'spring-commands-rubocop'
 end

@@ -42,4 +42,8 @@ module ApplicationHelper
     return unless resource.errors.any?
     flash.now.alert = resource.errors.full_messages.join(', ')
   end
+
+  def resource_present?(resource, val)
+    resource.omniauth_providers.select { |c| c.to_s == val }.present?
+  end
 end

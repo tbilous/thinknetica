@@ -30,6 +30,9 @@ $(document).on('turbolinks:load', function () {
     $(".button-collapse").sideNav();
     $('.materialize-textarea').trigger('autoresize');
     Materialize.updateTextFields();
+
+    $('.tooltipped').tooltip({delay: 50});
+
 });
 
 alertFunc = function (message, color) {

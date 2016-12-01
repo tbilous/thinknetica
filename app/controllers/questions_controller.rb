@@ -23,11 +23,9 @@ class QuestionsController < ApplicationController
     @answer.attachments.build
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @question = current_user.questions.create(strong_params)

@@ -1,7 +1,8 @@
 - provide(:title, t('page.sign_in'))
 h2 Log in
 .row
-  .col.m8.offset-m2
+  .col.m8.offset-m2.s12
+    = render 'shared/social_links'
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       .row
         .col.input-field.s12

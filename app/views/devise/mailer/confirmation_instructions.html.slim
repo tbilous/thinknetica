@@ -1,5 +1,9 @@
-p
-  = t('.greeting', :recipient => @resource.email, :default => "Welcome #{@resource.email}!")
+- if @resource.authorizations
+  p
+    = t('.greeting', :recipient => @resource.name, :default => "Welcome #{@resource.name}!")
+- else
+  p
+    = t('.greeting', :recipient => @resource.email, :default => "Welcome #{@resource.email}!")
 p
   = t('.instruction', :default => "You can confirm your account email through the link below:")
 p
