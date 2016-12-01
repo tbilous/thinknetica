@@ -192,7 +192,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'render show template' do
-          expect(response).to redirect_to root_path
+          expect(response).to be_forbidden
         end
       end
 
