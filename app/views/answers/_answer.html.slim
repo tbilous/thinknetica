@@ -12,7 +12,7 @@
           .card-content
             = render 'shared/vote_container', object: answer, part: 'answer'
       ul.list-inline.answer-panel.card-action
-        - if user_signed_in? && current_user.owner_of?(answer)
+        - if can? :modify, answer
           li
             = button_to answer, method: :delete, remote: true,
                     class: 'btn-floating red', id: "delete-answer-#{answer.id}" do
@@ -20,14 +20,14 @@
           li
             button.script-item-toggle.btn-floating.green data-target="#answer-form-wrapper-#{answer.id}" id=("edit-answer-#{answer.id}")
               i.material-icons mode_edit
-        - if user_signed_in?
+        - if can? :create, Comment
           li
             button.btn-floating.teal.script-item-toggle data-target="#answer-comment-wrapper-#{answer.id}" id= ("comment-answer-#{answer.id}")
               i.material-icons comment
         - if answer.best
           li
             b.text-success The best answer
-        - elsif user_signed_in? && current_user.owner_of?(answer.question) && !current_user.owner_of?(answer)
+        - if can? :assign_best, answer
           = link_to 'Assign best', assign_best_answer_path(answer), method: :patch, remote: true, class: 'btn-link'
     .edit-form-wrapper.hidden id=("answer-form-wrapper-#{answer.id}")
       h5 Edit Answer
