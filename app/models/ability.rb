@@ -10,7 +10,6 @@ class Ability
     user ? user_abilities(user) : guest_abilities
   end
 
-
   def guest_abilities
     can :read, :all
   end
