@@ -28,6 +28,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
+gem 'cancancan', '~> 1.10'
 
 # i18n
 # gem 'russian'
@@ -43,8 +44,6 @@ gem 'skim'
 gem 'gon'
 
 gem 'sprockets', '3.6.3'
-
-gem 'pundit'
 
 gem 'active_model_serializers'
 

@@ -141,7 +141,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 'redirect to questions/show' do
           delete :destroy, params: params
-          expect(response).to redirect_to root_path
+          expect(response).to be_forbidden
         end
       end
 

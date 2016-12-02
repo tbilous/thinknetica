@@ -8,7 +8,7 @@ require 'rails_helper'
 
 shared_examples 'votesable' do
   let(:user) { create(:user) }
-  let!(:other_user) { create(:user) }
+  let!(:john) { create(:user) }
   let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
 
   describe '#rate' do
@@ -29,19 +29,19 @@ shared_examples 'votesable' do
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
 
     context 'have negative vote' do
-      let!(:vote) { create(:vote, challenge: -1, votesable: model, user: other_user) }
+      let!(:vote) { create(:vote, challenge: -1, votesable: model, user: john) }
 
-      it { expect { model.add_positive(other_user) }.to change { model.rate }.by(2) }
+      it { expect { model.add_positive(john) }.to change { model.rate }.by(2) }
     end
 
     context 'have positive vote' do
-      let!(:vote) { create(:vote, challenge: 1, votesable: model, user: other_user) }
+      let!(:vote) { create(:vote, challenge: 1, votesable: model, user: john) }
 
-      it { expect { model.add_positive(other_user) }.to_not change { model.rate } }
+      it { expect { model.add_positive(john) }.to_not change { model.rate } }
     end
 
     context 'no previous vote' do
-      it { expect { model.add_positive(other_user) }.to change { model.rate }.by(1) }
+      it { expect { model.add_positive(john) }.to change { model.rate }.by(1) }
     end
   end
 
@@ -49,18 +49,18 @@ shared_examples 'votesable' do
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
 
     context 'have negative vote' do
-      let!(:vote) { create(:vote, challenge: -1, votesable: model, user: other_user) }
-      it { expect { model.add_negative(other_user) }.to_not change { model.rate } }
+      let!(:vote) { create(:vote, challenge: -1, votesable: model, user: john) }
+      it { expect { model.add_negative(john) }.to_not change { model.rate } }
     end
 
     context 'have positive vote' do
-      let!(:vote) { create(:vote, challenge: 1, votesable: model, user: other_user) }
+      let!(:vote) { create(:vote, challenge: 1, votesable: model, user: john) }
 
-      it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-2) }
+      it { expect { model.add_negative(john) }.to change { model.rate }.by(-2) }
     end
 
     context 'no previous vote' do
-      it { expect { model.add_negative(other_user) }.to change { model.rate }.by(-1) }
+      it { expect { model.add_negative(john) }.to change { model.rate }.by(-1) }
     end
   end
 
@@ -72,10 +72,10 @@ shared_examples 'votesable' do
 
   describe '#vote_cancel' do
     before do
-      create(:vote, challenge: 1, votesable: model, user: other_user)
-      model.vote_cancel(other_user)
+      create(:vote, challenge: 1, votesable: model, user: john)
+      model.vote_cancel(john)
     end
 
-    it { expect(model.votes.find_by(user: other_user)).to be_nil }
+    it { expect(model.votes.find_by(user: john)).to be_nil }
   end
 end

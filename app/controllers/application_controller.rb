@@ -4,8 +4,6 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   before_action :set_locale
@@ -15,6 +13,12 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
+  end
+
+  def debug_locale
+    logger.debug "*!!! Browser locale is '#{extract_locale_header}'"
+    logger.debug "*!!! Browser full header '#{extract_full_header}'"
+    logger.debug "*!!! Locale set to '#{I18n.locale}'"
   end
 
   def after_sign_in_path_for(_resource)
@@ -28,17 +32,21 @@ class ApplicationController < ActionController::Base
     respond_to?(scope_path, true) ? send(scope_path) : root_path
   end
 
-  def debug_locale
-    logger.debug "*!!! Browser locale is '#{extract_locale_header}'"
-    logger.debug "*!!! Browser full header '#{extract_full_header}'"
-    logger.debug "*!!! Locale set to '#{I18n.locale}'"
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: exception.message }
+      format.json do
+        render json: { error: 'You are not authorized to perform requested action' }.to_json,
+               status: :forbidden
+      end
+      format.js { head :forbidden }
+    end
   end
 
   private
 
   def gon_user
     gon.current_user_id = current_user ? current_user.id : 0
-    # gon.current_user_id = current_user.id if current_user
   end
 
   def extract_full_header

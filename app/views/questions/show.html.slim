@@ -11,14 +11,14 @@
         .card-content
           = render 'shared/vote_container', object: @question, part: 'question'
     ul.list-inline.question-control-block.card-action
-      - if user_signed_in? && current_user.owner_of?(@question)
+      - if can? :modify, @question
         li
           = link_to @question, class: 'btn-floating red', method: :delete, id: "delete-question-#{@question.id}"
             i.material-icons delete
         li
           button.script-item-toggle.btn-floating.green data-target='#question_form-edit-wrapper' id= ("edit-question-#{@question.id}")
             i.material-icons mode_edit
-      - if user_signed_in?
+      - if can? :create, Comment
         li
           button.script-item-toggle.btn-floating.teal data-target="#question-comment-wrapper-#{@question.id}" id= ("comment-question-#{@question.id}")
             i.material-icons comment
@@ -42,7 +42,7 @@
 #answersList.collection
   - if @question.answers.present?
     = render @question.answers
-- if user_signed_in?
+- if can? :create, Answer
   .answer-wrapper
     h4 Write answer
     = render 'answers/form', answer: @question.answers.new
