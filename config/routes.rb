@@ -11,6 +11,14 @@ Rails.application.routes.draw do
     post 'signup_email', to: 'users/registrations#update_email', as: :update_signup_email
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :profiles do
+        get :me, on: :collection
+      end
+    end
+  end
+
   concern :votesable do
     member do
       patch 'vote_plus'
