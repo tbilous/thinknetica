@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'Profile API' do
-
   shared_examples 'unauthorized' do |context_name|
     context 'unauthorized' do
       let(:invalid_params) do
@@ -12,7 +11,7 @@ describe 'Profile API' do
       end
 
       it 'returns 401 status if there is no access_token' do
-        get "/api/v1/profiles/#{context_name}", params: {format: invalid_params[:format]}
+        get "/api/v1/profiles/#{context_name}", params: { format: invalid_params[:format] }
         expect(response.status).to eq 401
       end
 
@@ -28,9 +27,10 @@ describe 'Profile API' do
 
     let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
-    before { get "/api/v1/profiles/#{context_name}",
-                 params: {access_token: access_token.token, format: :json}
-    }
+    before do
+      get "/api/v1/profiles/#{context_name}",
+          params: { access_token: access_token.token, format: :json }
+    end
 
     it 'returns success response' do
       expect(response).to be_success
@@ -91,7 +91,6 @@ describe 'Profile API' do
       let!(:users) { create_list(:user, 2) }
 
       it_behaves_like 'check response'
-
     end
   end
 end
