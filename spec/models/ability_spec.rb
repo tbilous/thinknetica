@@ -80,5 +80,7 @@ RSpec.describe Ability, type: :model do
       it { should be_able_to :destroy, user_question.attachments.build }
       it { should_not be_able_to :destroy, john_question.attachments.build }
     end
+
+    it { should be_able_to :me, User }
   end
 end
