@@ -43,6 +43,9 @@ gem 'remotipart'
 gem 'skim'
 gem 'gon'
 
+# API
+gem 'doorkeeper'
+
 gem 'sprockets', '3.6.3'
 
 gem 'active_model_serializers'

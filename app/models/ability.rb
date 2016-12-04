@@ -28,5 +28,7 @@ class Ability
     can :vote, [Question, Answer] do |resource|
       resource.user_id != user.id
     end
+
+    can :me, User
   end
 end

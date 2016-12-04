@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     confirmations:      'users/confirmations',
@@ -8,6 +9,14 @@ Rails.application.routes.draw do
   as :user do
     get 'signup_email', to: 'users/registrations#edit_email', as: :edit_signup_email
     post 'signup_email', to: 'users/registrations#update_email', as: :update_signup_email
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles do
+        get :me, on: :collection
+      end
+    end
   end
 
   concern :votesable do
