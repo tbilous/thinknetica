@@ -4,8 +4,6 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   authorize_resource class: Question
 
   def index
-    # respond_with User.where.not(id: current_resource_owner.id)
-    # head :ok
     @questions = Question.all
     respond_with @questions
   end
@@ -29,13 +27,5 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def strong_params
     params.require(:question).permit(:title, :body)
-  end
-
-  def current_resource_owner
-    @current_resource_owner ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
-  end
-
-  def current_ability
-    @ability ||= Ability.new(current_resource_owner)
   end
 end

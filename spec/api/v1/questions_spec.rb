@@ -1,33 +1,33 @@
 require 'rails_helper'
 
+shared_examples 'unauthorized' do |context_name|
+  context 'unauthorized' do
+    let(:invalid_params) do
+      {
+        format: :json,
+        access_token: '1234'
+      }
+    end
+
+    it 'returns 401 status if there is no access_token' do
+      get "/api/v1/questions/#{context_name}", params: {format: invalid_params[:format]}
+      expect(response.status).to eq 401
+    end
+
+    it 'returns 401 status if access_token is invalid' do
+      get "/api/v1/questions/#{context_name}", params: invalid_params
+      expect(response.status).to eq 401
+    end
+  end
+end
+
+shared_examples 'success response' do
+  it 'returns success response' do
+    expect(response).to be_success
+  end
+end
+
 describe 'Questions API' do
-
-  shared_examples 'unauthorized' do |context_name|
-    context 'unauthorized' do
-      let(:invalid_params) do
-        {
-          format: :json,
-          access_token: '1234'
-        }
-      end
-
-      it 'returns 401 status if there is no access_token' do
-        get "/api/v1/questions/#{context_name}", params: {format: invalid_params[:format]}
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get "/api/v1/questions/#{context_name}", params: invalid_params
-        expect(response.status).to eq 401
-      end
-    end
-  end
-
-  shared_examples 'success response' do
-    it 'returns success response' do
-      expect(response).to be_success
-    end
-  end
 
   describe 'GET /index' do
     it_behaves_like 'unauthorized'
@@ -161,7 +161,7 @@ describe 'Questions API' do
       end
 
       it 'returns errors' do
-        expect(response.body).to have_json_size(1).at_path("errors/body")
+        expect(response.body).to have_json_path('errors')
       end
     end
   end
