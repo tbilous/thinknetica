@@ -1,12 +1,13 @@
 require 'rails_helper'
 
-shared_examples 'success response' do
-  it 'returns success response' do
-    expect(response).to be_success
-  end
-end
 
 describe 'Answers API' do
+
+  shared_examples 'success response' do
+    it 'returns success response' do
+      expect(response).to be_success
+    end
+  end
 
   let!(:question) { create(:question) }
   let!(:url) { "/api/v1/questions/#{question.id}/answers" }
@@ -21,7 +22,7 @@ describe 'Answers API' do
       end
 
       it 'returns 401 status if there is no access_token' do
-        get url, params: {format: invalid_params[:format]}
+        get url, params: { format: invalid_params[:format] }
         expect(response.status).to eq 401
       end
 
@@ -37,7 +38,7 @@ describe 'Answers API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get url, params: {access_token: access_token.token, format: :json}
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it_behaves_like 'success response'
@@ -69,7 +70,7 @@ describe 'Answers API' do
       end
 
       it 'returns 401 status if there is no access_token' do
-        get url, params: {format: invalid_params[:format]}
+        get url, params: { format: invalid_params[:format] }
         expect(response.status).to eq 401
       end
 
@@ -83,7 +84,7 @@ describe 'Answers API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get url, params: {access_token: access_token.token, format: :json}
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it_behaves_like 'success response'
@@ -104,12 +105,12 @@ describe 'Answers API' do
         end
       end
 
-      it "contains attachment`s filename" do
-        expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path("answer/attachments/0/name")
+      it 'contains attachment`s filename' do
+        expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path('answer/attachments/0/name')
       end
 
-      it "contains attachment`s` url" do
-        expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("answer/attachments/0/src")
+      it 'contains attachment`s` url' do
+        expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('answer/attachments/0/src')
       end
     end
   end
@@ -122,7 +123,10 @@ describe 'Answers API' do
       end
 
       it 'returns 401 status if access_token is invalid' do
-        post url, params: { answer: attributes_for(:answer), question_id: question.id, access_token: '1234', format: :json }
+        post url, params: { answer: attributes_for(:answer),
+                            question_id: question.id,
+                            access_token: '1234',
+                            format: :json }
         expect(response.status).to eq 401
       end
     end
@@ -132,7 +136,7 @@ describe 'Answers API' do
       context 'valid data' do
         let(:params) do
           {
-            answer:       attributes_for(:answer) ,
+            answer:       attributes_for(:answer),
             question_id:  question.id,
             access_token: access_token.token,
             format:       :json
@@ -147,7 +151,6 @@ describe 'Answers API' do
       end
 
       context 'invalid data' do
-
         let(:params) do
           {
             answer:       { body: nil },

@@ -1,33 +1,33 @@
 require 'rails_helper'
 
-shared_examples 'unauthorized' do |context_name|
-  context 'unauthorized' do
-    let(:invalid_params) do
-      {
-        format: :json,
-        access_token: '1234'
-      }
-    end
-
-    it 'returns 401 status if there is no access_token' do
-      get "/api/v1/questions/#{context_name}", params: {format: invalid_params[:format]}
-      expect(response.status).to eq 401
-    end
-
-    it 'returns 401 status if access_token is invalid' do
-      get "/api/v1/questions/#{context_name}", params: invalid_params
-      expect(response.status).to eq 401
-    end
-  end
-end
-
-shared_examples 'success response' do
-  it 'returns success response' do
-    expect(response).to be_success
-  end
-end
 
 describe 'Questions API' do
+  shared_examples 'unauthorized' do |context_name|
+    context 'unauthorized' do
+      let(:invalid_params) do
+        {
+          format: :json,
+          access_token: '1234'
+        }
+      end
+
+      it 'returns 401 status if there is no access_token' do
+        get "/api/v1/questions/#{context_name}", params: { format: invalid_params[:format] }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        get "/api/v1/questions/#{context_name}", params: invalid_params
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
+  shared_examples 'success response' do
+    it 'returns success response' do
+      expect(response).to be_success
+    end
+  end
 
   describe 'GET /index' do
     it_behaves_like 'unauthorized'
@@ -39,11 +39,10 @@ describe 'Questions API' do
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
 
-
-      before {
+      before do
         get '/api/v1/questions',
-            params: {access_token: access_token.token, format: :json}
-      }
+            params: { access_token: access_token.token, format: :json }
+      end
 
       it_behaves_like 'success response'
 
@@ -68,7 +67,8 @@ describe 'Questions API' do
 
         %w(id body created_date user_id).each do |attr|
           it "contains attributes #{attr}" do
-            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
+            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json)
+              .at_path("questions/0/answers/0/#{attr}")
           end
         end
       end
@@ -87,7 +87,7 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get url, params: {access_token: access_token.token, format: :json}
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it_behaves_like 'success response'
@@ -108,22 +108,20 @@ describe 'Questions API' do
         end
       end
 
-      it "contains attachment`s filename" do
-        expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path("question/attachments/0/name")
+      it 'contains attachment`s filename' do
+        expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path('question/attachments/0/name')
       end
 
-      it "contains attachment`s` url" do
-        expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("question/attachments/0/src")
+      it 'contains attachment`s` url' do
+        expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/src')
       end
     end
   end
 
   describe 'POST #create' do
-
     it_behaves_like 'unauthorized'
 
     context 'authorized and question has valid data' do
-
       let(:access_token) { create(:access_token) }
 
       let(:params) do
@@ -139,7 +137,6 @@ describe 'Questions API' do
       end
 
       it_behaves_like 'success response'
-
     end
 
     context 'authorized and post invalid data' do

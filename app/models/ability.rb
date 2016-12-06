@@ -14,11 +14,9 @@ class Ability
     end
   end
 
-
   def guest_abilities
     can :read, :all
   end
-
 
   def user_abilities
     guest_abilities
