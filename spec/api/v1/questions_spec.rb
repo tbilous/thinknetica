@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 describe 'Questions API' do
   shared_examples 'unauthorized' do |context_name|
     context 'unauthorized' do
