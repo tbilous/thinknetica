@@ -1,7 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
 
   before_action :load_question, only: :show
-  authorize_resource class: User
+  authorize_resource class: Question
 
   def index
     # respond_with User.where.not(id: current_resource_owner.id)
@@ -14,6 +14,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     respond_with @question, serializer: SingleQuestionSerializer
   end
 
+  def create
+    respond_with(@question = Question.create(strong_params.merge(user: current_resource_owner)))
+  end
+
   protected
   def load_questions
     @questions = Question.all
@@ -21,6 +25,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def load_question
     @question = Question.find(params['id'])
+  end
+
+  def strong_params
+    params.require(:question).permit(:title, :body)
   end
 
   def current_resource_owner

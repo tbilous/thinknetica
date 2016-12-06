@@ -24,7 +24,7 @@ describe 'Questions API' do
   end
 
   shared_examples 'success response' do
-    it 'returns 200 status if access_token is valid' do
+    it 'returns success response' do
       expect(response).to be_success
     end
   end
@@ -118,4 +118,51 @@ describe 'Questions API' do
     end
   end
 
+  describe 'POST #create' do
+
+    it_behaves_like 'unauthorized'
+
+    context 'authorized and question has valid data' do
+
+      let(:access_token) { create(:access_token) }
+
+      let(:params) do
+        {
+          question:    attributes_for(:question),
+          access_token: access_token.token,
+          format:      :json
+        }
+      end
+
+      before do
+        post '/api/v1/questions/', params: params
+      end
+
+      it_behaves_like 'success response'
+
+    end
+
+    context 'authorized and post invalid data' do
+      let(:access_token) { create(:access_token) }
+      let(:params) do
+        {
+          question:     { title: nil, body: nil },
+          access_token: access_token.token,
+          format:      :json
+        }
+      end
+
+      before do
+        post '/api/v1/questions/', params: params
+      end
+
+      it 'returns 422 status code' do
+        expect(response.status).to eq 422
+      end
+
+      it 'returns errors' do
+        expect(response.body).to have_json_size(1).at_path("errors/body")
+      end
+    end
+  end
 end
