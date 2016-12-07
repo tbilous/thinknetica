@@ -48,7 +48,10 @@ gem 'doorkeeper'
 
 gem 'sprockets', '3.6.3'
 
+# json response
 gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
 
 gem 'responders'
 
