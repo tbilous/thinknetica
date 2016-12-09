@@ -5,14 +5,13 @@ feature 'Author can delete answers', %q{
   As an author
   I want to have an ability to delete it
 } do
-  let(:user) { create(:user) }
-  let(:other_user) { create(:user) }
+  include_context 'users'
+
   let(:question) { create(:question) }
   let!(:answer) { create(:answer, question: question, user: user, body: 'y' * 60) }
   context 'as user', :js do
     scenario 'Author of answer deletes it', js: true do
-      login_as(user, scope: :user)
-      visit question_path(question)
+      visit_user(user)
 
       page.find("#delete-answer-#{answer.id}").click
 
@@ -23,16 +22,14 @@ feature 'Author can delete answers', %q{
     end
 
     scenario 'User tries to delete answer of another user', js: true do
-      login_as(other_user, scope: :user)
-      visit question_path(question)
+      visit_user(john)
 
       expect(page).to_not have_css("#delete-answer-#{answer.id}")
     end
 
     scenario 'all users see as comment was removed real-time' do
       Capybara.using_session('author') do
-        login_as(user)
-        visit question_path(question)
+        visit_user(user)
       end
 
       Capybara.using_session('guest') do

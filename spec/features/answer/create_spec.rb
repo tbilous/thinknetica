@@ -5,14 +5,13 @@ feature 'Create answer', %q{
   As an authenticated user
   I want to answer the question
 } do
+  include_context 'users'
 
-  let(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
   let(:answer_params) { attributes_for(:answer) }
   context 'as user', :js do
     scenario 'Authenticated user creates answer with proper data' do
-      login_as(user)
-      visit question_path(question)
+      visit_user(user)
 
       fill_in 'answer_body', with: answer_params[:body]
       within '#new_answer' do
@@ -28,12 +27,11 @@ feature 'Create answer', %q{
 
     scenario 'all users see new question in real-time' do
       Capybara.using_session('author') do
-        login_as(user)
-        visit question_path(question)
+        visit_user(user)
       end
 
       Capybara.using_session('guest') do
-        visit question_path(question)
+        visit_quest
       end
 
       Capybara.using_session('author') do
@@ -54,8 +52,7 @@ feature 'Create answer', %q{
     end
 
     scenario 'Authenticated user tries to create answer with invalid data', js: true do
-      login_as(user, scope: :user)
-      visit question_path(question)
+      visit_user(user)
 
       fill_in 'answer_body', with: 'a' * 2
 
@@ -68,7 +65,7 @@ feature 'Create answer', %q{
   end
   context 'as guest', :js do
     scenario 'Non-authenticated user tries to create answer' do
-      visit question_path(question)
+      visit_quest
 
       expect(page).to_not have_content 'Add answer'
     end
