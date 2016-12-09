@@ -14,6 +14,16 @@ shared_examples 'invalid params' do |message, model: nil, code: 422|
   end
 end
 
+shared_examples 'invalid params js' do |message, model: nil|
+  context message do
+    if model
+      it "doesn't create #{model}" do
+        expect { subject }.not_to change(model, :count)
+      end
+    end
+  end
+end
+
 shared_examples 'unauthorized user request' do |message, **hargs|
   include_context 'unauthorized user'
   include_examples 'invalid params', message, hargs.merge(code: 401)
@@ -32,5 +42,6 @@ shared_examples 'unauthorized user create' do
 end
 
 shared_examples 'non owner user update' do
+  include_context 'unauthorized user'
   include_context 'non owner user'
 end

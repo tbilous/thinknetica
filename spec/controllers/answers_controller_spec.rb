@@ -2,57 +2,45 @@ require 'rails_helper'
 require_relative 'concerns/voted'
 
 RSpec.describe AnswersController, type: :controller do
-  it_behaves_like 'voted'
+  include_context 'users'
+
+  # it_behaves_like 'voted'
+
+  shared_examples '#create' do |context_name|
+    context context_name do
+      before { sign_in(user) }
+
+      it { expect { subject }.to change(Answer, :count).by(1) }
+
+      it_behaves_like 'unauthorized user request' do
+        it { expect { subject }.to_not change(Answer, :count) }
+      end
+
+      it_behaves_like 'invalid params js', 'empty body', model: Comment do
+        let(:form_params) { { body: '' } }
+      end
+
+    end
+  end
 
   let(:question) { user.questions.create(title: 'a' * 61, body: 'b' * 120) }
-
-  include_context 'users'
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
   describe 'POST create' do
+
+    let(:form_params) { {} }
+
     let(:params) do
-      {
-        answer:      attributes_for(:answer),
-        question_id: question.id,
-        format: :js
-      }
+      { answer: attributes_for(:answer).merge(form_params), question_id: question.id, format: :js }
     end
 
-    context 'not authorized user' do
-      it 'dont save the new answer in a DB' do
-        expect { post :create, params: params }.to_not change(question.answers, :count)
-      end
-    end
+    subject { process :create, method: :post, params: params }
 
-    context 'authorized user' do
-      before { sign_in(user) }
+    it_behaves_like '#create', 'answer'
 
-      context 'with valid attributes' do
-        it 'save the new answer in a DB' do
-          expect { post :create, params: params }.to change(question.answers, :count).by(1)
-        end
-
-        it 'save the new answer in a DB with user relation' do
-          expect { post :create, params: params }.to change(user.answers, :count).by(1)
-        end
-      end
-
-      context 'with invalid attr' do
-        let(:wrong_params) do
-          {
-            answer:      attributes_for(:wrong_answer),
-            question_id: question.id,
-            format: :js
-          }
-        end
-        it 'dont save in a DB' do
-          expect { post :create, params: wrong_params }.to_not change(Answer, :count)
-        end
-      end
-    end
   end
 
   describe 'PATCH update' do
