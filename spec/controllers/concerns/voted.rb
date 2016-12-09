@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 shared_examples 'voted' do
-  let!(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: @user) }
+  let!(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: user) }
 
   describe 'PATCH #vote_plus' do
     let(:params) do
@@ -19,7 +19,7 @@ shared_examples 'voted' do
     end
     context 'User is authenticated' do
       context 'and owner' do
-        before { sign_in @user }
+        before { sign_in user }
         it 'assings the requested post to @votable' do
           patch :vote_plus, params: params
           expect(assigns(:votesable)).to eq model
@@ -27,12 +27,12 @@ shared_examples 'voted' do
 
         it 'increase post`s rating' do
           expect { patch :vote_plus, params: params }
-            .to_not change { model.votes.where(votesable: model, user: @user).sum(:challenge) }
+            .to_not change { model.votes.where(votesable: model, user: user).sum(:challenge) }
         end
       end
 
       context 'and not owner' do
-        before { sign_in @other_user }
+        before { sign_in john }
 
         it 'assings the requested post to @votable' do
           patch :vote_plus, params: params
@@ -41,7 +41,7 @@ shared_examples 'voted' do
 
         it 'increase post`s rating' do
           expect { patch :vote_plus, params: params }
-            .to change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }.by(1)
+            .to change { model.votes.where(votesable: model, user: john).sum(:challenge) }.by(1)
         end
 
         context 'when voted previously' do
@@ -49,7 +49,7 @@ shared_examples 'voted' do
 
           it 'increase post`s rating' do
             expect { patch :vote_plus, params: params }
-              .to_not change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }
+              .to_not change { model.votes.where(votesable: model, user: john).sum(:challenge) }
           end
         end
       end
@@ -72,7 +72,7 @@ shared_examples 'voted' do
     end
     context 'User is authenticated'
     context 'and owner' do
-      before { sign_in @user }
+      before { sign_in user }
       it 'assings the requested post to @votable' do
         patch :vote_plus, params: params
         expect(assigns(:votesable)).to eq model
@@ -80,12 +80,12 @@ shared_examples 'voted' do
 
       it 'increase post`s rating' do
         expect { patch :vote_plus, params: params }
-          .to_not change { model.votes.where(votesable: model, user: @user).sum(:challenge) }
+          .to_not change { model.votes.where(votesable: model, user: user).sum(:challenge) }
       end
     end
 
     context 'and not owner' do
-      before { sign_in @other_user }
+      before { sign_in john }
 
       it 'assings the requested post to @votable' do
         patch :vote_minus, params: params
@@ -94,7 +94,7 @@ shared_examples 'voted' do
 
       it 'increase post`s rating' do
         expect { patch :vote_minus, params: params }
-          .to change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }.by(-1)
+          .to change { model.votes.where(votesable: model, user: john).sum(:challenge) }.by(-1)
       end
 
       context 'when voted previously' do
@@ -102,7 +102,7 @@ shared_examples 'voted' do
 
         it 'increase post`s rating' do
           expect { patch :vote_minus, params: params }
-            .to_not change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }
+            .to_not change { model.votes.where(votesable: model, user: john).sum(:challenge) }
         end
       end
     end
@@ -112,7 +112,7 @@ shared_examples 'voted' do
     let(:params) do
       {
         id: model.id,
-        user: @user,
+        user: user,
         format: :json
       }
     end
@@ -130,7 +130,7 @@ shared_examples 'voted' do
 
       it 'increase post`s rating' do
         expect { patch :vote_plus, params: params }
-          .to_not change { model.votes.where(votesable: model, user: @user).sum(:challenge) }
+          .to_not change { model.votes.where(votesable: model, user: user).sum(:challenge) }
       end
     end
 
@@ -142,7 +142,7 @@ shared_examples 'voted' do
         }
       end
 
-      before { sign_in @other_user }
+      before { sign_in john }
 
       it 'assings the requested post to @votable' do
         patch :vote_minus, params: params
@@ -151,7 +151,7 @@ shared_examples 'voted' do
 
       it 'increase post`s rating' do
         expect { patch :vote_minus, params: params }
-          .to change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }.by(-1)
+          .to change { model.votes.where(votesable: model, user: john).sum(:challenge) }.by(-1)
       end
 
       context 'when voted previously' do
@@ -159,7 +159,7 @@ shared_examples 'voted' do
 
         it 'increase post`s rating' do
           expect { patch :vote_minus, params: params }
-            .to_not change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }
+            .to_not change { model.votes.where(votesable: model, user: john).sum(:challenge) }
         end
       end
     end

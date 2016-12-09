@@ -4,12 +4,12 @@ require_relative 'concerns/voted'
 RSpec.describe AnswersController, type: :controller do
   it_behaves_like 'voted'
 
-  let(:question) { @user.questions.create(title: 'a' * 61, body: 'b' * 120) }
+  let(:question) { user.questions.create(title: 'a' * 61, body: 'b' * 120) }
+
+  include_context 'users'
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    @other_user = create :user
-    @user = create :user
   end
 
   describe 'POST create' do
@@ -28,7 +28,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'authorized user' do
-      before { sign_in @user }
+      before { sign_in(user) }
 
       context 'with valid attributes' do
         it 'save the new answer in a DB' do
@@ -36,7 +36,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it 'save the new answer in a DB with user relation' do
-          expect { post :create, params: params }.to change(@user.answers, :count).by(1)
+          expect { post :create, params: params }.to change(user.answers, :count).by(1)
         end
       end
 
@@ -56,7 +56,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH update' do
-    let!(:answer) { create(:answer, question: question, user_id: @user.id) }
+    let!(:answer) { create(:answer, question: question, user_id: user.id) }
     new_param = ('a' * 61)
     let(:params) do
       {
@@ -80,7 +80,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'user is authorized' do
       context 'user is not owner' do
         before do
-          sign_in @other_user
+          sign_in john
           patch :update, params: params
           answer.reload
         end
@@ -92,7 +92,7 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'user is owner' do
         before do
-          sign_in @user
+          sign_in(user)
           patch :update, params: params
           answer.reload
         end
@@ -117,7 +117,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'user is not authorized' do
-      let!(:answer) { create(:answer, question: question, user_id: @user.id) }
+      let!(:answer) { create(:answer, question: question, user_id: user.id) }
 
       it 'does not delete from DB' do
         expect { delete :destroy, params: params }.to_not change(question.answers, :count)
@@ -130,10 +130,10 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'user is authorized' do
-      let!(:answer) { create(:answer, question: question, user_id: @user.id) }
+      let!(:answer) { create(:answer, question: question, user_id: user.id) }
 
       context 'user is not owner' do
-        before { sign_in @other_user }
+        before { sign_in john }
 
         it 'delete from DB' do
           expect { delete :destroy, params: params }.to_not change { Answer.count }
@@ -147,7 +147,7 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'user is owner' do
         before do
-          sign_in @user
+          sign_in(user)
         end
 
         it 'delete from DB' do
@@ -169,8 +169,8 @@ RSpec.describe AnswersController, type: :controller do
         format: :js
       }
     end
-    let!(:answer) { question.answers.create(body: 'b' * 120, user: @user) }
-    let!(:best_answer) { question.answers.create(body: 'z' * 120, user: @user, best: true) }
+    let!(:answer) { question.answers.create(body: 'b' * 120, user: user) }
+    let!(:best_answer) { question.answers.create(body: 'z' * 120, user: user, best: true) }
 
     context 'when user is NOT authorized' do
       before { patch :assign_best, params: params }
@@ -185,7 +185,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'when user is authorized' do
-      before { sign_in @user }
+      before { sign_in(user) }
 
       context 'and he is question`s owner' do
         before { patch :assign_best, params: params }
@@ -207,7 +207,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       context 'and he is not question`s owner' do
-        let(:question) { @other_user.questions.create(title: 'a' * 61, body: 'b' * 120) }
+        let(:question) { john.questions.create(title: 'a' * 61, body: 'b' * 120) }
 
         it 'hes does not change best' do
           expect { patch :assign_best, params: params }.to_not change(answer, :best)
