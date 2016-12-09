@@ -33,7 +33,8 @@ shared_examples 'unauthorized user destroy' do
   include_context 'unauthorized user'
 end
 
-shared_examples 'unauthorized user update' do
+
+shared_examples 'when user is unauthorized' do
   include_context 'unauthorized user'
 end
 
@@ -41,7 +42,7 @@ shared_examples 'unauthorized user create' do
   include_context 'unauthorized user'
 end
 
-shared_examples 'non owner user update' do
+shared_examples 'when user not is owner' do
   include_context 'unauthorized user'
   include_context 'non owner user'
 end
