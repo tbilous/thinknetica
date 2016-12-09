@@ -42,7 +42,6 @@ RSpec.describe QuestionsController, type: :controller do
     it 'assign answer attachment' do
       expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
     end
-
   end
 
   describe 'GET #new' do
@@ -76,14 +75,15 @@ RSpec.describe QuestionsController, type: :controller do
         let(:form_params) { { title: '' } }
       end
     end
-
   end
 
   describe 'PATCH update' do
-    let(:form_params) do {
-      title: 'b' * 6,
-      body: 'z' * 6
-    } end
+    let(:form_params) do
+      {
+        title: 'b' * 6,
+        body: 'z' * 6
+      }
+    end
 
     let(:params) do
       {
