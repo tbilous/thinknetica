@@ -33,7 +33,6 @@ shared_examples 'unauthorized user destroy' do
   include_context 'unauthorized user'
 end
 
-
 shared_examples 'when user is unauthorized' do
   include_context 'unauthorized user'
 end

@@ -14,7 +14,7 @@ describe 'Answers API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        do_request(url, { access_token: access_token.token })
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'
@@ -43,7 +43,7 @@ describe 'Answers API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        do_request(url, { access_token: access_token.token })
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'

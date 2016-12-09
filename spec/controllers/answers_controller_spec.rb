@@ -16,7 +16,7 @@ RSpec.describe AnswersController, type: :controller do
     let(:form_params) { {} }
 
     let(:params) do
-      {answer: attributes_for(:answer).merge(form_params), question_id: question.id, format: :js}
+      { answer: attributes_for(:answer).merge(form_params), question_id: question.id, format: :js }
     end
 
     subject { process :create, method: :post, params: params }
@@ -25,14 +25,13 @@ RSpec.describe AnswersController, type: :controller do
       it { expect { subject }.to change(Answer, :count).by(1) }
 
       it_behaves_like 'invalid params js', 'empty body', model: Comment do
-        let(:form_params) { {body: ''} }
+        let(:form_params) { { body: '' } }
       end
     end
 
     it_behaves_like 'unauthorized user request' do
       it { expect { subject }.to_not change(Answer, :count) }
     end
-
   end
 
   describe 'PATCH update' do
@@ -41,7 +40,7 @@ RSpec.describe AnswersController, type: :controller do
 
     let(:params) do
       {
-        answer: {body: new_param},
+        answer: { body: new_param },
         id: answer.id,
         format: :js
       }
@@ -53,18 +52,18 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it_behaves_like 'when user is authorized' do
-      before {subject}
+      before { subject }
       it { expect(answer.body).to eql new_param }
       it { expect(response).to render_template :update }
     end
 
     it_behaves_like 'when user is unauthorized' do
-      before {subject}
+      before { subject }
       it { expect(answer.body).to_not eql new_param }
     end
 
     it_behaves_like 'when user not is owner' do
-      before {subject}
+      before { subject }
       it { expect(answer.body).to_not eql new_param }
     end
   end
@@ -81,7 +80,7 @@ RSpec.describe AnswersController, type: :controller do
     subject { delete :destroy, params: params }
 
     it_behaves_like 'when user is authorized' do
-      it { expect { subject }.to change { Answer.count }}
+      it { expect { subject }.to change { Answer.count } }
       it { expect(subject).to have_http_status(200) }
     end
 
@@ -90,7 +89,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it_behaves_like 'when user not is owner' do
-      it { expect { subject }.to_not change { Answer.count }}
+      it { expect { subject }.to_not change { Answer.count } }
       it { expect(subject).to have_http_status(403) }
     end
   end
@@ -121,13 +120,13 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it_behaves_like 'when user is unauthorized' do
-      before {subject}
+      before { subject }
       it { expect(answer).to_not be_best }
       it { expect(response).to_not render_template 'answers/assign_best' }
     end
 
     it_behaves_like 'when user not is owner' do
-      before {subject}
+      before { subject }
       it { expect(answer).to_not be_best }
       it { expect(response).to_not render_template 'answers/assign_best' }
     end

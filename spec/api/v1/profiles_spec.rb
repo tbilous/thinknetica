@@ -15,7 +15,7 @@ describe 'Profile API' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
       before do
-        do_request(url, { access_token: access_token.token })
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'
@@ -47,7 +47,7 @@ describe 'Profile API' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
       before do
-        do_request(url, { access_token: access_token.token })
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'

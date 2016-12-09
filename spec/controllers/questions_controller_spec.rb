@@ -2,7 +2,6 @@ require 'rails_helper'
 require_relative 'concerns/voted'
 
 RSpec.describe QuestionsController, type: :controller do
-
   it_behaves_like 'voted'
   include_context 'users'
 

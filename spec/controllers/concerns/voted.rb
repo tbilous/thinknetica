@@ -9,9 +9,7 @@ shared_examples 'voted' do
     }
   end
 
-
   shared_examples 'votesable' do
-
     it_behaves_like 'when user is unauthorized' do
       it { expect { subject }.to_not change { model.votes.where(votesable: model).sum(:challenge) } }
     end
@@ -26,14 +24,12 @@ shared_examples 'voted' do
     end
   end
 
-
   describe 'PATCH #vote_plus' do
     subject { patch :vote_plus, params: params }
 
     it_behaves_like 'votesable'
 
     it_behaves_like 'when user not is owner' do
-
       it { expect { subject }.to change { model.votes.where(votesable: model).sum(:challenge) } }
 
       it 'assings the requested post to @votable' do
@@ -52,13 +48,11 @@ shared_examples 'voted' do
   end
 
   describe 'PATCH #vote_minus' do
-
     subject { patch :vote_minus, params: params }
 
     it_behaves_like 'votesable'
 
     it_behaves_like 'when user not is owner' do
-
       it { expect { subject }.to change { model.votes.where(votesable: model).sum(:challenge) } }
 
       it 'assings the requested post to @votable' do
@@ -90,7 +84,6 @@ shared_examples 'voted' do
     it_behaves_like 'votesable' do
       before { patch :vote_minus, params: params }
     end
-
 
     it_behaves_like 'when user not is owner' do
       it { expect { subject }.to_not change { model.votes.where(votesable: model).sum(:challenge) } }

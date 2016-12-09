@@ -14,9 +14,8 @@ describe 'Questions API' do
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
 
-
       before do
-        do_request(url, { access_token: access_token.token })
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'
@@ -62,7 +61,7 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        do_request(url, { access_token: access_token.token })
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'
