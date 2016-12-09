@@ -4,24 +4,7 @@ require_relative 'concerns/voted'
 RSpec.describe AnswersController, type: :controller do
   include_context 'users'
 
-  # it_behaves_like 'voted'
-
-  shared_examples '#create' do |context_name|
-    context context_name do
-      before { sign_in(user)}
-
-      it { expect { subject }.to change(Answer, :count).by(1) }
-
-      it_behaves_like 'unauthorized user request' do
-        it { expect { subject }.to_not change(Answer, :count) }
-      end
-
-      it_behaves_like 'invalid params js', 'empty body', model: Comment do
-        let(:form_params) { {body: ''} }
-      end
-
-    end
-  end
+  it_behaves_like 'voted'
 
   let(:question) { user.questions.create(title: 'a' * 61, body: 'b' * 120) }
 
@@ -29,9 +12,7 @@ RSpec.describe AnswersController, type: :controller do
     @request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
-
   describe 'POST create' do
-
     let(:form_params) { {} }
 
     let(:params) do
@@ -40,7 +21,17 @@ RSpec.describe AnswersController, type: :controller do
 
     subject { process :create, method: :post, params: params }
 
-    it_behaves_like '#create', 'answer'
+    it_behaves_like 'when user is authorized' do
+      it { expect { subject }.to change(Answer, :count).by(1) }
+
+      it_behaves_like 'invalid params js', 'empty body', model: Comment do
+        let(:form_params) { {body: ''} }
+      end
+    end
+
+    it_behaves_like 'unauthorized user request' do
+      it { expect { subject }.to_not change(Answer, :count) }
+    end
 
   end
 
@@ -114,17 +105,18 @@ RSpec.describe AnswersController, type: :controller do
 
     let(:question) { create(:question, user_id: user.id) }
     let!(:answer) { create(:answer, question: question, user_id: john.id) }
-
     let!(:best_answer) { create(:answer, user: user, question: question, best: true) }
 
     subject do
       patch :assign_best, params: params
       answer.reload
+      best_answer.reload
     end
 
     it_behaves_like 'when user is authorized' do
       before { subject }
       it { expect(answer).to be_best }
+      it { expect(best_answer).to_not be_best }
       it { expect(response).to render_template 'answers/assign_best' }
     end
 
@@ -134,47 +126,10 @@ RSpec.describe AnswersController, type: :controller do
       it { expect(response).to_not render_template 'answers/assign_best' }
     end
 
-    context 'when user is NOT authorized' do
-      before { patch :assign_best, params: params }
-
-      it 'assigns the requested answer on old data' do
-        expect(assigns(:answer)).to_not eq answer
-      end
-
-      it 'renders template' do
-        expect(response).to_not render_template :make_best
-      end
-    end
-
-    context 'when user is authorized' do
-      before { sign_in(user) }
-
-      context 'and he is question`s owner' do
-        before { patch :assign_best, params: params }
-
-        it 'assigns the requested answer on old data' do
-          expect(assigns(:answer)).to eq answer
-        end
-
-        it 'he does change best to true' do
-          answer.reload
-          best_answer.reload
-          expect(answer).to be_best
-          expect(best_answer).to_not be_best
-        end
-
-        it 'renders template' do
-          expect(response).to render_template :assign_best
-        end
-      end
-
-      context 'and he is not question`s owner' do
-        let(:question) { john.questions.create(title: 'a' * 61, body: 'b' * 120) }
-
-        it 'hes does not change best' do
-          expect { patch :assign_best, params: params }.to_not change(answer, :best)
-        end
-      end
+    it_behaves_like 'when user not is owner' do
+      before {subject}
+      it { expect(answer).to_not be_best }
+      it { expect(response).to_not render_template 'answers/assign_best' }
     end
   end
 end

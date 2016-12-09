@@ -28,7 +28,7 @@ RSpec.describe CommentsController, type: :controller do
       it_behaves_like 'unauthorized user destroy' do
         it { expect { subject }.to_not change(context.comments, :count) }
       end
-      it_behaves_like 'non owner' do
+      it_behaves_like 'when user not is owner' do
         it { expect { subject }.to_not change(context.comments, :count) }
       end
     end
