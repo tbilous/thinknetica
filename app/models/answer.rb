@@ -8,7 +8,7 @@ class Answer < ApplicationRecord
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :votes, as: :votesable, dependent: :destroy
 
-  validates :body, length: { minimum: 60 }, presence: true
+  validates :body, length: { minimum: 6 }, presence: true
   validates :question_id, presence: true
   validates :best, uniqueness: { scope: :question_id }, if: :best?
 

@@ -1,34 +1,12 @@
 require 'rails_helper'
+require_relative 'api_helper'
 
 describe 'Answers API' do
-  shared_examples 'success response' do
-    it 'returns success response' do
-      expect(response).to be_success
-    end
-  end
-
   let!(:question) { create(:question) }
   let!(:url) { "/api/v1/questions/#{question.id}/answers" }
 
   describe 'GET #index' do
-    context 'unauthorized' do
-      let(:invalid_params) do
-        {
-          format: :json,
-          access_token: '1234'
-        }
-      end
-
-      it 'returns 401 status if there is no access_token' do
-        get url, params: { format: invalid_params[:format] }
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get url, params: invalid_params
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'unauthorized'
 
     context 'authorized' do
       let!(:answers) { create_list(:answer, 2, question: question) }
@@ -36,7 +14,7 @@ describe 'Answers API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get url, params: { access_token: access_token.token, format: :json }
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'
@@ -59,30 +37,13 @@ describe 'Answers API' do
     let!(:attachment) { create(:answer_attachment, attachable: answer) }
     let!(:url) { "/api/v1/answers/#{answer.id}" }
 
-    context 'unauthorized' do
-      let(:invalid_params) do
-        {
-          format: :json,
-          access_token: '1234'
-        }
-      end
-
-      it 'returns 401 status if there is no access_token' do
-        get url, params: { format: invalid_params[:format] }
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get url, params: invalid_params
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'unauthorized'
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get url, params: { access_token: access_token.token, format: :json }
+        do_request(url, access_token: access_token.token)
       end
 
       it_behaves_like 'success response'
@@ -114,20 +75,8 @@ describe 'Answers API' do
   end
 
   describe 'POST #create' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        post url, params: { answer: attributes_for(:answer), question_id: question.id, format: :json }
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        post url, params: { answer: attributes_for(:answer),
-                            question_id: question.id,
-                            access_token: '1234',
-                            format: :json }
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :post }
+    it_behaves_like 'unauthorized'
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -142,7 +91,7 @@ describe 'Answers API' do
         end
 
         before do
-          post url, params: params
+          do_request(url, http_method, params)
         end
 
         it_behaves_like 'success response'
@@ -159,7 +108,7 @@ describe 'Answers API' do
         end
 
         before do
-          post url, params: params
+          do_request(url, http_method, params)
         end
 
         it 'returns 422 status code' do

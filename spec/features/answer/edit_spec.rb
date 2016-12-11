@@ -5,15 +5,14 @@ feature 'Author can delete answers', %q{
   As an author
   I want to have an ability to delete it
 } do
-  let(:user) { create(:user) }
-  let(:other_user) { create(:user) }
+  include_context 'users'
+
   let(:question) { create(:question) }
   let!(:answer) { create(:answer, question: question, user: user) }
   let(:new_answer_params) { answer.body + 'a' }
 
   scenario 'Author of answer edit it', js: true do
-    login_as(user, scope: :user)
-    visit question_path(question)
+    visit_user(user)
 
     page.find("#edit-answer-#{answer.id}").click
 
@@ -27,8 +26,7 @@ feature 'Author can delete answers', %q{
   end
 
   scenario 'Author of answer tries to edit answer with invalid data', js: true do
-    login_as(user, scope: :user)
-    visit question_path(question)
+    visit_user(user)
 
     page.find("#edit-answer-#{answer.id}").click
 
@@ -42,8 +40,7 @@ feature 'Author can delete answers', %q{
   end
 
   scenario 'User tries to edit answer of another user' do
-    login_as(other_user, scope: :user)
-    visit question_path(question)
+    visit_user(john)
 
     expect(page).to_not have_css("#edit-answer-#{answer.id}")
   end

@@ -14,4 +14,13 @@ module FeatureMacros
     fill_in 'email', with: email
     click_button 'submit'
   end
+
+  def visit_user(user)
+    login_as(user)
+    visit question_path(question)
+  end
+
+  def visit_quest
+    visit question_path(question)
+  end
 end

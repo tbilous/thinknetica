@@ -2,13 +2,12 @@ require 'acceptance_helper'
 
 feature 'Assign complete answer', %q{
   In order to inform other users
-  As question owner
+  As question user
   I want to Assign the best answer for my question
 } do
+  include_context 'users'
 
-  let(:owner) { create(:user) }
-  let(:other_user) { create(:user) }
-  let(:question) { create(:question, user: owner) }
+  let(:question) { create(:question, user: user) }
   let!(:first_answer) { create(:answer, question: question, best: true, body: 'a' * 61) }
   let!(:second_answer) { create(:answer, question: question, body: 'b' * 61) }
 
@@ -19,8 +18,7 @@ feature 'Assign complete answer', %q{
   end
 
   scenario 'User try to change best answer', js: true do
-    login_as(owner)
-    visit question_path(question)
+    visit_user(user)
 
     click_link('Assign best')
 
@@ -36,8 +34,7 @@ feature 'Assign complete answer', %q{
   end
 
   scenario 'User tries to change the best answer of other user`s question', js: true do
-    login_as(other_user)
-    visit question_path(question)
+    visit_user(john)
 
     expect(page).to_not have_link 'Assign best'
   end

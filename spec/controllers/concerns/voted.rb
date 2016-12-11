@@ -1,108 +1,70 @@
 require 'rails_helper'
 
 shared_examples 'voted' do
-  let!(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: @user) }
+  let!(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: user) }
+  let(:params) do
+    {
+      id: model.id,
+      format: :json
+    }
+  end
+
+  shared_examples 'votesable' do
+    it_behaves_like 'when user is unauthorized' do
+      it { expect { subject }.to_not change { model.votes.where(votesable: model).sum(:challenge) } }
+    end
+
+    it_behaves_like 'when user is authorized' do
+      it { expect { subject }.to_not change { model.votes.where(votesable: model).sum(:challenge) } }
+
+      it 'assings the requested post to @votable' do
+        patch :vote_plus, params: params
+        expect(assigns(:votesable)).to eq model
+      end
+    end
+  end
 
   describe 'PATCH #vote_plus' do
-    let(:params) do
-      {
-        id: model.id,
-        format: :json
-      }
-    end
+    subject { patch :vote_plus, params: params }
 
-    context 'User is not authenticated' do
-      it 'increase post`s rating' do
-        expect { patch :vote_plus, params: params }
-          .to_not change { model.votes.where(votesable: model).sum(:challenge) }
-      end
-    end
-    context 'User is authenticated' do
-      context 'and owner' do
-        before { sign_in @user }
-        it 'assings the requested post to @votable' do
-          patch :vote_plus, params: params
-          expect(assigns(:votesable)).to eq model
-        end
+    it_behaves_like 'votesable'
 
-        it 'increase post`s rating' do
-          expect { patch :vote_plus, params: params }
-            .to_not change { model.votes.where(votesable: model, user: @user).sum(:challenge) }
-        end
+    it_behaves_like 'when user not is owner' do
+      it { expect { subject }.to change { model.votes.where(votesable: model).sum(:challenge) } }
+
+      it 'assings the requested post to @votable' do
+        subject
+        expect(assigns(:votesable)).to eq model
       end
 
-      context 'and not owner' do
-        before { sign_in @other_user }
-
-        it 'assings the requested post to @votable' do
-          patch :vote_plus, params: params
-          expect(assigns(:votesable)).to eq model
-        end
+      context 'when voted previously' do
+        before { subject }
 
         it 'increase post`s rating' do
-          expect { patch :vote_plus, params: params }
-            .to change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }.by(1)
-        end
-
-        context 'when voted previously' do
-          before { patch :vote_plus, params: params }
-
-          it 'increase post`s rating' do
-            expect { patch :vote_plus, params: params }
-              .to_not change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }
-          end
+          expect { subject }.to_not change { model.votes.where(votesable: model, user: john).sum(:challenge) }
         end
       end
     end
   end
 
   describe 'PATCH #vote_minus' do
-    let(:params) do
-      {
-        id: model.id,
-        format: :json
-      }
-    end
+    subject { patch :vote_minus, params: params }
 
-    context 'User is not authenticated' do
-      it 'increase post`s rating' do
-        expect { patch :vote_plus, params: params }
-          .to_not change { model.votes.where(votesable: model).sum(:challenge) }
-      end
-    end
-    context 'User is authenticated'
-    context 'and owner' do
-      before { sign_in @user }
-      it 'assings the requested post to @votable' do
-        patch :vote_plus, params: params
-        expect(assigns(:votesable)).to eq model
-      end
+    it_behaves_like 'votesable'
 
-      it 'increase post`s rating' do
-        expect { patch :vote_plus, params: params }
-          .to_not change { model.votes.where(votesable: model, user: @user).sum(:challenge) }
-      end
-    end
-
-    context 'and not owner' do
-      before { sign_in @other_user }
+    it_behaves_like 'when user not is owner' do
+      it { expect { subject }.to change { model.votes.where(votesable: model).sum(:challenge) } }
 
       it 'assings the requested post to @votable' do
-        patch :vote_minus, params: params
+        subject
         expect(assigns(:votesable)).to eq model
-      end
-
-      it 'increase post`s rating' do
-        expect { patch :vote_minus, params: params }
-          .to change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }.by(-1)
       end
 
       context 'when voted previously' do
-        before { patch :vote_minus, params: params }
+        before { subject }
 
         it 'increase post`s rating' do
-          expect { patch :vote_minus, params: params }
-            .to_not change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }
+          expect { subject }.to_not change { model.votes.where(votesable: model, user: john).sum(:challenge) }
         end
       end
     end
@@ -112,54 +74,30 @@ shared_examples 'voted' do
     let(:params) do
       {
         id: model.id,
-        user: @user,
+        user: user,
         format: :json
       }
     end
-    context 'User is not authenticated' do
-      before { patch :vote_minus, params: params }
 
-      it 'increase post`s rating' do
-        expect { patch :vote_cancel, params: params }
-          .to_not change { model.votes.where(votesable: model).sum(:challenge) }
-      end
-    end
-    context 'User is authenticated'
-    context 'and owner' do
-      before { patch :vote_minus, params: params }
+    subject { patch :vote_cancel, params: params }
 
-      it 'increase post`s rating' do
-        expect { patch :vote_plus, params: params }
-          .to_not change { model.votes.where(votesable: model, user: @user).sum(:challenge) }
-      end
+    it_behaves_like 'votesable' do
+      before { patch :vote_minus, params: params }
     end
 
-    context 'and not owner' do
-      let(:params) do
-        {
-          id: model.id,
-          format: :json
-        }
-      end
-
-      before { sign_in @other_user }
+    it_behaves_like 'when user not is owner' do
+      it { expect { subject }.to_not change { model.votes.where(votesable: model).sum(:challenge) } }
 
       it 'assings the requested post to @votable' do
-        patch :vote_minus, params: params
+        subject
         expect(assigns(:votesable)).to eq model
-      end
-
-      it 'increase post`s rating' do
-        expect { patch :vote_minus, params: params }
-          .to change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }.by(-1)
       end
 
       context 'when voted previously' do
         before { patch :vote_minus, params: params }
 
         it 'increase post`s rating' do
-          expect { patch :vote_minus, params: params }
-            .to_not change { model.votes.where(votesable: model, user: @other_user).sum(:challenge) }
+          expect { subject }.to change { model.votes.where(votesable: model, user: john).sum(:challenge) }
         end
       end
     end

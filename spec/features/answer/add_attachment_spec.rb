@@ -3,13 +3,13 @@ require 'acceptance_helper'
 feature 'Add attachment', %q{
   In order to add attachments for answer
 } do
-  let!(:user) { create(:user) }
+  include_context 'users'
+
   let!(:question) { create(:question, user: user) }
   let(:answer_params) { attributes_for(:answer) }
 
   scenario 'user can add attachment when create answer', js: true do
-    login_as(user)
-    visit question_path(question)
+    visit_user(user)
 
     fill_in 'answer_body', with: answer_params[:body]
 

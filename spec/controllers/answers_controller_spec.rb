@@ -2,109 +2,69 @@ require 'rails_helper'
 require_relative 'concerns/voted'
 
 RSpec.describe AnswersController, type: :controller do
+  include_context 'users'
+
   it_behaves_like 'voted'
 
-  let(:question) { @user.questions.create(title: 'a' * 61, body: 'b' * 120) }
+  let(:question) { user.questions.create(title: 'a' * 61, body: 'b' * 120) }
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    @other_user = create :user
-    @user = create :user
   end
 
   describe 'POST create' do
+    let(:form_params) { {} }
+
     let(:params) do
-      {
-        answer:      attributes_for(:answer),
-        question_id: question.id,
-        format: :js
-      }
+      { answer: attributes_for(:answer).merge(form_params), question_id: question.id, format: :js }
     end
 
-    context 'not authorized user' do
-      it 'dont save the new answer in a DB' do
-        expect { post :create, params: params }.to_not change(question.answers, :count)
+    subject { process :create, method: :post, params: params }
+
+    it_behaves_like 'when user is authorized' do
+      it { expect { subject }.to change(Answer, :count).by(1) }
+
+      it_behaves_like 'invalid params js', 'empty body', model: Comment do
+        let(:form_params) { { body: '' } }
       end
     end
 
-    context 'authorized user' do
-      before { sign_in @user }
-
-      context 'with valid attributes' do
-        it 'save the new answer in a DB' do
-          expect { post :create, params: params }.to change(question.answers, :count).by(1)
-        end
-
-        it 'save the new answer in a DB with user relation' do
-          expect { post :create, params: params }.to change(@user.answers, :count).by(1)
-        end
-      end
-
-      context 'with invalid attr' do
-        let(:wrong_params) do
-          {
-            answer:      attributes_for(:wrong_answer),
-            question_id: question.id,
-            format: :js
-          }
-        end
-        it 'dont save in a DB' do
-          expect { post :create, params: wrong_params }.to_not change(Answer, :count)
-        end
-      end
+    it_behaves_like 'unauthorized user request' do
+      it { expect { subject }.to_not change(Answer, :count) }
     end
   end
 
   describe 'PATCH update' do
-    let!(:answer) { create(:answer, question: question, user_id: @user.id) }
-    new_param = ('a' * 61)
+    let!(:answer) { create(:answer, question: question, user_id: user.id) }
+    new_param = ('z' * 6)
+
     let(:params) do
       {
-        answer:     { body: new_param },
+        answer: { body: new_param },
         id: answer.id,
         format: :js
       }
     end
 
-    context 'user is not authorized' do
-      before do
-        patch :update, params: params
-        answer.reload
-      end
-
-      it 'change attributes' do
-        expect(answer.body).to_not eql new_param
-      end
+    subject do
+      process :update, method: :post, params: params
+      answer.reload
     end
 
-    context 'user is authorized' do
-      context 'user is not owner' do
-        before do
-          sign_in @other_user
-          patch :update, params: params
-          answer.reload
-        end
+    it_behaves_like 'when user is authorized' do
+      before { subject }
+      it { expect(answer.body).to eql new_param }
+      it { expect(response).to render_template :update }
+    end
 
-        it 'change attributes' do
-          expect(answer.body).to_not eql new_param
-        end
-      end
+    it_behaves_like 'when user is unauthorized' do
+      before { subject }
+      it { expect(answer.body).to_not eql new_param }
+    end
 
-      context 'user is owner' do
-        before do
-          sign_in @user
-          patch :update, params: params
-          answer.reload
-        end
-
-        it 'change attributes' do
-          expect(answer.body).to eql new_param
-        end
-
-        it 'render show template' do
-          expect(response).to render_template :update
-        end
-      end
+    it_behaves_like 'when user not is owner' do
+      before { subject }
+      it { expect(answer.body).to_not eql new_param }
     end
   end
 
@@ -115,50 +75,22 @@ RSpec.describe AnswersController, type: :controller do
         format: :js
       }
     end
+    let!(:answer) { create(:answer, question: question, user_id: user.id) }
 
-    context 'user is not authorized' do
-      let!(:answer) { create(:answer, question: question, user_id: @user.id) }
+    subject { delete :destroy, params: params }
 
-      it 'does not delete from DB' do
-        expect { delete :destroy, params: params }.to_not change(question.answers, :count)
-      end
-
-      it 'to not rendered template' do
-        delete :destroy, params: params
-        expect(response).to_not render_template :destroy
-      end
+    it_behaves_like 'when user is authorized' do
+      it { expect { subject }.to change { Answer.count } }
+      it { expect(subject).to have_http_status(200) }
     end
 
-    context 'user is authorized' do
-      let!(:answer) { create(:answer, question: question, user_id: @user.id) }
+    it_behaves_like 'unauthorized user request' do
+      it { expect { subject }.to_not change(Answer, :count) }
+    end
 
-      context 'user is not owner' do
-        before { sign_in @other_user }
-
-        it 'delete from DB' do
-          expect { delete :destroy, params: params }.to_not change { Answer.count }
-        end
-
-        it 'redirect to questions/show' do
-          delete :destroy, params: params
-          expect(response).to be_forbidden
-        end
-      end
-
-      context 'user is owner' do
-        before do
-          sign_in @user
-        end
-
-        it 'delete from DB' do
-          expect { delete :destroy, params: params }.to change { Answer.count }.by(-1)
-        end
-
-        it 'redirect to questions/show' do
-          delete :destroy, params: params
-          expect(response).to render_template :destroy
-        end
-      end
+    it_behaves_like 'when user not is owner' do
+      it { expect { subject }.to_not change { Answer.count } }
+      it { expect(subject).to have_http_status(403) }
     end
   end
 
@@ -169,50 +101,34 @@ RSpec.describe AnswersController, type: :controller do
         format: :js
       }
     end
-    let!(:answer) { question.answers.create(body: 'b' * 120, user: @user) }
-    let!(:best_answer) { question.answers.create(body: 'z' * 120, user: @user, best: true) }
 
-    context 'when user is NOT authorized' do
-      before { patch :assign_best, params: params }
+    let(:question) { create(:question, user_id: user.id) }
+    let!(:answer) { create(:answer, question: question, user_id: john.id) }
+    let!(:best_answer) { create(:answer, user: user, question: question, best: true) }
 
-      it 'assigns the requested answer on old data' do
-        expect(assigns(:answer)).to_not eq answer
-      end
-
-      it 'renders template' do
-        expect(response).to_not render_template :make_best
-      end
+    subject do
+      patch :assign_best, params: params
+      answer.reload
+      best_answer.reload
     end
 
-    context 'when user is authorized' do
-      before { sign_in @user }
+    it_behaves_like 'when user is authorized' do
+      before { subject }
+      it { expect(answer).to be_best }
+      it { expect(best_answer).to_not be_best }
+      it { expect(response).to render_template 'answers/assign_best' }
+    end
 
-      context 'and he is question`s owner' do
-        before { patch :assign_best, params: params }
+    it_behaves_like 'when user is unauthorized' do
+      before { subject }
+      it { expect(answer).to_not be_best }
+      it { expect(response).to_not render_template 'answers/assign_best' }
+    end
 
-        it 'assigns the requested answer on old data' do
-          expect(assigns(:answer)).to eq answer
-        end
-
-        it 'he does change best to true' do
-          answer.reload
-          best_answer.reload
-          expect(answer).to be_best
-          expect(best_answer).to_not be_best
-        end
-
-        it 'renders template' do
-          expect(response).to render_template :assign_best
-        end
-      end
-
-      context 'and he is not question`s owner' do
-        let(:question) { @other_user.questions.create(title: 'a' * 61, body: 'b' * 120) }
-
-        it 'hes does not change best' do
-          expect { patch :assign_best, params: params }.to_not change(answer, :best)
-        end
-      end
+    it_behaves_like 'when user not is owner' do
+      before { subject }
+      it { expect(answer).to_not be_best }
+      it { expect(response).to_not render_template 'answers/assign_best' }
     end
   end
 end

@@ -1,8 +1,7 @@
 FactoryGirl.define do
-  answer_body = 'b' * 61
   factory :answer do
     question
-    body answer_body
+    body Faker::StarWars.quote
     best false
   end
   factory :wrong_answer, class: Answer do

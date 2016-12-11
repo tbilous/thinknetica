@@ -3,16 +3,14 @@ require 'acceptance_helper'
 feature 'Delete file attached to the answer', %q{
   In order to remove attachment
 } do
+  include_context 'users'
 
-  let!(:user) { create(:user) }
-  let(:other_user) { create(:user) }
   let!(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
   let!(:answer_attachment) { create(:answer_attachment, attachable_id: answer.id) }
 
   scenario 'User deletes file attached to his answer', js: true do
-    login_as(user)
-    visit question_path(question)
+    visit_user(user)
 
     within '.answer-rendered-attachment' do
       click_on '[x]'
@@ -22,8 +20,7 @@ feature 'Delete file attached to the answer', %q{
   end
 
   scenario 'User tries to delete file attached to other user`s answer', js: true do
-    login_as(other_user)
-    visit question_path(question)
+    visit_user(john)
 
     within '.answer-rendered' do
       expect(page).to_not have_link '[x]'
@@ -31,7 +28,7 @@ feature 'Delete file attached to the answer', %q{
   end
 
   scenario 'Anonymous can`t see remove button' do
-    visit question_path(question)
+    visit_quest
 
     expect(page).to_not have_link('[x]')
   end

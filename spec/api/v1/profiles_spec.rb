@@ -1,37 +1,12 @@
 require 'rails_helper'
+require_relative 'api_helper'
 
 describe 'Profile API' do
-  shared_examples 'unauthorized' do |context_name|
-    context 'unauthorized' do
-      let(:invalid_params) do
-        {
-          format: :json,
-          access_token: '1234'
-        }
-      end
-
-      it 'returns 401 status if there is no access_token' do
-        get "/api/v1/profiles/#{context_name}", params: { format: invalid_params[:format] }
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get "/api/v1/profiles/#{context_name}", params: invalid_params
-        expect(response.status).to eq 401
-      end
-    end
-  end
-
-  shared_examples 'check response' do
-    it 'returns success response' do
-      expect(response).to be_success
-    end
-  end
-
   allowed_attributes = %w(id email name created_at updated_at)
   disallowed_attributes = %w(password encrypted_password)
 
   describe 'GET /me' do
+    let(:url) { '/api/v1/profiles/me' }
     it_behaves_like 'unauthorized', 'me'
 
     context 'authorized' do
@@ -40,11 +15,10 @@ describe 'Profile API' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
       before do
-        get '/api/v1/profiles/me',
-            params: { access_token: access_token.token, format: :json }
+        do_request(url, access_token: access_token.token)
       end
 
-      it_behaves_like 'check response'
+      it_behaves_like 'success response'
 
       allowed_attributes.each do |attr|
         it "returns user #{attr}" do
@@ -61,6 +35,8 @@ describe 'Profile API' do
   end
 
   describe 'GET /index' do
+    let(:url) { '/api/v1/profiles' }
+
     it_behaves_like 'unauthorized'
 
     context 'authorized' do
@@ -71,11 +47,10 @@ describe 'Profile API' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
       before do
-        get '/api/v1/profiles',
-            params: { access_token: access_token.token, format: :json }
+        do_request(url, access_token: access_token.token)
       end
 
-      it_behaves_like 'check response'
+      it_behaves_like 'success response'
 
       it 'returns list without user' do
         expect(response.body).to have_json_size(2)
