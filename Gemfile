@@ -55,6 +55,9 @@ gem 'oj_mimic_json'
 
 gem 'responders'
 
+# jobs
+gem 'sidekiq'
+
 group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
@@ -89,4 +92,5 @@ end
 group :development do
   gem 'web-console', '~> 3.0'
   gem 'spring-commands-rubocop'
+  gem 'whenever', :require => false
 end
