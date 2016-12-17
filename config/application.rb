@@ -17,6 +17,7 @@ module Thinknetica
 
     config.action_cable.disable_request_forgery_protection = false
     config.active_job.queue_adapter = :sidekiq
+    config.autoload_paths << "#{Rails.root}/app/workers"
 
     config.generators do |g|
       g.test_framework :rspec,
@@ -28,9 +29,9 @@ module Thinknetica
                        controller_spec: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       g.template_engine :slim
-      config.time_zone = 'Berlin'
-      config.active_record.default_timezone = :local
     end
+    config.time_zone = 'Berlin'
+    config.active_record.default_timezone = :local
 
     # i18 config
     config.i18n.available_locales = [:uk, :en, :ru]

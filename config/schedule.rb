@@ -14,7 +14,7 @@
 # end
 #
 every 1.day do
-  runner 'User.send_daily_email'
+  runner 'DailyMailWorker.perform_async'
 end
 
 # Learn more: http://github.com/javan/whenever

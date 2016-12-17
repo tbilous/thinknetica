@@ -1,21 +1,15 @@
 class DailyMailWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :default, retry: 12
 
-  def self.generate_all
+  sidekiq_options queue: :default, retry: 3
+
+  def perform
     send_digest
   end
 
-  def self.send_digest
-    sidekiq_options queue: :daily
-
+  def send_digest
     User.find_each do |user|
-      DailyMailWorker.perform(user)
+      DailyMailer.digest(user).deliver
     end
-  end
-
-  def perform(user)
-    return unless user
-    DailyMailer.digest(user).perform
   end
 end

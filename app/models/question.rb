@@ -8,8 +8,12 @@ class Question < ApplicationRecord
   has_many :attachments, as: :attachable, dependent: :destroy
 
   validates :title, :body, presence: true
+  #
+  # def yesterday do
+  #   all.were
+  # end
 
-  scope :daily_questions, lambda { |date| all.where(updated_at:
+  scope :daily_questions, lambda { |date| all.where(created_at:
                                                       date.beginning_of_day..date.end_of_day) }
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
