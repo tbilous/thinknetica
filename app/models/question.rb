@@ -13,8 +13,10 @@ class Question < ApplicationRecord
   #   all.were
   # end
 
-  scope :daily_questions, lambda { |date| all.where(created_at:
-                                                      date.beginning_of_day..date.end_of_day) }
+  scope :daily_questions, lambda { |date|
+    all.where(created_at:
+                              date.beginning_of_day..date.end_of_day)
+  }
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 end

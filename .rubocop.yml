@@ -51,6 +51,8 @@ Metrics/PerceivedComplexity:
 
 Style/ClassAndModuleChildren:
   Enabled: false
+Metrics/BlockLength:
+  Enabled: false
 
 Style/OptionalArguments:
   Enabled: false

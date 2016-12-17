@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe DailyMailer, type: :mailer do
-
   describe 'DailyMailer.digest' do
     include_context 'users'
 
@@ -23,9 +22,9 @@ RSpec.describe DailyMailer, type: :mailer do
       let!(:questions) { create(:question, user: user) }
 
       it do
-        expect {
+        expect do
           DailyMailer.digest(user)
-        }.not_to change(ActionMailer::Base.deliveries, :count)
+        end.not_to change(ActionMailer::Base.deliveries, :count)
       end
     end
   end
