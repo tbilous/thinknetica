@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :answers
   has_many :votes
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribed_questions, through: :subscriptions, source: :question
 
   validates :name, length: 3..20
   validates :email, length: 5..128
