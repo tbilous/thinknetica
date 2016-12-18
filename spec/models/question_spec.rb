@@ -15,12 +15,4 @@ RSpec.describe Question, type: :model do
   it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_many(:subscribers).through(:subscriptions).source(:user) }
 
-  describe 'should be run create callback' do
-    include_context 'users'
-    let(:question) { create(:question, user: user) }
-
-    it 'should be created new subscription' do
-      expect { question.run_callbacks(:commit) }.to change { Subscription.count }
-    end
-  end
 end

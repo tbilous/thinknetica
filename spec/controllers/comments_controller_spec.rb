@@ -36,7 +36,7 @@ RSpec.describe CommentsController, type: :controller do
 
   describe 'POST #create' do
     let!(:user) { create(:user) }
-    let!(:question) { create(:question) }
+    let!(:question) { create(:question, user: user) }
     let!(:answer) { create(:answer, question: question) }
 
     let(:form_params) { {} }

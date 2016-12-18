@@ -4,9 +4,14 @@ require_relative 'concerns/voted'
 RSpec.describe AnswersController, type: :controller do
   include_context 'users'
 
-  it_behaves_like 'voted'
+  let!(:question) { create(:question, user_id: user.id) }
 
-  let(:question) { user.questions.create(title: 'a' * 61, body: 'b' * 120) }
+  describe 'votes' do
+    it_behaves_like 'voted'
+  end
+
+
+  # let(:question) { user.questions.create(title: 'a' * 61, body: 'b' * 120) }
 
   before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]

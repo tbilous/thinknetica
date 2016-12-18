@@ -10,6 +10,7 @@ shared_examples 'commented' do
         context: context,
         id: model.id,
         body: 'a' * 6,
+        user: user,
         format: :json
       }
     end

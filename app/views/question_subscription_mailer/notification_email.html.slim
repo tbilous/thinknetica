@@ -1,0 +1,14 @@
+h1 Віь подписані на рассіьлку ответов
+hr
+= link_to '@answer.title', answer_path(@answer)
+
+br
+br
+br
+hr
+.unsubscribe
+  = link_to 'Если хотите отписатся, перейдите по ссіьлке', subscription_path(@question.subscriptions.ids),
+          method: :delete, remote: true
+
+
+

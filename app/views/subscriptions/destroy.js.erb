@@ -1,0 +1,9 @@
+$('span.subscribe-block').find($('span.unsubscribe')).remove();
+
+$('.subscribe-block').html(
+    "<span class=subscribe> <%= j link_to 'subscribe',
+    question_subscriptions_path(@subscription.question),
+    method: :post,
+    remote: true %> </span>"
+);
+

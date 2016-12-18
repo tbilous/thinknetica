@@ -5,6 +5,7 @@ shared_examples 'voted' do
   let(:params) do
     {
       id: model.id,
+      user: user,
       format: :json
     }
   end

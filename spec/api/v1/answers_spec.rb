@@ -2,7 +2,8 @@ require 'rails_helper'
 require_relative 'api_helper'
 
 describe 'Answers API' do
-  let!(:question) { create(:question) }
+  include_context 'users'
+  let!(:question) { create(:question, user: user) }
   let!(:url) { "/api/v1/questions/#{question.id}/answers" }
 
   describe 'GET #index' do

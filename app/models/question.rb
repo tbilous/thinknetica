@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  
+
 
   include Votable
   include Commentable
@@ -13,7 +13,7 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  after_commit :subscribe_owner, on: :create
+  # after_commit :subscribe_owner, on: :create
 
   scope :daily_questions, lambda { |date|
     all.where(created_at:
@@ -23,6 +23,6 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   def subscribe_owner
-    user.subscriptions.create!(question_id: id)
+    self.subscriptions.create!(user_id: user_id)
   end
 end
