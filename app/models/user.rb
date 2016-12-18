@@ -20,6 +20,10 @@ class User < ApplicationRecord
     id == object.user_id
   end
 
+  def subscribed_to?(question)
+    Subscription.exists?(user_id: id, question_id: question.id)
+  end
+
   # def self.send_daily_digest
   #   find_each.each do |user|
   #     DailyMailer.digest(user).deliver

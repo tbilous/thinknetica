@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  
+
   include Votable
   include Commentable
   include Formatted
@@ -10,10 +12,8 @@ class Question < ApplicationRecord
   has_many :subscribers, through: :subscriptions, source: :user
 
   validates :title, :body, presence: true
-  #
-  # def yesterday do
-  #   all.were
-  # end
+
+  after_commit :subscribe_owner, on: :create
 
   scope :daily_questions, lambda { |date|
     all.where(created_at:
@@ -21,4 +21,8 @@ class Question < ApplicationRecord
   }
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
+
+  def subscribe_owner
+    user.subscriptions.create!(question_id: id)
+  end
 end

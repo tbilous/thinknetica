@@ -1,5 +1,13 @@
 - provide(:title, 'Question page')
 .card id='QuestionPage'
+  span.subscribe
+    - if current_user && current_user.subscribed_to?(@question)
+      = link_to 'unsubscribe', subscription_path(@question.subscriptions.ids),
+              method: :delete, remote: true
+    - else
+      - if can? :create, Subscription
+        = link_to 'subscribe', question_subscriptions_path(@question),
+                method: :post, remote: true
   .question-block.collection-item data-question="#{@question.id}" id= "question-#{@question.id}"
     .row
       .col.s10

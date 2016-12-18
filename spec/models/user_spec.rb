@@ -77,6 +77,21 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#subscribed_to?' do
+    include_context 'users'
+
+    let(:question) { create(:question) }
+    let!(:subscription) { create(:subscription, user: user, question: question) }
+
+    context 'when user is subscribed' do
+      it { expect(user).to be_subscribed_to(question) }
+    end
+
+    context 'when user is not subscribed' do
+      it { expect(john).to_not be_subscribed_to(question) }
+    end
+  end
+
   # describe '.send_daily_digest' do
   #   include_context 'users'
   #   let!(:users) { [user, tom, john] }
