@@ -12,4 +12,16 @@ RSpec.describe DailyMailWorker, type: :worker do
       expect { DailyMailWorker.perform_async }.to change(DailyMailWorker.jobs, :size).by(1)
     end
   end
+=begin
+
+  describe do
+      before {DailyMailWorker.perform_async}
+
+      include_context 'users'
+
+      it 'should sent daily digest to all users' do
+        expect(DailyMailer).to receive(:digest).with(user).and_call_original
+      end
+  end
+=end
 end
