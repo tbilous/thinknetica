@@ -12,6 +12,15 @@ class Question < ApplicationRecord
   has_many :subscribers, through: :subscriptions, source: :user
 
   validates :title, :body, presence: true
+  #
+  # def yesterday do
+  #   all.were
+  # end
+
+  scope :daily_questions, lambda { |date|
+    all.where(created_at:
+                              date.beginning_of_day..date.end_of_day)
+  }
 
   # after_commit :subscribe_owner, on: :create
 
