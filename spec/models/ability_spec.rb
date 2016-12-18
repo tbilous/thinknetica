@@ -26,6 +26,8 @@ RSpec.describe Ability, type: :model do
     let(:user_answer) { create(:answer, user: user) }
     let(:john_question) { create(:question, user: john) }
     let(:john_answer) { create(:answer, user: john) }
+    let(:user_subscription) { create(:subscription, user: user) }
+    let(:john_subscription) { create(:subscription, user: john) }
 
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
@@ -33,6 +35,7 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Subscription }
 
     context 'update' do
       it { should be_able_to :update, user_question }
@@ -46,6 +49,8 @@ RSpec.describe Ability, type: :model do
       it { should_not be_able_to :destroy, john_question }
       it { should be_able_to :destroy, user_answer }
       it { should_not be_able_to :destroy, john_answer }
+      it { should be_able_to :destroy, user_subscription }
+      it { should_not be_able_to :destroy, john_subscription }
     end
 
     context 'assign_best' do

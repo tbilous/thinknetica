@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       resources :comments, only: [:create], defaults: { context: 'answer' }
     end
     resources :comments, only: [:create], defaults: { context: 'question' }
+    resources :subscriptions, shallow: true, only: [:create, :destroy]
   end
 
   root 'questions#index'
