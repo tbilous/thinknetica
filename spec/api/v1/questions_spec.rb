@@ -9,7 +9,7 @@ describe 'Questions API' do
 
     context 'authorize' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
-      let!(:questions) { create_list(:question, 2, user:user) }
+      let!(:questions) { create_list(:question, 2, user: user) }
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
 

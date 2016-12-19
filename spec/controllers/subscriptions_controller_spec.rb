@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SubscriptionsController, type: :controller do
-
   include_context 'users'
 
   describe 'POST #create' do

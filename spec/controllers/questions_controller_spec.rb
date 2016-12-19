@@ -54,7 +54,7 @@ RSpec.describe QuestionsController, type: :controller do
     let(:form_params) { {} }
     let(:params) do
       {
-        question: attributes_for(:question, user:user ).merge(form_params)
+        question: attributes_for(:question, user: user).merge(form_params)
       }
     end
 

@@ -40,7 +40,6 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-
   describe 'subscriptions mailer' do
     include_context 'users'
 
@@ -48,8 +47,8 @@ RSpec.describe Answer, type: :model do
     let(:answer) { create(:answer, user: john, question: question) }
 
     it 'should queue active job' do
-      expect { answer.run_callbacks(:commit) }.
-        to change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(1)
+      expect { answer.run_callbacks(:commit) }
+        .to change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(1)
     end
   end
 end

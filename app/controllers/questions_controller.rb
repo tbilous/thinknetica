@@ -52,7 +52,6 @@ class QuestionsController < ApplicationController
     @question.subscriptions.create!(user_id: @question.user_id) if @question.save
   end
 
-
   def load_question
     @question = Question.find(params[:id])
   end

@@ -14,5 +14,4 @@ RSpec.describe Question, type: :model do
   it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_many(:subscribers).through(:subscriptions).source(:user) }
-
 end

@@ -1,6 +1,4 @@
 class Question < ApplicationRecord
-
-
   include Votable
   include Commentable
   include Formatted
@@ -32,6 +30,6 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   def subscribe_owner
-    self.subscriptions.create!(user_id: user_id)
+    subscriptions.create!(user_id: user_id)
   end
 end

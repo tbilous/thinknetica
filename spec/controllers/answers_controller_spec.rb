@@ -10,7 +10,6 @@ RSpec.describe AnswersController, type: :controller do
     it_behaves_like 'voted'
   end
 
-
   # let(:question) { user.questions.create(title: 'a' * 61, body: 'b' * 120) }
 
   before :each do
