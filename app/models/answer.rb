@@ -1,6 +1,4 @@
 class Answer < ApplicationRecord
-  after_create :notify_mailer
-
   include Votable
   include Commentable
   include Formatted
@@ -15,6 +13,8 @@ class Answer < ApplicationRecord
   validates :best, uniqueness: { scope: :question_id }, if: :best?
 
   default_scope { order('best DESC, created_at DESC') }
+
+  after_create :notify_mailer
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
@@ -31,6 +31,8 @@ class Answer < ApplicationRecord
     files = []
     attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
   end
+
+  private
 
   def notify_mailer
     NewAnswerNotificationJob.perform_later self

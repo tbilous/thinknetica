@@ -10,24 +10,13 @@ class Question < ApplicationRecord
   has_many :subscribers, through: :subscriptions, source: :user
 
   validates :title, :body, presence: true
-  #
-  # def yesterday do
-  #   all.were
-  # end
 
-  scope :daily_questions, lambda { |date|
-    all.where(created_at:
-                              date.beginning_of_day..date.end_of_day)
-  }
 
-  # after_commit :subscribe_owner, on: :create
-
-  scope :daily_questions, lambda { |date|
-    all.where(created_at:
-                              date.beginning_of_day..date.end_of_day)
-  }
+  scope :daily_questions, lambda { |date| where(created_at: date.beginning_of_day..date.end_of_day) }
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
+
+  private
 
   def subscribe_owner
     subscriptions.create!(user_id: user_id)
