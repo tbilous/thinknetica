@@ -24,13 +24,6 @@ class User < ApplicationRecord
     Subscription.exists?(user_id: id, question_id: question.id)
   end
 
-  # def self.send_daily_digest
-  #   find_each.each do |user|
-  #     DailyMailer.digest(user).deliver
-  #     user.name
-  #   end
-  # end
-
   def self.find_for_oauth(auth)
     return nil if auth.blank? || auth.provider.blank? || auth.uid.blank?
 

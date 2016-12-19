@@ -11,4 +11,3 @@ class DailyMailJob < ApplicationJob
     end
   end
 end
-
