@@ -14,8 +14,8 @@ RSpec.describe Answer, type: :model do
   it { should have_many(:comments).dependent(:destroy) }
 
   describe 'set_best' do
-    let(:user)      { create(:user) }
-    let(:question)  { create(:question, user: user) }
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
     let!(:answer) { create(:answer, question: question, user: user) }
     let!(:other_answer) { create(:answer, question: question, user: user) }
 
@@ -37,6 +37,19 @@ RSpec.describe Answer, type: :model do
       it { should validate_uniqueness_of(:best).scoped_to(:question_id) }
       it { expect(other_answer).to be_best }
       it { expect(answer).to_not be_best }
+    end
+  end
+
+
+  describe 'subscriptions mailer' do
+    include_context 'users'
+
+    let(:question) { create(:question, user: user) }
+    let(:answer) { create(:answer, user: john, question: question) }
+
+    it 'should queue active job' do
+      expect { answer.run_callbacks(:commit) }.
+        to change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(1)
     end
   end
 end

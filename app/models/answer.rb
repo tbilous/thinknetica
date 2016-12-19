@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  after_create :notify_mailer
+
   include Votable
   include Commentable
   include Formatted
@@ -28,5 +30,9 @@ class Answer < ApplicationRecord
   def files
     files = []
     attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
+  end
+
+  def notify_mailer
+    NewAnswerNotificationJob.perform_later self
   end
 end

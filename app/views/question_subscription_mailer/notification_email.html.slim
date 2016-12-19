@@ -1,14 +1,6 @@
-h1 Віь подписані на рассіьлку ответов
+h1 Hello #{@user.name}, you have new answer
 hr
-= link_to '@answer.title', answer_path(@answer)
-
-br
-br
-br
-hr
-.unsubscribe
-  = link_to 'Если хотите отписатся, перейдите по ссіьлке', subscription_path(@question.subscriptions.ids),
-          method: :delete, remote: true
+= link_to (@answer.body.truncate(20)), answer_url(@answer)
 
 
 

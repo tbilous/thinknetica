@@ -1,8 +1,8 @@
 class QuestionSubscriptionMailer < ApplicationMailer
   def notification_email(user, answer)
     @answer = answer
+    @user = user
     @question = answer.question
-    @subscription = @question.subscriptions.id
-    mail(to: user.email, subject: 'Re: See new answer')
+    mail(to: user.email, subject: 'See new answer')
   end
 end
