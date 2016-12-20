@@ -17,7 +17,7 @@ RSpec.describe SubscriptionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:question) { create(:question, user: user) }
-    let(:subscription) { Subscription.where(question: question, user: user)}
+    let(:subscription) { Subscription.where(question: question, user: user) }
     subject { delete :destroy, params: { id: subscription.ids, format: :js } }
 
     it_behaves_like 'when user is unauthorized' do

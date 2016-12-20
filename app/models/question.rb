@@ -12,9 +12,11 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  scope :daily_questions, -> { where(created_at:
-                                       Date.current.yesterday.beginning_of_day..
-                                         Date.current.yesterday.end_of_day) }
+  scope :daily_questions, lambda {
+    where(created_at:
+               Date.current.yesterday.beginning_of_day..
+                 Date.current.yesterday.end_of_day)
+  }
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
