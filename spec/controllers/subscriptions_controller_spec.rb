@@ -4,7 +4,7 @@ RSpec.describe SubscriptionsController, type: :controller do
   include_context 'users'
 
   describe 'POST #create' do
-    let(:question) { create(:question, user: user) }
+    let!(:question) { create(:question, user: john) }
     subject { post :create, params: { question_id: question.id, format: :js } }
 
     it_behaves_like 'when user is unauthorized' do
@@ -17,11 +17,14 @@ RSpec.describe SubscriptionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:question) { create(:question, user: user) }
-    let!(:subscription) { create(:subscription, user: user, question: question) }
-    subject { delete :destroy, params: { id: subscription.id, format: :js } }
+    let(:subscription) { Subscription.where(question: question, user: user)}
+    subject { delete :destroy, params: { id: subscription.ids, format: :js } }
 
     it_behaves_like 'when user is unauthorized' do
-      it { expect { subject }.to_not change(Subscription, :count) }
+      it do
+        subscription
+        expect { subject }.to_not change(Subscription, :count)
+      end
     end
     it_behaves_like 'when user is authorized' do
       it { expect { subject }.to change(Subscription, :count) }

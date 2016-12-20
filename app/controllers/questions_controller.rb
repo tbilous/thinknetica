@@ -6,7 +6,6 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :update, :destroy]
   before_action :load_questions, only: [:index, :create]
-  after_action :subscribe_mail, only: :create
 
   respond_to :json, only: :create
   respond_to :js, only: [:update]
@@ -46,10 +45,6 @@ class QuestionsController < ApplicationController
 
   def broadcasted
     publish_broadcast @question
-  end
-
-  def subscribe_mail
-    @question.subscriptions.create!(user_id: @question.user_id) if @question.save
   end
 
   def load_question

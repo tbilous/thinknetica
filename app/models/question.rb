@@ -2,7 +2,7 @@ class Question < ApplicationRecord
   include Votable
   include Commentable
   include Formatted
-  # after_create :subscribe_owner
+  after_create :subscribe_owner
 
   has_many :answers, dependent: :destroy
   belongs_to :user
