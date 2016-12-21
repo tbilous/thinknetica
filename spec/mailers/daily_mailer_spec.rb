@@ -21,10 +21,13 @@ RSpec.describe DailyMailer, type: :mailer do
     describe 'when yesterday was not had a question' do
       let!(:questions) { create(:question, user: user) }
 
+      let(:users) { [user, john, tom] }
       it do
-        expect do
-          DailyMailer.digest(user)
-        end.not_to change(ActionMailer::Base.deliveries, :count)
+        users.each do |user|
+          expect do
+            DailyMailer.digest(user)
+          end.not_to change(ActionMailer::Base.deliveries, :count)
+        end
       end
     end
   end

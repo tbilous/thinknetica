@@ -50,5 +50,9 @@ RSpec.describe Answer, type: :model do
       expect { answer.run_callbacks(:commit) }
         .to change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(1)
     end
+
+    it 'should queue active job' do
+      expect { answer.run_callbacks(:commit) }.to have_enqueued_job(NewAnswerNotificationJob)
+    end
   end
 end

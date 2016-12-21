@@ -2,7 +2,6 @@ class Question < ApplicationRecord
   include Votable
   include Commentable
   include Formatted
-  after_create :subscribe_owner
 
   has_many :answers, dependent: :destroy
   belongs_to :user
@@ -17,6 +16,8 @@ class Question < ApplicationRecord
                Date.current.yesterday.beginning_of_day..
                  Date.current.yesterday.end_of_day)
   }
+
+  after_create :subscribe_owner
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
