@@ -6,6 +6,8 @@ RSpec.describe User, type: :model do
   it { should have_many(:questions) }
   it { should have_many(:answers) }
   it { should have_many(:votes) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribed_questions).through(:subscriptions).source(:question) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -74,4 +76,33 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#subscribed_to?' do
+    include_context 'users'
+
+    let(:question) { create(:question) }
+    let!(:subscription) { create(:subscription, user: user, question: question) }
+
+    context 'when user is subscribed' do
+      it { expect(user).to be_subscribed_to(question) }
+    end
+
+    context 'when user is not subscribed' do
+      it { expect(john).to_not be_subscribed_to(question) }
+    end
+  end
+
+  # describe '.send_daily_digest' do
+  #   include_context 'users'
+  #   let!(:users) { [user, tom, john] }
+  #
+  #   # it { binding.pry }
+  #
+  #   it 'should sent daily digest to all users' do
+  #     users.each { |user|
+  #       expect(DailyMailer).to receive(:digest).with(user).and_call_original
+  #     }
+  #     User.send_daily_digest
+  #   end
+  # end
 end

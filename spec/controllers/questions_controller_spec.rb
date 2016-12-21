@@ -13,7 +13,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:answer) { create(:answer, user: user) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2) }
+    let(:questions) { create_list(:question, 2, user: user) }
     before { get :index }
 
     it 'list all' do
@@ -54,7 +54,7 @@ RSpec.describe QuestionsController, type: :controller do
     let(:form_params) { {} }
     let(:params) do
       {
-        question: attributes_for(:question).merge(form_params)
+        question: attributes_for(:question, user: user).merge(form_params)
       }
     end
 
@@ -67,6 +67,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     it_behaves_like 'when user is authorized' do
       it { expect { subject }.to change(Question, :count) }
+      it { expect { subject }.to change(Subscription, :count).by(1) }
 
       it_behaves_like 'invalid params concern', 'empty body', model: Question do
         let(:form_params) { { body: '' } }

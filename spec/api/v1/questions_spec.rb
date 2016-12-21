@@ -3,14 +3,13 @@ require_relative 'api_helper'
 
 describe 'Questions API' do
   let(:url) { '/api/v1/questions' }
-
+  include_context 'users'
   describe 'GET /index' do
     it_behaves_like 'unauthorized'
 
     context 'authorize' do
-      include_context 'users'
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
-      let!(:questions) { create_list(:question, 2) }
+      let!(:questions) { create_list(:question, 2, user: user) }
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
 
@@ -50,7 +49,7 @@ describe 'Questions API' do
   end
 
   describe 'GET #show' do
-    let(:question) { create(:question) }
+    let(:question) { create(:question, user: user) }
     let!(:comment) { create(:comment, commentable: question) }
     let!(:attachment) { create(:question_attachment, attachable: question) }
     let(:url) { "/api/v1/questions/#{question.id}" }
@@ -102,7 +101,7 @@ describe 'Questions API' do
 
       let(:params) do
         {
-          question:    attributes_for(:question),
+          question:    attributes_for(:question, user: user),
           access_token: access_token.token,
           format:      :json
         }

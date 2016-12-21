@@ -1,0 +1,9 @@
+h3
+  span Hello, #{@user.name}
+h4 Please see new yesterday`s questions
+ul
+- @questions.each do |question|
+  hr
+  li
+    b #{question.title},
+  li = link_to question.body.truncate(20), question_url(question.id)

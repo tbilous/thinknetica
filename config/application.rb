@@ -16,6 +16,7 @@ module Thinknetica
     # -- all .rb files in that directory are automatically loaded.
 
     config.action_cable.disable_request_forgery_protection = false
+    config.active_job.queue_adapter = :sidekiq
 
     config.generators do |g|
       g.test_framework :rspec,
@@ -28,6 +29,8 @@ module Thinknetica
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       g.template_engine :slim
     end
+    config.time_zone = 'Berlin'
+    config.active_record.default_timezone = :local
 
     # i18 config
     config.i18n.available_locales = [:uk, :en, :ru]

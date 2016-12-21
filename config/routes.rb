@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   use_doorkeeper
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
@@ -38,6 +41,7 @@ Rails.application.routes.draw do
       resources :comments, only: [:create], defaults: { context: 'answer' }
     end
     resources :comments, only: [:create], defaults: { context: 'question' }
+    resources :subscriptions, shallow: true, only: [:create, :destroy]
   end
 
   root 'questions#index'

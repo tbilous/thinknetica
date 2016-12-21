@@ -1,0 +1,8 @@
+$('span.subscribe-block').find($('span.subscribe')).remove();
+
+$('span.subscribe-block').html(
+    "<span class=unsubscribe> <%= j link_to 'unsubscribe',
+    subscription_path(@subscription.id),
+    method: :delete,
+    remote: true %> </span>"
+);
