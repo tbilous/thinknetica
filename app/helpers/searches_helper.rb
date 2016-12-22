@@ -45,7 +45,8 @@ module SearchesHelper
   def user_element(item)
     link_to('#') do
       content_tag(:span, 'user', class: 'chip') +
-      content_tag(:p, item.email)
+      content_tag(:p, item.email) +
+      content_tag(:p, item.name)
     end
   end
 end
