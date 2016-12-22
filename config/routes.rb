@@ -1,5 +1,5 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
-  require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
   use_doorkeeper
@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     resources :subscriptions, shallow: true, only: [:create, :destroy]
   end
 
+  resources :searches, only: [:index]
   root 'questions#index'
   resources :attachments, only: :destroy
 
