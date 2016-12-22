@@ -14,39 +14,39 @@ module SearchesHelper
   def question_element(item)
     link_to(question_path(item)) do
       content_tag(:span, 'question', class: 'chip') +
-      content_tag(:span, item.created_date, class: 'chip') +
-      content_tag(:h5, item.title) +
-      content_tag(:p, item.body.truncate(40))
+        content_tag(:span, item.created_date, class: 'chip') +
+        content_tag(:h5, item.title) +
+        content_tag(:p, item.body.truncate(40))
     end
   end
 
   def answer_element(item)
     link_to(question_path(item.question_id)) do
       content_tag(:span, 'answer', class: 'chip') +
-      content_tag(:span, item.created_date, class: 'chip') +
-      content_tag(:p, item.body.truncate(40))
+        content_tag(:span, item.created_date, class: 'chip') +
+        content_tag(:p, item.body.truncate(40))
     end
   end
 
   def comment_element(item)
-    if item.commentable_type == 'Question'
-      path = question_path(item.commentable_id)
-    else
-      path = question_path(item.commentable.question_id)
-    end
+    path = if item.commentable_type == 'Question'
+             question_path(item.commentable_id)
+           else
+             question_path(item.commentable.question_id)
+           end
 
     link_to(path) do
       content_tag(:span, 'comment', class: 'chip') +
-      content_tag(:span, item.created_date, class: 'chip') +
-      content_tag(:p, item.body.truncate(40))
+        content_tag(:span, item.created_date, class: 'chip') +
+        content_tag(:p, item.body.truncate(40))
     end
   end
 
   def user_element(item)
     link_to('#') do
       content_tag(:span, 'user', class: 'chip') +
-      content_tag(:p, item.email) +
-      content_tag(:p, item.name)
+        content_tag(:p, item.email) +
+        content_tag(:p, item.name)
     end
   end
 end

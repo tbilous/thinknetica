@@ -1,4 +1,4 @@
-require "acceptance_helper"
+require 'acceptance_helper'
 
 RSpec.configure do |config|
   config.include SphinxHelpers, type: :feature

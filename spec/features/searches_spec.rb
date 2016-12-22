@@ -7,27 +7,22 @@ feature 'Search', %(
 ) do
   include_context 'users'
 
-  let!(:question_01) { create(:question, title: 'Question with search', user: user) }
-  let!(:answer_01) { create(:answer, body: 'Answer with search') }
-  let!(:comment_01) { create(:comment,
-                             body: 'Comment with search',
-                             commentable_type: 'Question',
-                             commentable_id: question_01.id
-  ) }
-  let!(:comment_02) { create(:comment,
-                             body: 'Comment with search',
-                             commentable_type: 'Answer',
-                             commentable_id: answer_01.id
-  ) }
-
-  let!(:question) { create(:question, user: user) }
-  let!(:answer) { create(:answer, question: question, user: user) }
-  let!(:comment) { create(:comment,
-                          commentable_type: 'Question',
-                          commentable_id: question_01.id
-  ) }
-
-  let!(:shadow_user) { john }
+  let!(:question) { create(:question, title: 'Question with search', user: user) }
+  let!(:answer) { create(:answer, body: 'Answer with search', user: user) }
+  let!(:comment_01) do
+    create(:comment,
+           body: 'Comment with search',
+           commentable_type: 'Question',
+           user: user,
+           commentable_id: question.id)
+  end
+  let!(:comment_02) do
+    create(:comment,
+           body: 'Comment',
+           commentable_type: 'Answer',
+           user: user,
+           commentable_id: answer.id)
+  end
 
   background do
     index
@@ -35,16 +30,16 @@ feature 'Search', %(
   end
 
   scenario 'can search from all resources', :js do
-    fill_in 'q', with: 'search'
     select 'All', from: 'object'
     click_button 'Search'
 
     within '.searches-list' do
-      expect(page).to have_selector('.search-item', count: 4)
-      expect(page).to have_content(question_01.title)
-      expect(page).to have_content(answer_01.body)
+      expect(page).to have_selector('.search-item', count: 6)
+      expect(page).to have_content(question.title)
+      expect(page).to have_content(answer.body)
       expect(page).to have_content(comment_01.body)
       expect(page).to have_content(comment_02.body)
+      expect(page).to have_content(user.email)
     end
   end
 
@@ -55,7 +50,7 @@ feature 'Search', %(
 
     within '.searches-list' do
       expect(page).to have_selector('.search-item', count: 1)
-      expect(page).to have_content(question_01.title)
+      expect(page).to have_content(question.title)
     end
   end
 
@@ -66,7 +61,7 @@ feature 'Search', %(
 
     within '.searches-list' do
       expect(page).to have_selector('.search-item', count: 1)
-      expect(page).to have_content(answer_01.body)
+      expect(page).to have_content(answer.body)
     end
   end
 
@@ -76,9 +71,8 @@ feature 'Search', %(
     click_button 'Search'
 
     within '.searches-list' do
-      expect(page).to have_selector('.search-item', count: 2)
+      expect(page).to have_selector('.search-item', count: 1)
       expect(page).to have_content(comment_01.body)
-      expect(page).to have_content(comment_02.body)
     end
   end
 

@@ -1,7 +1,7 @@
 = form_tag searches_path, method: :get
   .input-field
     = label_tag 'Search'
-    = search_field_tag :q, params[:q], required: true
+    = search_field_tag :q, params[:q]
   .input-field
     = select_tag :object, options_for_select(Search.items_for_select, params[:object]), class: 'browser-default'
   .input-field

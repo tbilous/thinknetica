@@ -1,5 +1,5 @@
 class Search
-  def self.search(q, object='all')
+  def self.search(q, object = 'all')
     q = ThinkingSphinx::Query.escape(q) unless q.nil?
 
     if available_objects.include?(object)
@@ -18,8 +18,6 @@ class Search
       %w(Author user)
     ]
   end
-
-  private
 
   def self.available_objects
     %w(question answer comment user)

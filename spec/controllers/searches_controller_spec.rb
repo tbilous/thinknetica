@@ -1,9 +1,8 @@
 require 'rails_helper'
 
-
 RSpec.describe SearchesController, type: :controller do
   describe 'GET #index' do
-    subject { get :index, params: {q: 'Search string', object: 'all' } }
+    subject { get :index, params: { q: 'Search string', object: 'all' } }
 
     it 'call search method' do
       expect(Search).to receive(:search).with('Search string', 'all')
