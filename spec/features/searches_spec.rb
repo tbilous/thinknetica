@@ -20,15 +20,14 @@ feature 'Search', %(
                              commentable_id: answer_01.id
   ) }
 
-  # resources that will not search
-  # let!(:question) { create(:question, user: user) }
-  # let!(:answer) { create(:answer, question: question, user: user) }
-  # let!(:comment) { create(:comment,
-  #                         commentable_type: 'Question',
-  #                         commentable_id: question_01.id
-  # ) }
+  let!(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
+  let!(:comment) { create(:comment,
+                          commentable_type: 'Question',
+                          commentable_id: question_01.id
+  ) }
 
-  # let!(:shadow_user) { john }
+  let!(:shadow_user) { john }
 
   background do
     index
@@ -42,15 +41,14 @@ feature 'Search', %(
 
     within '.searches-list' do
       expect(page).to have_selector('.search-item', count: 5)
-      # expect(page).to have_content(question_01.title)
-      # expect(page).to have_content(answer_01.body)
-      # expect(page).to have_content(comment_01.body)
-      # expect(page).to have_content(comment_02.body)
-      # expect(page).to have_content(user.email)
+      expect(page).to have_content(question_01.title)
+      expect(page).to have_content(answer_01.body)
+      expect(page).to have_content(comment_01.body)
+      expect(page).to have_content(comment_02.body)
+      expect(page).to have_content(user.email)
     end
   end
 
-=begin
   scenario 'can search from questions', :js do
     select 'Question', from: 'object'
     click_button 'Search'
@@ -60,9 +58,7 @@ feature 'Search', %(
       expect(page).to have_content(question_01.title)
     end
   end
-=end
 
-=begin
   scenario 'can search answers', :js do
     select 'Answer', from: 'object'
     click_button 'Search'
@@ -72,9 +68,7 @@ feature 'Search', %(
       expect(page).to have_content(answer_01.body)
     end
   end
-=end
 
-=begin
   scenario 'can search comments', :js do
     select 'Comment', from: 'object'
     click_button 'Search'
@@ -85,9 +79,7 @@ feature 'Search', %(
       expect(page).to have_content(comment_02.body)
     end
   end
-=end
 
-=begin
   scenario 'can search users', :js do
     select 'Author', from: 'object'
     click_button 'Search'
@@ -97,5 +89,4 @@ feature 'Search', %(
       expect(page).to have_content(user.email)
     end
   end
-=end
 end
