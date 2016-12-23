@@ -25,3 +25,5 @@ config/secrets.yml
 /public/uploads/
 /.ruby-version
 /.ruby-gemset
+/config/development.sphinx.conf
+/db/sphinx/

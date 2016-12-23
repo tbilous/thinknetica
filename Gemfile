@@ -58,6 +58,10 @@ gem 'responders'
 # jobs
 gem 'sidekiq'
 
+# sphinx
+gem 'mysql2',          '~> 0.3.18', :platform => :ruby
+gem 'thinking-sphinx', '~> 3.3.0'
+
 group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'

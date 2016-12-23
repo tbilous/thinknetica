@@ -1,0 +1,9 @@
+h1 Search
+
+hr
+
+.searches-list.collection
+  - if @items.blank?
+    Search No results
+  - else
+    = searches_elements(@items)
