@@ -29,7 +29,7 @@ module Thinknetica
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       g.template_engine :slim
     end
-    config.time_zone = 'Berlin'
+    config.time_zone = 'Kyiv'
     config.active_record.default_timezone = :local
 
     # i18 config
