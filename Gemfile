@@ -64,6 +64,7 @@ gem 'thinking-sphinx', '~> 3.3.0'
 
 # deploy
 gem 'therubyracer'
+gem 'whenever'
 # gem 'dotenv'
 # gem 'dotenv-deployment', require: 'dotenv/deployment'
 # gem 'dotenv-rails'
@@ -102,7 +103,6 @@ end
 group :development do
   gem 'spring-commands-rubocop'
   gem 'web-console', '~> 3.0'
-  gem 'whenever', require: false
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
