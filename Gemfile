@@ -62,6 +62,11 @@ gem 'sidekiq'
 gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 gem 'thinking-sphinx', '~> 3.3.0'
 
+# deploy
+# gem 'dotenv'
+# gem 'dotenv-deployment', require: 'dotenv/deployment'
+# gem 'dotenv-rails'
+
 group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
@@ -83,7 +88,7 @@ group :test do
   gem 'selenium-webdriver', '2.53.4'
   gem 'capybara'
   gem 'capybara-email'
-  gem 'capybara-webkit'
+  gem 'capybara-webkit', '1.11.1'
   gem 'shoulda-matchers'
   gem 'launchy'
   gem 'database_cleaner'
@@ -94,7 +99,12 @@ group :test do
 end
 
 group :development do
-  gem 'web-console', '~> 3.0'
   gem 'spring-commands-rubocop'
-  gem 'whenever', :require => false
+  gem 'web-console', '~> 3.0'
+  gem 'whenever', require: false
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-secrets-yml', '~> 1.0.0'
 end

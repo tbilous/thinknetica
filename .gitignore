@@ -14,7 +14,6 @@
 /config/database.yml
 /vendor/
 /bundler_stubs/
-/Gemfile.lock
 /.idea
 /backup/*
 /.rvmrc
@@ -27,3 +26,4 @@ config/secrets.yml
 /.ruby-gemset
 /config/development.sphinx.conf
 /db/sphinx/
+config/test.sphinx.conf
