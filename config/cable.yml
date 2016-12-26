@@ -6,4 +6,4 @@ test:
 
 production:
   adapter: redis
-  url: redis://51.15.57.143:6379/1
+  url: redis://localhost:6379/1
