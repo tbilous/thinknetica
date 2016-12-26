@@ -63,6 +63,7 @@ gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 gem 'thinking-sphinx', '~> 3.3.0'
 
 # deploy
+gem 'therubyracer'
 # gem 'dotenv'
 # gem 'dotenv-deployment', require: 'dotenv/deployment'
 # gem 'dotenv-rails'
