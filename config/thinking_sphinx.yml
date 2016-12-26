@@ -1,0 +1,12 @@
+development: &my_settings
+  enable_star: true
+  min_prefix_len: 0
+  min_infix_len: 1
+  min_word_len: 1
+  charset_type: utf-8
+  morphology: stem_ru
+test:
+  <<: *my_settings
+  mysql41: 9307
+production:
+  <<: *my_settings
