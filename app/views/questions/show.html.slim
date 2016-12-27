@@ -1,14 +1,14 @@
 - provide(:title, 'Question page')
-span.chip.subscribe-block
-  - if current_user && current_user.subscribed_to?(@question)
-    span.unsubscribe
-      = link_to 'unsubscribe', subscription_path(@question.subscriptions.ids), method: :delete, remote: true
-  - else
-    - if can? :create, Subscription
-      span.subscribe
-        = link_to 'subscribe', question_subscriptions_path(@question),method: :post, remote: true
 .card id='QuestionPage'
   .question-block.collection-item data-question="#{@question.id}" id= "question-#{@question.id}"
+    span.chip.subscribe-block.right
+      - if current_user && current_user.subscribed_to?(@question)
+        span.unsubscribe
+          = link_to 'unsubscribe', subscription_path(@question.subscriptions.ids), method: :delete, remote: true
+      - else
+        - if can? :create, Subscription
+          span.subscribe
+            = link_to 'subscribe', question_subscriptions_path(@question), method: :post, remote: true
     .row
       .col.s10
         .question-rendered.card-content
