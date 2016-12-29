@@ -65,7 +65,7 @@ gem 'thinking-sphinx', '~> 3.3.0'
 # deploy
 gem 'therubyracer'
 gem 'whenever'
-# gem 'unicorn'
+gem 'unicorn', '5.2.0'
 
 group :development, :test do
   gem 'spring'
@@ -107,5 +107,5 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-secrets-yml', '~> 1.0.0', require: false
   gem 'capistrano-sidekiq', require: false
-  # gem 'capistrano3-unicorn', require: false
+  gem 'capistrano3-unicorn', '0.2.1', require: false
 end
