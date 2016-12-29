@@ -44,9 +44,14 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def default_url_options(options = {})
+    {locale: I18n.locale}.merge options
+  end
+
   def set_locale
-    I18n.locale = params[:locale] || (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
-    # Rails.application.routes.default_url_options[:locale]= I18n.locale
+    I18n.locale = params[:locale]
+    # I18n.locale = params[:locale] || (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
   end
 
   def gon_user

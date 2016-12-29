@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   use_doorkeeper
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
-    confirmations:      'users/confirmations',
-    registrations:      'users/registrations'
+    confirmations: 'users/confirmations',
+    registrations: 'users/registrations'
   }
 
   as :user do
@@ -40,17 +40,18 @@ Rails.application.routes.draw do
   end
 
   resources :comments, only: [:destroy]
-
-  resources :questions, concerns: [:votesable] do
-    resources :answers, concerns: [:votesable], shallow: true do
-      patch 'assign_best', on: :member
-      resources :comments, only: [:create], defaults: { context: 'answer' }
+  scope '(:locale)', :locale => /ru|en/ do
+    resources :questions, concerns: [:votesable] do
+      resources :answers, concerns: [:votesable], shallow: true do
+        patch 'assign_best', on: :member
+        resources :comments, only: [:create], defaults: {context: 'answer'}
+      end
+      resources :comments, only: [:create], defaults: {context: 'question'}
+      resources :subscriptions, shallow: true, only: [:create, :destroy]
     end
-    resources :comments, only: [:create], defaults: { context: 'question' }
-    resources :subscriptions, shallow: true, only: [:create, :destroy]
+    resources :searches, only: [:index]
   end
 
-  resources :searches, only: [:index]
   # root 'questions#index'
   resources :attachments, only: :destroy
 
