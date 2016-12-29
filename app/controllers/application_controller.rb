@@ -11,9 +11,9 @@ class ApplicationController < ActionController::Base
   before_action :debug_locale if Rails.env.test? || Rails.env.development?
   before_action :gon_user, unless: :devise_controller?
 
-  def set_locale
-    I18n.locale = (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
-  end
+  # def set_locale
+  #   I18n.locale = (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
+  # end
 
   def debug_locale
     logger.debug "*!!! Browser locale is '#{extract_locale_header}'"
@@ -44,6 +44,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def set_locale
+    I18n.locale = params[:locale] || (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
+    # Rails.application.routes.default_url_options[:locale]= I18n.locale
+  end
 
   def gon_user
     gon.current_user_id = current_user ? current_user.id : 0

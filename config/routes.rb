@@ -4,6 +4,10 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  scope '(:locale)', :locale => /ru|en/ do
+    root 'questions#index'
+  end
+
   use_doorkeeper
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
@@ -47,7 +51,7 @@ Rails.application.routes.draw do
   end
 
   resources :searches, only: [:index]
-  root 'questions#index'
+  # root 'questions#index'
   resources :attachments, only: :destroy
 
   mount ActionCable.server => '/cable'

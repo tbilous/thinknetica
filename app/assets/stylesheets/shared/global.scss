@@ -125,3 +125,18 @@ main {
     margin: 10px auto;
   }
 }
+
+.dropdown-lang {
+  li {
+    font-size: 16px;
+    color: #26a69a;
+    display: block;
+    line-height: 22px;
+    padding: 14px 16px;
+    a {
+      padding: 0;
+      color: inherit;
+      line-height: normal;
+    }
+  }
+}

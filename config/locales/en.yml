@@ -49,3 +49,5 @@ en:
         body: 'Answer'
       comment:
         body: 'Comment'
+  language:
+    name: "English"

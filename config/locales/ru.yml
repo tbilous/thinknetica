@@ -62,3 +62,5 @@ ru:
         body: 'Ответ'
       comment:
         body: 'Комментарий'
+  language:
+    name: "Русский"

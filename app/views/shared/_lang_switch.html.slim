@@ -1,0 +1,9 @@
+br
+a.dropdown-button.btn.right data-activates="langTab" href="#" = t('language.name')
+
+ul#langTab.dropdown-content.dropdown-lang
+  li
+    = link_to_unless I18n.locale == :en, 'English', locale: :en
+  li
+    = link_to_unless I18n.locale == :ru, 'Русский', locale: :ru
+br
