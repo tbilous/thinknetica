@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/teachbase/rspec-page-regression.git
+  remote: git://github.com/teachbase/rspec-page-regression.git
   revision: 3c9696f4cd624b3647c4e60d41285b5719a4416e
   branch: use-imatcher
   specs:
