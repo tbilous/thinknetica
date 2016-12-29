@@ -4,6 +4,7 @@ require 'capybara/poltergeist'
 require 'rack_session_access/capybara'
 require 'puma'
 require 'capybara/email/rspec'
+require 'i18n'
 # require 'selenium-webdriver'
 
 RSpec.configure do |config|
@@ -19,9 +20,11 @@ RSpec.configure do |config|
   # Capybara.always_include_port = true # for correct app_host
 
   Capybara.register_driver :poltergeist do |app|
+    # noinspection RubyArgCount
     Capybara::Poltergeist::Driver.new(
       app,
-      timeout: 90, js_errors: true,
+      timeout: 90,
+      js_errors: true,
       phantomjs_logger: Logger.new(STDOUT),
       window_size: [1920, 6000]
     )
@@ -44,7 +47,7 @@ RSpec.configure do |config|
 
   config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
 
-  # config.before(:each, type: :feature) { Capybara.app_host = "http://dev.#{Capybara.server_host}.xip.io" }
+  # config.before(:each, type: :feature) { Capybara.app_host = "http://dev.#{Capybara.server_host}.xip.io/en" }
 
   config.before(:each) { DatabaseCleaner.start }
 

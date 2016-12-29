@@ -34,7 +34,7 @@ feature 'Create question', %q{
       fill_in 'question_body', with: 'b' * 2
       click_on 'submit'
 
-      expect(current_path).to eq questions_path
+      expect(current_path).to eq '/questions'
     end
   end
   context 'as guest', :js do

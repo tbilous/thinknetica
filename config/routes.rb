@@ -38,19 +38,21 @@ Rails.application.routes.draw do
       patch 'vote_cancel'
     end
   end
-
+  # scope '(:locale)', :locale => /ru|en/ do
+  #
+  # end
   resources :comments, only: [:destroy]
-  scope '(:locale)', :locale => /ru|en/ do
-    resources :questions, concerns: [:votesable] do
-      resources :answers, concerns: [:votesable], shallow: true do
-        patch 'assign_best', on: :member
-        resources :comments, only: [:create], defaults: {context: 'answer'}
-      end
-      resources :comments, only: [:create], defaults: {context: 'question'}
-      resources :subscriptions, shallow: true, only: [:create, :destroy]
+
+  resources :questions, concerns: [:votesable] do
+    resources :answers, concerns: [:votesable], shallow: true do
+      patch 'assign_best', on: :member
+      resources :comments, only: [:create], defaults: {context: 'answer'}
     end
-    resources :searches, only: [:index]
+    resources :comments, only: [:create], defaults: {context: 'question'}
+    resources :subscriptions, shallow: true, only: [:create, :destroy]
   end
+  resources :searches, only: [:index]
+
 
   # root 'questions#index'
   resources :attachments, only: :destroy

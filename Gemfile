@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '5.0.0.1'
 gem 'pg', '~> 0.15'
 gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 gem 'uglifier', '>= 1.3.0'
@@ -65,9 +65,7 @@ gem 'thinking-sphinx', '~> 3.3.0'
 # deploy
 gem 'therubyracer'
 gem 'whenever'
-# gem 'dotenv'
-# gem 'dotenv-deployment', require: 'dotenv/deployment'
-# gem 'dotenv-rails'
+# gem 'unicorn'
 
 group :development, :test do
   gem 'spring'
@@ -109,4 +107,5 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-secrets-yml', '~> 1.0.0', require: false
   gem 'capistrano-sidekiq', require: false
+  # gem 'capistrano3-unicorn', require: false
 end

@@ -22,7 +22,6 @@ feature 'Author can delete answers', %q{
     end
 
     expect(page).to have_content new_answer_params
-    expect(current_path).to eq question_path(question)
   end
 
   scenario 'Author of answer tries to edit answer with invalid data', js: true do
@@ -36,7 +35,6 @@ feature 'Author can delete answers', %q{
     end
 
     expect(page).to have_content(answer.body)
-    expect(current_path).to eq question_path(question)
   end
 
   scenario 'User tries to edit answer of another user' do
