@@ -50,8 +50,12 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = params[:locale]
-    # I18n.locale = params[:locale] || (extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en')
+    if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+      cookies['locale'] = { :value => params[:locale], :expires => 1.year.from_now }
+      I18n.locale = params[:locale].to_sym
+    else
+      I18n.locale = extract_locale_header == ('uk' || 'ru') ? 'ru' : 'en'
+    end
   end
 
   def gon_user
