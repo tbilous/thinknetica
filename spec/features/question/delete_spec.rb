@@ -16,7 +16,7 @@ feature 'Author can delete question', %q{
     page.find("#delete-question-#{question.id}").click
 
     expect(page).to_not have_content question.title
-    expect(current_path).to eq '/questions'
+    expect(current_path).to eq questions_path
   end
 
   scenario 'User tries to delete question of another user' do

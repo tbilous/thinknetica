@@ -6,4 +6,4 @@ ul
   hr
   li
     b #{question.title},
-  li = link_to question.body.truncate(20), question_url(question.id)
+  li = link_to question.body.truncate(20), question_url(question.id, locale: I18n.locale)

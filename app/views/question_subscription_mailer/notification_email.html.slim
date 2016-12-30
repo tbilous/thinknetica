@@ -1,6 +1,4 @@
 h1 Hello #{@user.name}, you have new answer
 hr
-= link_to (@answer.body.truncate(20)), answer_url(@answer)
 
-
-
+= link_to (@answer.body.truncate(20)), question_url(@question.id, locale: I18n.locale)

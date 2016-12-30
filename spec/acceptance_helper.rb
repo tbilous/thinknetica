@@ -12,6 +12,9 @@ RSpec.configure do |config|
   config.include AcceptanceHelper, type: :feature
   config.include FeatureMacros, type: :feature
   OmniAuth.config.test_mode = true
+  config.before(:each, type: :feature) do
+    default_url_options[:locale] = I18n.default_locale
+  end
 
   # Capybara.server_host = '0.0.0.0'
   # Capybara.server_port = 3001 + ENV['TEST_ENV_NUMBER'].to_i

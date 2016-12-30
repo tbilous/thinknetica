@@ -15,10 +15,10 @@ feature 'User gets digest email', %q{
   end
 
   scenario 'User gets digest email' do
-    open_email(user.email)
 
     expect(current_email.body).to have_content question.title
     expect(current_email.body).to have_content question.body.truncate(20)
+
     current_email.click_link question.title
 
     expect(page).to have_content question.body

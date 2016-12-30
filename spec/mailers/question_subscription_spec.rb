@@ -15,7 +15,7 @@ RSpec.describe QuestionSubscriptionMailer, type: :mailer do
 
     it 'renders the body' do
       expect(mail.body.encoded).to match("Hello #{user.name}, you have new answer")
-      expect(mail.body.encoded).to have_link(answer.body.truncate(20), href: answer_url(answer))
+      expect(mail.body.encoded).to have_link(answer.body.truncate(20), href: question_url(answer, locale: I18n.locale))
     end
   end
 end
